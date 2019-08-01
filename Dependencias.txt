@@ -1,0 +1,2 @@
+Copiar do projeto ORMBr\Source\Core\ormbr.types.mapping.pas
+Dependência do projeto DBEnginesBr
