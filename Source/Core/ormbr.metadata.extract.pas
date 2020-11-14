@@ -250,9 +250,10 @@ begin
       if FDriverName = dnOracle then AColumn.TypeName := 'DATE'
       else                           AColumn.TypeName := 'TIME';
     ftDateTime:
-      if      FDriverName = dnInterbase then AColumn.TypeName := 'DATE'
-      else if FDriverName = dnFirebird  then AColumn.TypeName := 'DATE'
-      else if FDriverName = dnOracle    then AColumn.TypeName := 'DATE'
+      if      FDriverName = dnInterbase  then AColumn.TypeName := 'DATE'
+      else if FDriverName = dnFirebird   then AColumn.TypeName := 'DATE'
+      else if FDriverName = dnOracle     then AColumn.TypeName := 'DATE'
+      else if FDriverName = dnPostgreSQL then AColumn.TypeName := 'DATE'
       else                                   AColumn.TypeName := 'DATETIME';
     ftTimeStamp, ftOraTimeStamp, ftTimeStampOffset:
       if FDriverName = dnOracle    then AColumn.TypeName := 'DATE'
@@ -291,8 +292,9 @@ begin
     end;
     ftBlob, ftOraBlob:
     begin
-      if FDriverName = dnMSSQL  then AColumn.TypeName := 'VARBINARY(MAX)'
-      else                           AColumn.TypeName := 'BLOB'
+      if      FDriverName = dnMSSQL      then AColumn.TypeName := 'VARBINARY(MAX)'
+      else if FDriverName = dnPostgreSQL then AColumn.TypeName := 'BYTEA'
+      else                                    AColumn.TypeName := 'BLOB'
     end;
     ftGraphic: 
     begin 
@@ -303,6 +305,7 @@ begin
     begin
       if      FDriverName = dnFirebird  then AColumn.TypeName := 'BLOB SUB_TYPE 1'
       else if FDriverName = dnInterbase then AColumn.TypeName := 'BLOB SUB_TYPE 1'
+      else if FDriverName = dnMSSQL     then AColumn.TypeName := 'NTEXT'
       else if FDriverName = dnOracle    then AColumn.TypeName := 'NCLOB'
       else                                   AColumn.TypeName := 'TEXT';
     end;
@@ -333,7 +336,7 @@ begin
   if MatchStr(AColumn.TypeName, ['SMALLINT','INT','INT4','INT8','INTEGER',
                                  'DATE','TIME','BIGINT','DATETIME','TIMESTAMP',
                                  'REAL','DOUBLE PRECISION','BLOB SUB_TYPE TEXT',
-                                 'TEXT','NUMBER','BLOB SUB_TYPE 1']) then
+                                 'TEXT','NTEXT','NUMBER','BLOB SUB_TYPE 1']) then
     begin
       AColumn.Size := 0;
       AColumn.Precision := 0;

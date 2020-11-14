@@ -95,9 +95,7 @@ initialization
 
 finalization
    if Assigned(TMetadataRegister.FInstance) then
-   begin
-      TMetadataRegister.FInstance.Free;
-   end;
+     TMetadataRegister.FInstance.Free;
 
 end.
 
