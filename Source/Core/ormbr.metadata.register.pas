@@ -33,7 +33,7 @@ uses
   SysUtils,
   Generics.Collections,
   ormbr.metadata.extract,
-  ormbr.factory.interfaces;
+  dbebr.factory.interfaces;
 
 type
   TMetadataRegister = class
