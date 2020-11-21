@@ -39,12 +39,11 @@ uses
   SysUtils,
   StrUtils,
   Generics.Collections,
-  dbcbr.mapping.rttiutils,
+  dbcbr.mapping.explorerstrategy,
   dbcbr.mapping.attributes,
   dbcbr.mapping.classes,
   dbcbr.rtti.helper,
-  dbcbr.types.mapping,
-  dbcbr.mapping.explorerstrategy;
+  dbcbr.types.mapping;
 
 type
   TMappingPopular = class
@@ -74,7 +73,6 @@ type
 implementation
 
 uses
-  dbcbr.objects.helper,
   dbcbr.mapping.explorer;
 
 { TMappingPopular }

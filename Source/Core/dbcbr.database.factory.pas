@@ -73,6 +73,9 @@ type
     procedure ActionDropDefaultValue(AColumn: TColumnMIK);
     procedure ActionAlterDefaultValue(AColumn: TColumnMIK);
     procedure ActionAlterCheck(ACheck: TCheckMIK);
+    /// <summary>
+    /// Gera script que desabilita todas as ForeignKeys
+    /// </summary>
     procedure ActionEnableForeignKeys(AEnable: Boolean);
     procedure ActionEnableTriggers(AEnable: Boolean);
     function DeepEqualsColumn(AMasterColumn, ATargetColumn: TColumnMIK): Boolean;
@@ -99,13 +102,9 @@ begin
   FCatalogMaster := TCatalogMetadataMIK.Create;
   FCatalogTarget := TCatalogMetadataMIK.Create;
   try
-    /// <summary>
-    ///   Extrai o metadata com base nos modelos existentes e no banco de dados
-    /// </summary>
+    // Extrai o metadata com base nos modelos existentes e no banco de dados
     ExtractDatabase;
-    /// <summary>
-    ///   Gera os comandos DDL para atualização do banco da dados.
-    /// </summary>
+    // Gera os comandos DDL para atualização do banco da dados.
     GenerateDDLCommands(FCatalogMaster, FCatalogTarget);
   finally
     FCatalogMaster.Free;
@@ -172,41 +171,23 @@ procedure TDatabaseFactory.GenerateDDLCommands(AMasterDB, ATargetDB: TCatalogMet
 begin
   inherited;
   FDDLCommands.Clear;
-  /// <summary>
-  /// Gera script que desabilita todas as ForeignKeys
-  /// </summary>
+  // Gera script que desabilita todas as ForeignKeys
   ActionEnableForeignKeys(False);
-  /// <summary>
-  /// Gera script que desabilita todas as Triggers
-  /// </summary>
+  // Gera script que desabilita todas as Triggers
   ActionEnableTriggers(False);
-  /// <summary>
-  /// Compara Tabelas
-  /// </summary>
+  // Compara Tabelas
   CompareTables(AMasterDB, ATargetDB);
-  /// <summary>
-  /// Compara Views
-  /// </summary>
+  // Compara Views
   CompareViews(AMasterDB, ATargetDB);
-  /// <summary>
-  /// Compara Sequences
-  /// </summary>
+  // Compara Sequences
   CompareSequences(AMasterDB, ATargetDB);
-  /// <summary>
-  /// Compara ForeingKeys
-  /// </summary>
+  // Compara ForeingKeys
   CompareTablesForeignKeys(AMasterDB, ATargetDB);
-  /// <summary>
-  /// Gera script que habilita todas as ForeignKeys
-  /// </summary>
+  // Gera script que habilita todas as ForeignKeys
   ActionEnableForeignKeys(True);
-  /// <summary>
-  /// Gera script que habilita todas as Triggers
-  /// </summary>
+  // Gera script que habilita todas as Triggers
   ActionEnableTriggers(True);
-  /// <summary>
-  /// Execute Commands
-  /// </summary>
+  // Execute Commands
   ExecuteDDLCommands;
 end;
 
@@ -229,205 +210,177 @@ end;
 
 procedure TDatabaseFactory.CompareTables(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  oTableMaster: TPair<string, TTableMIK>;
-  oTableTarget: TPair<string, TTableMIK>;
+  LTableMaster: TPair<string, TTableMIK>;
+  LTableTarget: TPair<string, TTableMIK>;
 begin
-  /// <summary>
-  /// Gera script de exclusão de tabela, caso não exista um modelo para ela no banco.
-  /// </summary>
-  for oTableTarget in ATargetDB.Tables do
+  // Gera script de exclusão de tabela, caso não exista um modelo para ela no banco.
+  for LTableTarget in ATargetDB.Tables do
   begin
-    if not AMasterDB.Tables.ContainsKey(oTableTarget.Key) then
-      ActionDropTable(oTableTarget.Value);
+    if not AMasterDB.Tables.ContainsKey(LTableTarget.Key) then
+      ActionDropTable(LTableTarget.Value);
   end;
-  /// <summary>
-  /// Gera script de criação de tabela, caso a tabela do modelo não exista no banco.
-  /// </summary>
-  for oTableMaster in AMasterDB.Tables do
+  // Gera script de criação de tabela, caso a tabela do modelo não exista no banco.
+  for LTableMaster in AMasterDB.Tables do
   begin
-    if ATargetDB.Tables.ContainsKey(oTableMaster.Key) then
+    if ATargetDB.Tables.ContainsKey(LTableMaster.Key) then
     begin
-      /// <summary>
-      /// Table Columns
-      /// </summary>
-      CompareColumns(oTableMaster.Value, ATargetDB.Tables.Items[oTableMaster.Key]);
+      // Table Columns
+      CompareColumns(LTableMaster.Value, ATargetDB.Tables.Items[LTableMaster.Key]);
 
-      /// <summary>
-      /// Table PrimaryKey
-      /// </summary>
-      if (oTableMaster.Value.PrimaryKey.Fields.Count > 0) or
-         (ATargetDB.Tables.Items[oTableMaster.Key].PrimaryKey.Fields.Count > 0) then
-        ComparePrimaryKey(oTableMaster.Value, ATargetDB.Tables.Items[oTableMaster.Key]);
+      // Table PrimaryKey
+      if (LTableMaster.Value.PrimaryKey.Fields.Count > 0) or
+         (ATargetDB.Tables.Items[LTableMaster.Key].PrimaryKey.Fields.Count > 0) then
+        ComparePrimaryKey(LTableMaster.Value, ATargetDB.Tables.Items[LTableMaster.Key]);
 
-      /// <summary>
-      /// Table Indexes
-      /// </summary>
-      if (oTableMaster.Value.IndexeKeys.Count > 0) or
-         (ATargetDB.Tables.Items[oTableMaster.Key].IndexeKeys.Count > 0) then
-        CompareIndexes(oTableMaster.Value, ATargetDB.Tables.Items[oTableMaster.Key]);
+      // Table Indexes
+      if (LTableMaster.Value.IndexeKeys.Count > 0) or
+         (ATargetDB.Tables.Items[LTableMaster.Key].IndexeKeys.Count > 0) then
+        CompareIndexes(LTableMaster.Value, ATargetDB.Tables.Items[LTableMaster.Key]);
 
-      /// <summary>
-      /// Table Checks
-      /// </summary>
-      if (oTableMaster.Value.Checks.Count > 0) or
-         (ATargetDB.Tables.Items[oTableMaster.Key].Checks.Count > 0) then
-        CompareChecks(oTableMaster.Value, ATargetDB.Tables.Items[oTableMaster.Key]);
+      // Table Checks
+      if (LTableMaster.Value.Checks.Count > 0) or
+         (ATargetDB.Tables.Items[LTableMaster.Key].Checks.Count > 0) then
+        CompareChecks(LTableMaster.Value, ATargetDB.Tables.Items[LTableMaster.Key]);
 
-      /// <summary>
-      /// Table Triggers
-      /// </summary>
-      if (oTableMaster.Value.Triggers.Count > 0) or
-         (ATargetDB.Tables.Items[oTableMaster.Key].Triggers.Count > 0) then
-        CompareTriggers(oTableMaster.Value, ATargetDB.Tables.Items[oTableMaster.Key]);
+      // Table Triggers
+      if (LTableMaster.Value.Triggers.Count > 0) or
+         (ATargetDB.Tables.Items[LTableMaster.Key].Triggers.Count > 0) then
+        CompareTriggers(LTableMaster.Value, ATargetDB.Tables.Items[LTableMaster.Key]);
     end
     else
-      ActionCreateTable(oTableMaster.Value);
+      ActionCreateTable(LTableMaster.Value);
   end;
 end;
 
 procedure TDatabaseFactory.CompareTriggers(AMasterTable, ATargetTable: TTableMIK);
 var
-  oTriggerMaster: TPair<string, TTriggerMIK>;
-  oTriggerTarget: TPair<string, TTriggerMIK>;
+  LTriggerMaster: TPair<string, TTriggerMIK>;
+  LTriggerTarget: TPair<string, TTriggerMIK>;
 begin
   if TSupportedFeature.Triggers in FGeneratorCommand.SupportedFeatures then
   begin
-    /// <summary>
-    /// Remove trigger que não existe no modelo.
-    /// </summary>
-    for oTriggerTarget in ATargetTable.Triggers do
+    // Remove trigger que não existe no modelo.
+    for LTriggerTarget in ATargetTable.Triggers do
     begin
-      if not AMasterTable.Triggers.ContainsKey(oTriggerTarget.Key) then
-  //      ActionDropTrigger(oTriggerTarget.Value);
+      if not AMasterTable.Triggers.ContainsKey(LTriggerTarget.Key) then
+  //      ActionDropTrigger(LTriggerTarget.Value);
     end;
-    /// <summary>
-    /// Gera script de criação de trigger, caso a trigger do modelo não exista no banco.
-    /// </summary>
-    for oTriggerMaster in AMasterTable.Triggers do
+    // Gera script de criação de trigger, caso a trigger do modelo não exista no banco.
+    for LTriggerMaster in AMasterTable.Triggers do
     begin
-      if ATargetTable.Triggers.ContainsKey(oTriggerMaster.Key) then
-//        CompareTriggerScript(oTriggerMaster.Value, ATargetTable.Triggers.Items[oTriggerMaster.Key])
+      if ATargetTable.Triggers.ContainsKey(LTriggerMaster.Key) then
+//        CompareTriggerScript(LTriggerMaster.Value, ATargetTable.Triggers.Items[LTriggerMaster.Key])
       else
-//        ActionCreateTrigger(oTriggerMaster.Value);
+//        ActionCreateTrigger(LTriggerMaster.Value);
     end;
   end;
 end;
 
 procedure TDatabaseFactory.CompareViews(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  oViewMaster: TPair<string, TViewMIK>;
-  oViewTarget: TPair<string, TViewMIK>;
+  LViewMaster: TPair<string, TViewMIK>;
+  LViewTarget: TPair<string, TViewMIK>;
 begin
   if TSupportedFeature.Triggers in FGeneratorCommand.SupportedFeatures then
   begin
-    /// <summary>
-    /// Gera script de exclusão da view, caso não exista um modelo para ela no banco.
-    /// </summary>
-    for oViewTarget in ATargetDB.Views do
+    // Gera script de exclusão da view, caso não exista um modelo para ela no banco.
+    for LViewTarget in ATargetDB.Views do
     begin
-      if not AMasterDB.Views.ContainsKey(oViewTarget.Key) then
-        ActionDropView(oViewTarget.Value);
+      if not AMasterDB.Views.ContainsKey(LViewTarget.Key) then
+        ActionDropView(LViewTarget.Value);
     end;
-    /// <summary>
-    /// Gera script de criação da view, caso a view do modelo não exista no banco.
-    /// </summary>
-    for oViewMaster in AMasterDB.Views do
+    // Gera script de criação da view, caso a view do modelo não exista no banco.
+    for LViewMaster in AMasterDB.Views do
     begin
-      if ATargetDB.Views.ContainsKey(oViewMaster.Key) then
+      if ATargetDB.Views.ContainsKey(LViewMaster.Key) then
       begin
-        oViewTarget.Value := oViewMaster.Value;
+        LViewTarget.Value := LViewMaster.Value;
 
-        if CompareText(oViewMaster.Value.Script, oViewTarget.Value.Script) <> 0 then
-          ActionDropView(oViewTarget.Value);
+        if CompareText(LViewMaster.Value.Script, LViewTarget.Value.Script) <> 0 then
+          ActionDropView(LViewTarget.Value);
       end
       else
-        ActionCreateView(oViewMaster.Value);
+        ActionCreateView(LViewMaster.Value);
     end;
   end;
 end;
 
 procedure TDatabaseFactory.CompareChecks(AMasterTable, ATargetTable: TTableMIK);
 var
-  oCheckMaster: TPair<string, TCheckMIK>;
-  oCheckTarget: TPair<string, TCheckMIK>;
+  LCheckMaster: TPair<string, TCheckMIK>;
+  LCheckTarget: TPair<string, TCheckMIK>;
 begin
   if TSupportedFeature.Checks in FGeneratorCommand.SupportedFeatures then
   begin
-     for oCheckTarget in ATargetTable.Checks do
+     for LCheckTarget in ATargetTable.Checks do
      begin
-       if not AMasterTable.Checks.ContainsKey(oCheckTarget.Key) then
-         ActionDropCheck(oCheckTarget.Value);
+       if not AMasterTable.Checks.ContainsKey(LCheckTarget.Key) then
+         ActionDropCheck(LCheckTarget.Value);
      end;
 
-     for oCheckMaster in AMasterTable.Checks do
+     for LCheckMaster in AMasterTable.Checks do
      begin
-       if ATargetTable.Checks.ContainsKey(oCheckMaster.Key) then
-         ActionDropCheck(oCheckTarget.Value);
+       if ATargetTable.Checks.ContainsKey(LCheckMaster.Key) then
+         ActionDropCheck(LCheckTarget.Value);
 
-       ActionAlterCheck(oCheckMaster.Value);
+       ActionAlterCheck(LCheckMaster.Value);
      end;
   end;
 end;
 
 procedure TDatabaseFactory.CompareColumns(AMasterTable, ATargetTable: TTableMIK);
 var
-  oColumnMaster: TPair<string, TColumnMIK>;
-  oColumnTarget: TPair<string, TColumnMIK>;
-  oColumn: TColumnMIK;
+  LColumnMaster: TPair<string, TColumnMIK>;
+  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumn: TColumnMIK;
 
   function ExistMasterColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TColumnMIK;
+    LColumn: TColumnMIK;
   begin
     Result := nil;
-    for oColumn in AMasterTable.Fields.Values do
-      if SameText(oColumn.Name, AColumnName) then
-        Exit(oColumn);
+    for LColumn in AMasterTable.Fields.Values do
+      if SameText(LColumn.Name, AColumnName) then
+        Exit(LColumn);
   end;
 
   function ExistTargetColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TColumnMIK;
+    LColumn: TColumnMIK;
   begin
     Result := nil;
-    for oColumn in ATargetTable.Fields.Values do
-      if SameText(oColumn.Name, AColumnName) then
-        Exit(oColumn);
+    for LColumn in ATargetTable.Fields.Values do
+      if SameText(LColumn.Name, AColumnName) then
+        Exit(LColumn);
   end;
 
 begin
-  /// <summary>
-  /// Remove coluna que não existe no modelo.
-  /// </summary>
-  for oColumnTarget in ATargetTable.FieldsSort do
+  // Remove coluna que não existe no modelo.
+  for LColumnTarget in ATargetTable.FieldsSort do
   begin
-    oColumn := ExistMasterColumn(oColumnTarget.Value.Name);
-    if oColumn = nil then
-      ActionDropColumn(oColumnTarget.Value);
+    LColumn := ExistMasterColumn(LColumnTarget.Value.Name);
+    if LColumn = nil then
+      ActionDropColumn(LColumnTarget.Value);
   end;
-  /// <summary>
-  /// Adiciona coluna do modelo que não exista no banco
-  /// Compara coluna que exista no modelo e no banco
-  /// </summary>
-  for oColumnMaster in AMasterTable.FieldsSort do
+  // Adiciona coluna do modelo que não exista no banco
+  // Compara coluna que exista no modelo e no banco
+  for LColumnMaster in AMasterTable.FieldsSort do
   begin
-    oColumn := ExistTargetColumn(oColumnMaster.Value.Name);
-    if oColumn = nil then
-      ActionCreateColumn(oColumnMaster.Value)
+    LColumn := ExistTargetColumn(LColumnMaster.Value.Name);
+    if LColumn = nil then
+      ActionCreateColumn(LColumnMaster.Value)
     else
     begin
-      if not DeepEqualsColumn(oColumnMaster.Value, oColumn) then
-        ActionAlterColumn(oColumnMaster.Value);
+      if not DeepEqualsColumn(LColumnMaster.Value, LColumn) then
+        ActionAlterColumn(LColumnMaster.Value);
 
-      /// <summary>
-      /// Compara DefaultValue
-      /// </summary>
-      if not DeepEqualsDefaultValue(oColumnMaster.Value, oColumn) then
+      // Compara DefaultValue
+      if not DeepEqualsDefaultValue(LColumnMaster.Value, LColumn) then
       begin
-        if Length(oColumnMaster.Value.DefaultValue) > 0 then
-          ActionAlterDefaultValue(oColumnMaster.Value)
+        if Length(LColumnMaster.Value.DefaultValue) > 0 then
+          ActionAlterDefaultValue(LColumnMaster.Value)
         else
-          ActionDropDefaultValue(oColumn);
+          ActionDropDefaultValue(LColumn);
       end;
     end;
   end;
@@ -435,83 +388,73 @@ end;
 
 procedure TDatabaseFactory.CompareTablesForeignKeys(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  oTableMaster: TPair<string, TTableMIK>;
-  oForeignKeyMaster: TPair<string, TForeignKeyMIK>;
+  LTableMaster: TPair<string, TTableMIK>;
+  LForeignKeyMaster: TPair<string, TForeignKeyMIK>;
 begin
-  /// <summary>
-  /// Gera script de criação das ForeingnKeys, caso não exista no banco.
-  /// </summary>
-  for oTableMaster in AMasterDB.Tables do
+  // Gera script de criação das ForeingnKeys, caso não exista no banco.
+  for LTableMaster in AMasterDB.Tables do
   begin
-    if ATargetDB.Tables.ContainsKey(oTableMaster.Key) then
+    if ATargetDB.Tables.ContainsKey(LTableMaster.Key) then
     begin
-      /// <summary>
-      /// Table ForeignKeys
-      /// </summary>
-      if (oTableMaster.Value.ForeignKeys.Count > 0) or
-         (ATargetDB.Tables.Items[oTableMaster.Key].ForeignKeys.Count > 0) then
-        CompareForeignKeys(oTableMaster.Value, ATargetDB.Tables.Items[oTableMaster.Key]);
+      // Table ForeignKeys
+      if (LTableMaster.Value.ForeignKeys.Count > 0) or
+         (ATargetDB.Tables.Items[LTableMaster.Key].ForeignKeys.Count > 0) then
+        CompareForeignKeys(LTableMaster.Value, ATargetDB.Tables.Items[LTableMaster.Key]);
     end
     else
     begin
-      /// <summary>
-      /// Gera script de criação dos ForeignKey da nova tabela.
-      /// </summary>
+      // Gera script de criação dos ForeignKey da nova tabela.
       if FDriverName <> dnSQLite then
-        for oForeignKeyMaster in oTableMaster.Value.ForeignKeys do
-          ActionCreateForeignKey(oForeignKeyMaster.Value);
+        for LForeignKeyMaster in LTableMaster.Value.ForeignKeys do
+          ActionCreateForeignKey(LForeignKeyMaster.Value);
     end;
   end;
 end;
 
 function TDatabaseFactory.DeepEqualsForeignKeyFromColumns(AMasterForeignKey, ATargetForeignKey: TForeignKeyMIK): Boolean;
 var
-  oColumnMaster: TPair<string, TColumnMIK>;
-  oColumnTarget: TPair<string, TColumnMIK>;
-  oColumn: TColumnMIK;
+  LColumnMaster: TPair<string, TColumnMIK>;
+  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumn: TColumnMIK;
 
   function ExistMasterFromColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<string, TColumnMIK>;
   begin
     Result := nil;
-    for oColumn in AMasterForeignKey.FromFields do
-      if SameText(oColumn.Value.Name, AColumnName) then
-        Exit(oColumn.Value);
+    for LColumn in AMasterForeignKey.FromFields do
+      if SameText(LColumn.Value.Name, AColumnName) then
+        Exit(LColumn.Value);
   end;
 
   function ExistTargetFromColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<string, TColumnMIK>;
   begin
     Result := nil;
-    for oColumn in ATargetForeignKey.FromFields do
-      if SameText(oColumn.Value.Name, AColumnName) then
-        Exit(oColumn.Value);
+    for LColumn in ATargetForeignKey.FromFields do
+      if SameText(LColumn.Value.Name, AColumnName) then
+        Exit(LColumn.Value);
   end;
 
 begin
   Result := True;
-  /// <summary>
-  /// Comparação dos campos dos indexes banco/modelo
-  /// </summary>
-  for oColumnTarget in ATargetForeignKey.FromFieldsSort do
+  // Comparação dos campos dos indexes banco/modelo
+  for LColumnTarget in ATargetForeignKey.FromFieldsSort do
   begin
-    oColumn := ExistMasterFromColumn(oColumnTarget.Value.Name);
-    if oColumn = nil then
+    LColumn := ExistMasterFromColumn(LColumnTarget.Value.Name);
+    if LColumn = nil then
       Exit(False)
   end;
-  /// <summary>
-  /// Comparação dos campos dos indexes modelo/banco
-  /// </summary>
-  for oColumnMaster in AMasterForeignKey.FromFieldsSort do
+  // Comparação dos campos dos indexes modelo/banco
+  for LColumnMaster in AMasterForeignKey.FromFieldsSort do
   begin
-    oColumn := ExistTargetFromColumn(oColumnMaster.Value.Name);
-    if oColumn = nil then
+    LColumn := ExistTargetFromColumn(LColumnMaster.Value.Name);
+    if LColumn = nil then
       Exit(False)
     else
     begin
-      if not DeepEqualsColumn(oColumnMaster.Value, oColumn) then
+      if not DeepEqualsColumn(LColumnMaster.Value, LColumn) then
         Exit(False);
     end;
   end;
@@ -519,92 +462,83 @@ end;
 
 procedure TDatabaseFactory.CompareForeignKeys(AMasterTable, ATargetTable: TTableMIK);
 var
-  oForeignKeyMaster: TPair<string, TForeignKeyMIK>;
-  oForeignKeyTarget: TPair<string, TForeignKeyMIK>;
+  LForeignKeyMaster: TPair<string, TForeignKeyMIK>;
+  LForeignKeyTarget: TPair<string, TForeignKeyMIK>;
 begin
   if TSupportedFeature.ForeignKeys in FGeneratorCommand.SupportedFeatures then
   begin
-    /// <summary>
-    /// Remove indexe que não existe no modelo.
-    /// </summary>
-    for oForeignKeyTarget in ATargetTable.ForeignKeys do
+    // Remove indexe que não existe no modelo.
+    for LForeignKeyTarget in ATargetTable.ForeignKeys do
     begin
-      if not AMasterTable.ForeignKeys.ContainsKey(oForeignKeyTarget.Key) then
-        ActionDropForeignKey(oForeignKeyTarget.Value);
+      if not AMasterTable.ForeignKeys.ContainsKey(LForeignKeyTarget.Key) then
+        ActionDropForeignKey(LForeignKeyTarget.Value);
     end;
-    /// <summary>
-    /// Gera script de criação de indexe, caso a indexe do modelo não exista no banco.
-    /// </summary>
-    for oForeignKeyMaster in AMasterTable.ForeignKeys do
+    // Gera script de criação de indexe, caso a indexe do modelo não exista no banco.
+    for LForeignKeyMaster in AMasterTable.ForeignKeys do
     begin
-      if ATargetTable.ForeignKeys.ContainsKey(oForeignKeyMaster.Key) then
+      if ATargetTable.ForeignKeys.ContainsKey(LForeignKeyMaster.Key) then
       begin
-        /// <summary>
-        /// Checa diferença do ForeignKey
-        /// </summary>
-        oForeignKeyTarget.Value := ATargetTable.ForeignKeys.Items[oForeignKeyMaster.Key]; 
-        if (not DeepEqualsForeignKey(oForeignKeyMaster.Value, oForeignKeyTarget.Value)) or
-           (not DeepEqualsForeignKeyFromColumns(oForeignKeyMaster.Value, oForeignKeyTarget.Value)) or
-           (not DeepEqualsForeignKeyToColumns  (oForeignKeyMaster.Value, oForeignKeyTarget.Value)) then
+        // Checa diferença do ForeignKey
+        LForeignKeyTarget.Value := ATargetTable.ForeignKeys.Items[LForeignKeyMaster.Key];
+
+        if (not DeepEqualsForeignKey(LForeignKeyMaster.Value, LForeignKeyTarget.Value)) or
+           (not DeepEqualsForeignKeyFromColumns(LForeignKeyMaster.Value, LForeignKeyTarget.Value)) or
+           (not DeepEqualsForeignKeyToColumns  (LForeignKeyMaster.Value, LForeignKeyTarget.Value)) then
         begin
-          ActionDropForeignKey(oForeignKeyTarget.Value);
-          ActionCreateForeignKey(oForeignKeyMaster.Value);
+          ActionDropForeignKey(LForeignKeyTarget.Value);
+          ActionCreateForeignKey(LForeignKeyMaster.Value);
         end;
       end
       else
-        ActionCreateForeignKey(oForeignKeyMaster.Value);
+        ActionCreateForeignKey(LForeignKeyMaster.Value);
     end;
   end;
 end;
 
 function TDatabaseFactory.DeepEqualsForeignKeyToColumns(AMasterForeignKey, ATargetForeignKey: TForeignKeyMIK): Boolean;
 var
-  oColumnMaster: TPair<string, TColumnMIK>;
-  oColumnTarget: TPair<string, TColumnMIK>;
-  oColumn: TColumnMIK;
+  LColumnMaster: TPair<string, TColumnMIK>;
+  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumn: TColumnMIK;
 
   function ExistMasterToColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<string, TColumnMIK>;
   begin
     Result := nil;
-    for oColumn in AMasterForeignKey.ToFields do
-      if SameText(oColumn.Value.Name, AColumnName) then
-        Exit(oColumn.Value);
+    for LColumn in AMasterForeignKey.ToFields do
+      if SameText(LColumn.Value.Name, AColumnName) then
+        Exit(LColumn.Value);
   end;
 
   function ExistTargetFromColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<string, TColumnMIK>;
   begin
     Result := nil;
-    for oColumn in ATargetForeignKey.ToFields do
-      if SameText(oColumn.Value.Name, AColumnName) then
-        Exit(oColumn.Value);
+    for LColumn in ATargetForeignKey.ToFields do
+      if SameText(LColumn.Value.Name, AColumnName) then
+        Exit(LColumn.Value);
   end;
 
 begin
   Result := True;
-  /// <summary>
-  /// Comparação dos campos dos indexes banco/modelo
-  /// </summary>
-  for oColumnTarget in ATargetForeignKey.ToFieldsSort do
+  // Comparação dos campos dos indexes banco/modelo
+  for LColumnTarget in ATargetForeignKey.ToFieldsSort do
   begin
-    oColumn := ExistMasterToColumn(oColumnTarget.Value.Name);
-    if oColumn = nil then
+    LColumn := ExistMasterToColumn(LColumnTarget.Value.Name);
+    if LColumn = nil then
       Exit(False)
   end;
-  /// <summary>
-  /// Comparação dos campos dos indexes modelo/banco
-  /// </summary>
-  for oColumnMaster in AMasterForeignKey.ToFieldsSort do
+  // Comparação dos campos dos indexes modelo/banco
+  for LColumnMaster in AMasterForeignKey.ToFieldsSort do
   begin
-    oColumn := ExistTargetFromColumn(oColumnMaster.Value.Name);
-    if oColumn = nil then
+    LColumn := ExistTargetFromColumn(LColumnMaster.Value.Name);
+    if LColumn = nil then
       Exit(False)
     else
     begin
-      if not DeepEqualsColumn(oColumnMaster.Value, oColumn) then
+      if not DeepEqualsColumn(LColumnMaster.Value, LColumn) then
         Exit(False);
     end;
   end;
@@ -612,52 +546,48 @@ end;
 
 function TDatabaseFactory.DeepEqualsIndexeColumns(AMasterIndexe, ATargetIndexe: TIndexeKeyMIK): Boolean;
 var
-  oColumnMaster: TPair<string, TColumnMIK>;
-  oColumnTarget: TPair<string, TColumnMIK>;
-  oColumn: TColumnMIK;
+  LColumnMaster: TPair<string, TColumnMIK>;
+  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumn: TColumnMIK;
 
   function ExistMasterColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<string, TColumnMIK>;
   begin
     Result := nil;
-    for oColumn in AMasterIndexe.Fields do
-      if SameText(oColumn.Value.Name, AColumnName) then
-        Exit(oColumn.Value);
+    for LColumn in AMasterIndexe.Fields do
+      if SameText(LColumn.Value.Name, AColumnName) then
+        Exit(LColumn.Value);
   end;
 
   function ExistTargetColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<string, TColumnMIK>;
   begin
     Result := nil;
-    for oColumn in ATargetIndexe.Fields do
-      if SameText(oColumn.Value.Name, AColumnName) then
-        Exit(oColumn.Value);
+    for LColumn in ATargetIndexe.Fields do
+      if SameText(LColumn.Value.Name, AColumnName) then
+        Exit(LColumn.Value);
   end;
 
 begin
   Result := True;
-  /// <summary>
-  /// Comparação dos campos dos indexes banco/modelo
-  /// </summary>
-  for oColumnTarget in ATargetIndexe.FieldsSort do
+  // Comparação dos campos dos indexes banco/modelo
+  for LColumnTarget in ATargetIndexe.FieldsSort do
   begin
-    oColumn := ExistMasterColumn(oColumnTarget.Value.Name);
-    if oColumn = nil then
+    LColumn := ExistMasterColumn(LColumnTarget.Value.Name);
+    if LColumn = nil then
       Exit(False)
   end;
-  /// <summary>
-  /// Comparação dos campos dos indexes modelo/banco
-  /// </summary>
-  for oColumnMaster in AMasterIndexe.FieldsSort do
+  // Comparação dos campos dos indexes modelo/banco
+  for LColumnMaster in AMasterIndexe.FieldsSort do
   begin
-    oColumn := ExistTargetColumn(oColumnMaster.Value.Name);
-    if oColumn = nil then
+    LColumn := ExistTargetColumn(LColumnMaster.Value.Name);
+    if LColumn = nil then
       Exit(False)
     else
     begin
-      if not DeepEqualsColumn(oColumnMaster.Value, oColumn) then
+      if not DeepEqualsColumn(LColumnMaster.Value, LColumn) then
         Exit(False);
     end;
   end;
@@ -665,63 +595,57 @@ end;
 
 procedure TDatabaseFactory.CompareIndexes(AMasterTable, ATargetTable: TTableMIK);
 var
-  oIndexeMaster: TPair<string, TIndexeKeyMIK>;
-  oIndexeTarget: TPair<string, TIndexeKeyMIK>;
+  LIndexeMaster: TPair<string, TIndexeKeyMIK>;
+  LIndexeTarget: TPair<string, TIndexeKeyMIK>;
 begin
-  /// <summary>
-  /// Remove indexe que não existe no modelo.
-  /// </summary>
-  for oIndexeTarget in ATargetTable.IndexeKeys do
+  // Remove indexe que não existe no modelo.
+  for LIndexeTarget in ATargetTable.IndexeKeys do
   begin
-    if not AMasterTable.IndexeKeys.ContainsKey(oIndexeTarget.Key) then
-      ActionDropIndexe(oIndexeTarget.Value);
+    if not AMasterTable.IndexeKeys.ContainsKey(LIndexeTarget.Key) then
+      ActionDropIndexe(LIndexeTarget.Value);
   end;
-  /// <summary>
-  /// Gera script de criação de indexe, caso a indexe do modelo não exista no banco.
-  /// </summary>
-  for oIndexeMaster in AMasterTable.IndexeKeys do
+  // Gera script de criação de indexe, caso a indexe do modelo não exista no banco.
+  for LIndexeMaster in AMasterTable.IndexeKeys do
   begin
-    if ATargetTable.IndexeKeys.ContainsKey(oIndexeMaster.Key) then
+    if ATargetTable.IndexeKeys.ContainsKey(LIndexeMaster.Key) then
     begin
-      oIndexeTarget.Value := ATargetTable.IndexeKeys.Items[oIndexeMaster.Key];
-      if (not DeepEqualsIndexe(oIndexeMaster.Value, oIndexeTarget.Value)) or
-         (not DeepEqualsIndexeColumns(oIndexeMaster.Value, oIndexeTarget.Value)) then
+      LIndexeTarget.Value := ATargetTable.IndexeKeys.Items[LIndexeMaster.Key];
+      if (not DeepEqualsIndexe(LIndexeMaster.Value, LIndexeTarget.Value)) or
+         (not DeepEqualsIndexeColumns(LIndexeMaster.Value, LIndexeTarget.Value)) then
       begin
-        ActionDropIndexe(oIndexeTarget.Value);
-        ActionCreateIndexe(oIndexeMaster.Value);
+        ActionDropIndexe(LIndexeTarget.Value);
+        ActionCreateIndexe(LIndexeMaster.Value);
       end;
     end
     else
-      ActionCreateIndexe(oIndexeMaster.Value);
+      ActionCreateIndexe(LIndexeMaster.Value);
   end;
 end;
 
 procedure TDatabaseFactory.ComparePrimaryKey(AMasterTable, ATargetTable: TTableMIK);
 var
-  oColumnMaster: TPair<string, TColumnMIK>;
-  oColumn: TColumnMIK;
+  LColumnMaster: TPair<string, TColumnMIK>;
+  LColumn: TColumnMIK;
 
   function ExistTargetColumn(AColumnName: string): TColumnMIK;
   var
-    oColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<string, TColumnMIK>;
   begin
     Result := nil;
-    for oColumn in ATargetTable.PrimaryKey.Fields do
-      if SameText(oColumn.Value.Name, AColumnName) then
-        Exit(oColumn.Value);
+    for LColumn in ATargetTable.PrimaryKey.Fields do
+      if SameText(LColumn.Value.Name, AColumnName) then
+        Exit(LColumn.Value);
   end;
 
 begin
   if not SameText(AMasterTable.PrimaryKey.Name, ATargetTable.PrimaryKey.Name) then
     ActionDropPrimaryKey(ATargetTable.PrimaryKey);
 
-  /// <summary>
-  /// Se alguma coluna não existir na PrimaryKey do banco recria a PrimaryKey.
-  /// </summary>
-  for oColumnMaster in AMasterTable.PrimaryKey.FieldsSort do
+  // Se alguma coluna não existir na PrimaryKey do banco recria a PrimaryKey.
+  for LColumnMaster in AMasterTable.PrimaryKey.FieldsSort do
   begin
-    oColumn := ExistTargetColumn(oColumnMaster.Value.Name);
-    if oColumn = nil then
+    LColumn := ExistTargetColumn(LColumnMaster.Value.Name);
+    if LColumn = nil then
     begin
       ActionDropPrimaryKey(ATargetTable.PrimaryKey);
       ActionCreatePrimaryKey(AMasterTable.PrimaryKey);
@@ -731,27 +655,23 @@ end;
 
 procedure TDatabaseFactory.CompareSequences(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  oSequenceMaster: TPair<string, TSequenceMIK>;
-  oSequenceTarget: TPair<string, TSequenceMIK>;
+  LSequenceMaster: TPair<string, TSequenceMIK>;
+  LSequenceTarget: TPair<string, TSequenceMIK>;
 begin
   if TSupportedFeature.Sequences in FGeneratorCommand.SupportedFeatures then
   begin
-    /// <summary>
-    /// Checa se existe alguma sequence no banco, da qual não exista nos modelos
-    /// para exclusão da mesma.
-    /// </summary>
-    for oSequenceTarget in ATargetDB.Sequences do
+    // Checa se existe alguma sequence no banco, da qual não exista nos modelos
+    // para exclusão da mesma.
+    for LSequenceTarget in ATargetDB.Sequences do
     begin
-      if not AMasterDB.Sequences.ContainsKey(oSequenceTarget.Key) then
-        ActionDropSequence(oSequenceTarget.Value);
+      if not AMasterDB.Sequences.ContainsKey(LSequenceTarget.Key) then
+        ActionDropSequence(LSequenceTarget.Value);
     end;
-    /// <summary>
-    /// Checa se existe a sequence no banco, se não existir cria se existir.
-    /// </summary>
-    for oSequenceMaster in AMasterDB.Sequences do
+    // Checa se existe a sequence no banco, se não existir cria se existir.
+    for LSequenceMaster in AMasterDB.Sequences do
     begin
-      if not ATargetDB.Sequences.ContainsKey(oSequenceMaster.Key) then
-        ActionCreateSequence(oSequenceMaster.Value);
+      if not ATargetDB.Sequences.ContainsKey(LSequenceMaster.Key) then
+        ActionCreateSequence(LSequenceMaster.Value);
     end;
   end;
 end;

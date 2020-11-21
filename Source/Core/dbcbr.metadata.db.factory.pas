@@ -83,9 +83,7 @@ begin
   if ACatalogMetadata = nil then
     raise Exception.Create('Antes de executar a extração do metadata, atribua a propriedade o catalogue a set preenchido em "DatabaseMetadata.CatalogMetadata"');
 
-  /// <summary>
-  /// Extrair database metadata
-  /// </summary>
+  // Extrair database metadata
   FDatabaseMetadata := TMetadataRegister.GetInstance.GetMetadata(FConnection.GetDriverName);
   FDatabaseMetadata.Connection := FConnection;
   FDatabaseMetadata.CatalogMetadata := ACatalogMetadata;

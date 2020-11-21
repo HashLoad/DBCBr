@@ -102,12 +102,12 @@ end;
 
 function TDatabaseAbstract.GetCommandList: TArray<TDDLCommand>;
 var
-  iFor: Integer;
+  LFor: Integer;
 begin
-  iFor := 0;
+  LFor := 0;
   SetLength(Result, FDDLCommands.Count);
-  for iFor := 0 to FDDLCommands.Count - 1 do
-    Result[iFor] := FDDLCommands[iFor];
+  for LFor := 0 to FDDLCommands.Count - 1 do
+    Result[LFor] := FDDLCommands[LFor];
 end;
 
 function TDatabaseAbstract.GetCommandsAutoExecute: Boolean;

@@ -133,10 +133,8 @@ implementation
 constructor TCatalogMetadataAbstract.Create;
 begin
   FFieldType := TDictionary<string, TFieldType>.Create;
-  /// <summary>
-  /// Instância um dicionário interno com uma lista de
-  /// NOMES e TIPOS de colunas dos bancos de dados.
-  /// </summary>
+  // Instância um dicionário interno com uma lista de NOMES e TIPOS de
+  // colunas dos bancos de dados.
   CreateFieldTypeList;
 end;
 
@@ -326,17 +324,15 @@ begin
     end;
   else
     raise Exception.Create('Tipo da coluna definida [' + AColumn.Table.Name + '.' +
-                                          FieldTypeNames[AColumn.FieldType] + '], não existe no ORMBr.');
+                                          FieldTypeNames[AColumn.FieldType] + '], não existe no DBCBr.');
   end;
-  /// <summary>
-  /// Definições de propriedades de tamnanho
-  /// </summary>
+  // Definições de propriedades de tamnanho
   if FModelForDatabase then
   begin
-  if MatchStr(AColumn.TypeName, ['SMALLINT','INT','INT4','INT8','INTEGER',
-                                 'DATE','TIME','BIGINT','DATETIME','TIMESTAMP',
-                                 'REAL','DOUBLE PRECISION','BLOB SUB_TYPE TEXT',
-                                 'TEXT','NTEXT','NUMBER','BLOB SUB_TYPE 1']) then
+    if MatchStr(AColumn.TypeName, ['SMALLINT','INT','INT4','INT8','INTEGER',
+                                   'DATE','TIME','BIGINT','DATETIME','TIMESTAMP',
+                                   'REAL','DOUBLE PRECISION','BLOB SUB_TYPE TEXT',
+                                   'TEXT','NTEXT','NUMBER','BLOB SUB_TYPE 1']) then
     begin
       AColumn.Size := 0;
       AColumn.Precision := 0;

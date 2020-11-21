@@ -41,8 +41,7 @@ uses
   dbebr.factory.interfaces,
   dbcbr.metadata.register,
   dbcbr.metadata.extract,
-  dbcbr.database.mapping,
-  dbcbr.mapping.rttiutils;
+  dbcbr.database.mapping;
 
 type
   TCatalogMetadataAbsoluteDB = class(TCatalogMetadataAbstract)
@@ -67,13 +66,13 @@ implementation
 
 function TCatalogMetadataAbsoluteDB.Execute: IDBResultSet;
 var
-  oSQLQuery: IDBQuery;
+  LSQLQuery: IDBQuery;
 begin
   inherited;
-  oSQLQuery := FConnection.CreateQuery;
+  LSQLQuery := FConnection.CreateQuery;
   try
-    oSQLQuery.CommandText := FSQLText;
-    Exit(oSQLQuery.ExecuteQuery);
+    LSQLQuery.CommandText := FSQLText;
+    Exit(LSQLQuery.ExecuteQuery);
   except
     raise
   end;
@@ -101,117 +100,117 @@ end;
 
 procedure TCatalogMetadataAbsoluteDB.GetTables;
 var
-  oTableList: TStringList;
-  oTable: TTableMIK;
-  iFor: Integer;
+  LTableList: TStringList;
+  LTable: TTableMIK;
+  LFor: Integer;
 begin
   inherited;
-  oTableList := TStringList.Create;
+  LTableList := TStringList.Create;
   try
-    TABSDatabase(FConnection).GetTablesList(oTableList);
-    for iFor := 0 to oTableList.Count - 1 do
+    TABSDatabase(FConnection).GetTablesList(LTableList);
+    for LFor := 0 to LTableList.Count - 1 do
     begin
-      oTable := TTableMIK.Create(FCatalogMetadata);
-      oTable.Name := oTableList[iFor];
-      oTable.Description := '';
+      LTable := TTableMIK.Create(FCatalogMetadata);
+      LTable.Name := LTableList[LFor];
+      LTable.Description := '';
       /// <summary>
       /// Extrair colunas da tabela
       /// </summary>
-      GetColumns(oTable);
+      GetColumns(LTable);
       /// <summary>
       /// Extrair Primary Key da tabela
       /// </summary>
-      GetPrimaryKey(oTable);
+      GetPrimaryKey(LTable);
       /// <summary>
       /// Extrair Indexes da tabela
       /// </summary>
-      GetIndexeKeys(oTable);
+      GetIndexeKeys(LTable);
       /// <summary>
       /// Adiciona na lista de tabelas extraidas
       /// </summary>
-      FCatalogMetadata.Tables.Add(UpperCase(oTable.Name), oTable);
+      FCatalogMetadata.Tables.Add(UpperCase(LTable.Name), LTable);
     end;
   finally
-    oTableList.Free;
+    LTableList.Free;
   end;
 end;
 
 procedure TCatalogMetadataAbsoluteDB.GetColumns(ATable: TTableMIK);
 var
-  oABSTable: TABSTable;
-  oColumn: TColumnMIK;
-  iFor: Integer;
+  LABSTable: TABSTable;
+  LColumn: TColumnMIK;
+  LFor: Integer;
 begin
   inherited;
-  oABSTable.Close;
-  oABSTable.DatabaseName := (FConnection as TABSDatabase).DatabaseName;
-  oABSTable.TableName := ATable.Name;
-  oABSTable.FieldDefs.Update;
+  LABSTable.Close;
+  LABSTable.DatabaseName := (FConnection as TABSDatabase).DatabaseName;
+  LABSTable.TableName := ATable.Name;
+  LABSTable.FieldDefs.Update;
 
-  for IFor := 0 to oABSTable.AdvFieldDefs.Count - 1 do
+  for LFor := 0 to LABSTable.AdvFieldDefs.Count - 1 do
   begin
-    oColumn := TColumnMIK.Create(ATable);
-    oColumn.Name := oABSTable.AdvFieldDefs[IFor].Name;
-    oColumn.Description := oColumn.Name;
-    oColumn.Position := iFor + 1;
+    LColumn := TColumnMIK.Create(ATable);
+    LColumn.Name := LABSTable.AdvFieldDefs[LFor].Name;
+    LColumn.Description := LColumn.Name;
+    LColumn.Position := LFor + 1;
     /// <summary>
     /// O método ResolveTypeField() extrai e popula as propriedades relacionadas abaixo
     /// </summary>
-    /// <param name="AColumn: TColumnMIK">Informar [oColumn] para receber informações adicionais
+    /// <param name="AColumn: TColumnMIK">Informar [LColumn] para receber informações adicionais
     /// </param>
     /// <param name="ATypeName: String">Campo com descriçao do tipo que veio na extração do metadata
     /// </param>
     /// <remarks>
     /// Relação das propriedades que serão alimentadas no método ResolveTypeField()
-    /// oColumn.FieldType: TTypeField;
-    /// oColumn.TypeName: string;
-    /// oColumn.Size: Integer;
-    /// oColumn.Precision: Integer;
-    /// oColumn.Scale: Integer;
+    /// LColumn.FieldType: TTypeField;
+    /// LColumn.LTypeName: string;
+    /// LColumn.Size: Integer;
+    /// LColumn.Precision: Integer;
+    /// LColumn.Scale: Integer;
     /// </remarks>
-    ResolveFieldType(oColumn, oABSTable.AdvFieldDefs[IFor].DataType);
+    ResolveFieldType(LColumn, LABSTable.AdvFieldDefs[LFor].DataType);
     ///
-    oColumn.Size := oABSTable.AdvFieldDefs[IFor].Size;
-    oColumn.NotNull := oABSTable.AdvFieldDefs[IFor].Required;
-    oColumn.DefaultValue := oABSTable.AdvFieldDefs[IFor].DefaultValue.AsVariant;
-    oColumn.AutoIncrement := (Pos('AutoInc', oColumn.TypeName) > 0);
+    LColumn.Size := LABSTable.AdvFieldDefs[LFor].Size;
+    LColumn.NotNull := LABSTable.AdvFieldDefs[LFor].Required;
+    LColumn.DefaultValue := LABSTable.AdvFieldDefs[LFor].DefaultValue.AsVariant;
+    LColumn.AutoIncrement := (Pos('AutoInc', LColumn.LTypeName) > 0);
 
-    ATable.Fields.Add(FormatFloat('000000', oColumn.Position), oColumn);
+    ATable.Fields.Add(FormatFloat('000000', LColumn.Position), LColumn);
   end;
 end;
 
 procedure TCatalogMetadataAbsoluteDB.GetPrimaryKey(ATable: TTableMIK);
 {
 var
-  oDBResultSet: IDBResultSet;
+  LDBResultSet: IDBResultSet;
 
   function GetColumnAutoIncrement(ATableName: string): integer;
   var
-    oDBResultSet: IDBResultSet;
+    LDBResultSet: IDBResultSet;
   begin
     FSQLText := ' select count(*) as autoinc ' +
                 ' from sqlite_sequence ' +
                 ' where name = ''' + ATableName + ''' ' +
                 ' order by name';
-    oDBResultSet := Execute;
-    Exit(oDBResultSet.GetFieldValue('autoinc'));
+    LDBResultSet := Execute;
+    Exit(LDBResultSet.GetFieldValue('autoinc'));
   end;
 
   procedure GetPrimaryKeyColumns(APrimaryKey: TPrimaryKeyMIK);
   var
-    oDBResultSet: IDBResultSet;
-    oColumn: TColumnMIK;
+    LDBResultSet: IDBResultSet;
+    LColumn: TColumnMIK;
   begin
     FSQLText := Format('PRAGMA table_info("%s")', [ATable.Name]);
-    oDBResultSet := Execute;
-    while oDBResultSet.NotEof do
+    LDBResultSet := Execute;
+    while LDBResultSet.NotEof do
     begin
-      oColumn := TColumnMIK.Create(ATable);
-      oColumn.Name := VarToStr(oDBResultSet.GetFieldValue('name'));
-      oColumn.NotNull := oDBResultSet.GetFieldValue('notnull') = 1;
-      oColumn.Position := VarAsType(oDBResultSet.GetFieldValue('cid'), varInteger);
-//      oColumn.AutoIncrement := GetColumnAutoIncrement(ATable.Name) > 0;
-      APrimaryKey.Fields.Add(FormatFloat('000000', oColumn.Position), oColumn);
+      LColumn := TColumnMIK.Create(ATable);
+      LColumn.Name := VarToStr(LDBResultSet.GetFieldValue('name'));
+      LColumn.NotNull := LDBResultSet.GetFieldValue('notnull') = 1;
+      LColumn.Position := VarAsType(LDBResultSet.GetFieldValue('cid'), varInteger);
+//      LColumn.AutoIncrement := GetColumnAutoIncrement(ATable.Name) > 0;
+      APrimaryKey.Fields.Add(FormatFloat('000000', LColumn.Position), LColumn);
     end;
   end;
 }
@@ -219,10 +218,10 @@ begin
   inherited;
 {
   FSQLText := GetSelectPrimaryKey(ATable.Name);
-  oDBResultSet := Execute;
-  while oDBResultSet.NotEof do
+  LDBResultSet := Execute;
+  while LDBResultSet.NotEof do
   begin
-    if VarAsType(oDBResultSet.GetFieldValue('pk'), varInteger) = 1 then
+    if VarAsType(LDBResultSet.GetFieldValue('pk'), varInteger) = 1 then
     begin
       ATable.PrimaryKey.Name := Format('PK_%s', [ATable.Name]);
       ATable.PrimaryKey.Description := '';
@@ -240,20 +239,20 @@ end;
 procedure TCatalogMetadataAbsoluteDB.GetSequences;
 {
 var
-  oDBResultSet: IDBResultSet;
-  oSequence: TSequenceMIK;
+  LDBResultSet: IDBResultSet;
+  LSequence: TSequenceMIK;
 }
 begin
   inherited;
 {
   FSQLText := GetSelectSequences;
-  oDBResultSet := Execute;
-  while oDBResultSet.NotEof do
+  LDBResultSet := Execute;
+  while LDBResultSet.NotEof do
   begin
-    oSequence := TSequenceMIK.Create(FCatalogMetadata);
-    oSequence.Name := VarToStr(oDBResultSet.GetFieldValue('name'));
-    oSequence.Description := VarToStr(oDBResultSet.GetFieldValue('description'));;
-    FCatalogMetadata.Sequences.Add(UpperCase(oSequence.Name), oSequence);
+    LSequence := TSequenceMIK.Create(FCatalogMetadata);
+    LSequence.Name := VarToStr(LDBResultSet.GetFieldValue('name'));
+    LSequence.Description := VarToStr(LDBResultSet.GetFieldValue('description'));;
+    FCatalogMetadata.Sequences.Add(UpperCase(LSequence.Name), LSequence);
   end;
 }
 end;
@@ -261,21 +260,21 @@ end;
 procedure TCatalogMetadataAbsoluteDB.GetIndexeKeys(ATable: TTableMIK);
 {
 var
-  oDBResultSet: IDBResultSet;
-  oIndexeKey: TIndexeKeyMIK;
+  LDBResultSet: IDBResultSet;
+  LIndexeKey: TIndexeKeyMIK;
 
   procedure GetIndexeKeyColumns(AIndexeKey: TIndexeKeyMIK);
   var
-    oDBResultSet: IDBResultSet;
-    oColumn: TColumnMIK;
+    LDBResultSet: IDBResultSet;
+    LColumn: TColumnMIK;
   begin
     FSQLText := GetSelectIndexeColumns(AIndexeKey.Name);
-    oDBResultSet := Execute;
-    while oDBResultSet.NotEof do
+    LDBResultSet := Execute;
+    while LDBResultSet.NotEof do
     begin
-      oColumn := TColumnMIK.Create(ATable);
-      oColumn.Name := VarToStr(oDBResultSet.GetFieldValue('name'));
-      AIndexeKey.Fields.Add(oColumn.Name, oColumn);
+      LColumn := TColumnMIK.Create(ATable);
+      LColumn.Name := VarToStr(LDBResultSet.GetFieldValue('name'));
+      AIndexeKey.Fields.Add(LColumn.Name, LColumn);
     end;
   end;
 }
@@ -283,19 +282,19 @@ begin
   inherited;
 {
   FSQLText := GetSelectIndexe(ATable.Name);
-  oDBResultSet := Execute;
-  while oDBResultSet.NotEof do
+  LDBResultSet := Execute;
+  while LDBResultSet.NotEof do
   begin
-    if VarAsType(oDBResultSet.GetFieldValue('origin'), varString) = 'pk' then
+    if VarAsType(LDBResultSet.GetFieldValue('origin'), varString) = 'pk' then
        Continue;
-    oIndexeKey := TIndexeKeyMIK.Create(ATable);
-    oIndexeKey.Name := VarToStr(oDBResultSet.GetFieldValue('name'));
-    oIndexeKey.Unique := VarAsType(oDBResultSet.GetFieldValue('unique'), varInteger) = 1;
-    ATable.IndexeKeys.Add(UpperCase(oIndexeKey.Name), oIndexeKey);
+    LIndexeKey := TIndexeKeyMIK.Create(ATable);
+    LIndexeKey.Name := VarToStr(LDBResultSet.GetFieldValue('name'));
+    LIndexeKey.Unique := VarAsType(LDBResultSet.GetFieldValue('unique'), varInteger) = 1;
+    ATable.IndexeKeys.Add(UpperCase(LIndexeKey.Name), LIndexeKey);
     /// <summary>
     /// Gera a lista de campos do indexe
     /// </summary>
-    GetIndexeKeyColumns(oIndexeKey);
+    GetIndexeKeyColumns(LIndexeKey);
   end;
 }
 end;
@@ -303,47 +302,47 @@ end;
 procedure TCatalogMetadataAbsoluteDB.ResolveFieldType(AColumn: TColumnMIK;
   ADataType: TABSAdvancedFieldType);
 var
-  sTypeName: string;
+  LTypeName: string;
 begin
   AColumn.FieldType := ftUnknown;
   AColumn.Precision := 0;
   case ADataType of
-    aftChar:            begin AColumn.FieldType := ftFixedChar; AColumn.TypeName := 'CHAR' end;
-    aftString:          begin AColumn.FieldType := ftString; AColumn.TypeName := 'VARCHAR' end;
-    aftWideChar:        begin AColumn.FieldType := ftWideString; AColumn.TypeName := 'WIDESTRING' end;
-    aftWideString:      begin AColumn.FieldType := ftWideString; AColumn.TypeName := 'WIDESTRING' end;
-    aftShortint:        begin AColumn.FieldType := ftSmallint; AColumn.TypeName := 'SMALLINT' end;
-    aftSmallint:        begin AColumn.FieldType := ftSmallint; AColumn.TypeName := 'SMALLINT' end;
-    aftInteger:         begin AColumn.FieldType := ftInteger; AColumn.TypeName := 'INTEGER' end;
-    aftLargeint:        begin AColumn.FieldType := ftLargeint; AColumn.TypeName := 'LARGEINT' end;
-    aftByte:            begin AColumn.FieldType := ftByte; AColumn.TypeName := 'BYTE' end;
-    aftWord:            begin AColumn.FieldType := ftWord; AColumn.TypeName := 'WORD' end;
-    aftCardinal:        begin AColumn.FieldType := ftWord; AColumn.TypeName := 'CARDINAL' end;
-    aftAutoInc:         begin AColumn.FieldType := ftInteger; AColumn.TypeName := 'AUTOINC' end;
-    aftAutoIncShortint: begin AColumn.FieldType := ftShortint; AColumn.TypeName := 'AUTOINC(SHORTINT)' end;
-    aftAutoIncSmallint: begin AColumn.FieldType := ftSmallint; AColumn.TypeName := 'AUTOINC(SMALLINT)' end;
-    aftAutoIncInteger:  begin AColumn.FieldType := ftInteger; AColumn.TypeName := 'AUTOINC(INTEGER)' end;
-    aftAutoIncLargeint: begin AColumn.FieldType := ftLargeint; AColumn.TypeName := 'AUTOINC(LARGEINT)' end;
-    aftAutoIncByte:     begin AColumn.FieldType := ftByte; AColumn.TypeName := 'AUTOINC(BYTE)' end;
-    aftAutoIncWord:     begin AColumn.FieldType := ftWord; AColumn.TypeName := 'AUTOINC(WORD)' end;
-    aftAutoIncCardinal: begin AColumn.FieldType := ftInteger; AColumn.TypeName := 'AUTOINC(CARDINAL)' end;
-    aftSingle:          begin AColumn.FieldType := ftSingle; AColumn.TypeName := 'SINGLE' end;
-    aftDouble:          begin AColumn.FieldType := ftFloat; AColumn.TypeName := 'FLOAT' end;
-    aftExtended:        begin AColumn.FieldType := ftBCD; AColumn.TypeName := 'EXTENDED' end;
-    aftBoolean:         begin AColumn.FieldType := ftBoolean; AColumn.TypeName := 'BOOLEAN' end;
-    aftCurrency:        begin AColumn.FieldType := ftCurrency; AColumn.TypeName := 'CURRENCY' end;
-    aftDate:            begin AColumn.FieldType := ftDate; AColumn.TypeName := 'DATE' end;
-    aftTime:            begin AColumn.FieldType := ftTime; AColumn.TypeName := 'TIME' end;
-    aftDateTime:        begin AColumn.FieldType := ftDateTime; AColumn.TypeName := 'DATETIME' end;
-    aftTimeStamp:       begin AColumn.FieldType := ftTimeStamp; AColumn.TypeName := 'TIMESTAMP' end;
-    aftBytes:           begin AColumn.FieldType := ftBytes; AColumn.TypeName := 'BYTES' end;
-    aftVarBytes:        begin AColumn.FieldType := ftVarBytes; AColumn.TypeName := 'VARBYTES' end;
-    aftBlob:            begin AColumn.FieldType := ftBlob; AColumn.TypeName := 'BLOB' end;
-    aftGraphic:         begin AColumn.FieldType := ftGraphic; AColumn.TypeName := 'GRAPHIC' end;
-    aftMemo:            begin AColumn.FieldType := ftMemo; AColumn.TypeName := 'MEMO' end;
-    aftFormattedMemo:   begin AColumn.FieldType := ftWideMemo; AColumn.TypeName := 'FORMATTEDMEMO' end;
-    aftWideMemo:        begin AColumn.FieldType := ftWideMemo; AColumn.TypeName := 'WIDEMEMO' end;
-    aftGuid:            begin AColumn.FieldType := ftGuid; AColumn.TypeName := 'GUID' end;
+    aftChar:            begin AColumn.FieldType := ftFixedChar; AColumn.LTypeName := 'CHAR' end;
+    aftString:          begin AColumn.FieldType := ftString; AColumn.LTypeName := 'VARCHAR' end;
+    aftWideChar:        begin AColumn.FieldType := ftWideString; AColumn.LTypeName := 'WIDESTRING' end;
+    aftWideString:      begin AColumn.FieldType := ftWideString; AColumn.LTypeName := 'WIDESTRING' end;
+    aftShortint:        begin AColumn.FieldType := ftSmallint; AColumn.LTypeName := 'SMALLINT' end;
+    aftSmallint:        begin AColumn.FieldType := ftSmallint; AColumn.LTypeName := 'SMALLINT' end;
+    aftInteger:         begin AColumn.FieldType := ftInteger; AColumn.LTypeName := 'INTEGER' end;
+    aftLargeint:        begin AColumn.FieldType := ftLargeint; AColumn.LTypeName := 'LARGEINT' end;
+    aftByte:            begin AColumn.FieldType := ftByte; AColumn.LTypeName := 'BYTE' end;
+    aftWord:            begin AColumn.FieldType := ftWord; AColumn.LTypeName := 'WORD' end;
+    aftCardinal:        begin AColumn.FieldType := ftWord; AColumn.LTypeName := 'CARDINAL' end;
+    aftAutoInc:         begin AColumn.FieldType := ftInteger; AColumn.LTypeName := 'AUTOINC' end;
+    aftAutoIncShortint: begin AColumn.FieldType := ftShortint; AColumn.LTypeName := 'AUTOINC(SHORTINT)' end;
+    aftAutoIncSmallint: begin AColumn.FieldType := ftSmallint; AColumn.LTypeName := 'AUTOINC(SMALLINT)' end;
+    aftAutoIncInteger:  begin AColumn.FieldType := ftInteger; AColumn.LTypeName := 'AUTOINC(INTEGER)' end;
+    aftAutoIncLargeint: begin AColumn.FieldType := ftLargeint; AColumn.LTypeName := 'AUTOINC(LARGEINT)' end;
+    aftAutoIncByte:     begin AColumn.FieldType := ftByte; AColumn.LTypeName := 'AUTOINC(BYTE)' end;
+    aftAutoIncWord:     begin AColumn.FieldType := ftWord; AColumn.LTypeName := 'AUTOINC(WORD)' end;
+    aftAutoIncCardinal: begin AColumn.FieldType := ftInteger; AColumn.LTypeName := 'AUTOINC(CARDINAL)' end;
+    aftSingle:          begin AColumn.FieldType := ftSingle; AColumn.LTypeName := 'SINGLE' end;
+    aftDouble:          begin AColumn.FieldType := ftFloat; AColumn.LTypeName := 'FLOAT' end;
+    aftExtended:        begin AColumn.FieldType := ftBCD; AColumn.LTypeName := 'EXTENDED' end;
+    aftBoolean:         begin AColumn.FieldType := ftBoolean; AColumn.LTypeName := 'BOOLEAN' end;
+    aftCurrency:        begin AColumn.FieldType := ftCurrency; AColumn.LTypeName := 'CURRENCY' end;
+    aftDate:            begin AColumn.FieldType := ftDate; AColumn.LTypeName := 'DATE' end;
+    aftTime:            begin AColumn.FieldType := ftTime; AColumn.LTypeName := 'TIME' end;
+    aftDateTime:        begin AColumn.FieldType := ftDateTime; AColumn.LTypeName := 'DATETIME' end;
+    aftTimeStamp:       begin AColumn.FieldType := ftTimeStamp; AColumn.LTypeName := 'TIMESTAMP' end;
+    aftBytes:           begin AColumn.FieldType := ftBytes; AColumn.LTypeName := 'BYTES' end;
+    aftVarBytes:        begin AColumn.FieldType := ftVarBytes; AColumn.LTypeName := 'VARBYTES' end;
+    aftBlob:            begin AColumn.FieldType := ftBlob; AColumn.LTypeName := 'BLOB' end;
+    aftGraphic:         begin AColumn.FieldType := ftGraphic; AColumn.LTypeName := 'GRAPHIC' end;
+    aftMemo:            begin AColumn.FieldType := ftMemo; AColumn.LTypeName := 'MEMO' end;
+    aftFormattedMemo:   begin AColumn.FieldType := ftWideMemo; AColumn.LTypeName := 'FORMATTEDMEMO' end;
+    aftWideMemo:        begin AColumn.FieldType := ftWideMemo; AColumn.LTypeName := 'WIDEMEMO' end;
+    aftGuid:            begin AColumn.FieldType := ftGuid; AColumn.LTypeName := 'GUID' end;
   end;
 end;
 

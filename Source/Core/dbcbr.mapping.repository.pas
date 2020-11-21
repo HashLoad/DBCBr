@@ -77,9 +77,7 @@ var
   LClass: TClass;
 begin
   FRepository := TRepository.Create;
-  /// <summary>
-  ///   Entitys
-  /// </summary>
+  // Entitys
   if AEntity <> nil then
     for LClass in AEntity do
       if not FRepository.EntityList.ContainsKey(LClass) then
@@ -89,9 +87,7 @@ begin
     if FRepository.EntityList.ContainsKey(LClass.ClassParent) then
       FRepository.EntityList[LClass.ClassParent].Add(LClass);
 
-  /// <summary>
-  ///   Views
-  /// </summary>
+  // Views
   if AView <> nil then
     for LClass in AView do
       if not FRepository.ViewList.ContainsKey(LClass) then

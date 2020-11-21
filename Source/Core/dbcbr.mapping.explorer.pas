@@ -39,9 +39,9 @@ uses
   SysUtils,
   Generics.Collections,
   /// ormbr
+  dbcbr.mapping.explorerstrategy,
   dbcbr.mapping.classes,
   dbcbr.mapping.popular,
-  dbcbr.mapping.explorerstrategy,
   dbcbr.mapping.repository,
   dbcbr.mapping.register;
 
@@ -69,6 +69,7 @@ type
     FEnumerationMapping: TDictionary<string, TEnumerationMappingList>;
     FFieldEventsMapping: TDictionary<string, TFieldEventsMappingList>;
     FPrimaryKeyColumnsMapping: TDictionary<string, TPrimaryKeyColumnsMapping>;
+    function GetRttiType(const AClass: TClass): TRttiType;
     constructor CreatePrivate;
   protected
     function GetRepositoryMapping: TMappingRepository; override;
@@ -97,10 +98,6 @@ type
   end;
 
 implementation
-
-uses
-  dbcbr.mapping.rttiutils,
-  dbcbr.objects.helper;
 
 { TMappingExplorer }
 
@@ -172,7 +169,7 @@ begin
   if FPrimaryKeyMapping.ContainsKey(AClass.ClassName) then
      Exit(FPrimaryKeyMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularPrimaryKey(LRttiType);
    /// Add List
   if Result <> nil then
@@ -187,7 +184,7 @@ begin
   if FPrimaryKeyColumnsMapping.ContainsKey(AClass.ClassName) then
      Exit(FPrimaryKeyColumnsMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularPrimaryKeyColumns(LRttiType, AClass);
    /// Add List
   if Result <> nil then
@@ -202,7 +199,7 @@ begin
   if FSequenceMapping.ContainsKey(AClass.ClassName) then
      Exit(FSequenceMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularSequence(LRttiType);
    /// Add List
   if Result <> nil then
@@ -217,7 +214,7 @@ begin
   if FCalcFieldMapping.ContainsKey(AClass.ClassName) then
      Exit(FCalcFieldMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularCalcField(LRttiType);
    /// Add List
   if Result <> nil then
@@ -232,7 +229,7 @@ begin
   if FCheckMapping.ContainsKey(AClass.ClassName) then
      Exit(FCheckMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularCheck(LRttiType);
    /// Add List
   if Result <> nil then
@@ -247,7 +244,7 @@ begin
   if FColumnMapping.ContainsKey(AClass.ClassName) then
      Exit(FColumnMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularColumn(LRttiType, AClass);
    /// Add List
   if Result <> nil then
@@ -262,7 +259,7 @@ begin
   if FEnumerationMapping.ContainsKey(AClass.ClassName) then
      Exit(FEnumerationMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result := FPopularMapping.PopularEnumeration(LRttiType);
    /// Add List
   if Result <> nil then
@@ -277,7 +274,7 @@ begin
   if FFieldEventsMapping.ContainsKey(AClass.ClassName) then
      Exit(FFieldEventsMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularFieldEvents(LRttiType);
    /// Add List
   if Result <> nil then
@@ -292,7 +289,7 @@ begin
   if FForeingnKeyMapping.ContainsKey(AClass.ClassName) then
      Exit(FForeingnKeyMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularForeignKey(LRttiType);
    /// Add List
   if Result <> nil then
@@ -307,7 +304,7 @@ begin
   if FIndexeMapping.ContainsKey(AClass.ClassName) then
      Exit(FIndexeMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularIndexe(LRttiType);
    /// Add List
   if Result <> nil then
@@ -322,7 +319,7 @@ begin
   if FJoinColumnMapping.ContainsKey(AClass.ClassName) then
      Exit(FJoinColumnMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularJoinColumn(LRttiType);
   /// Add List
   if Result <> nil then
@@ -337,7 +334,7 @@ begin
   if FOrderByMapping.ContainsKey(AClass.ClassName) then
      Exit(FOrderByMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularOrderBy(LRttiType);
    /// Add List
   if Result <> nil then
@@ -352,7 +349,7 @@ begin
   if FAssociationMapping.ContainsKey(AClass.ClassName) then
      Exit(FAssociationMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularAssociation(LRttiType);
   /// Add List
   if Result <> nil then
@@ -367,7 +364,7 @@ begin
   if FTableMapping.ContainsKey(AClass.ClassName) then
      Exit(FTableMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularTable(LRttiType);
   /// Add List
   if Result <> nil then
@@ -382,7 +379,7 @@ begin
   if FTriggerMapping.ContainsKey(AClass.ClassName) then
      Exit(FTriggerMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularTrigger(LRttiType);
   /// Add List
   if Result <> nil then
@@ -397,7 +394,7 @@ begin
   if FViewMapping.ContainsKey(AClass.ClassName) then
      Exit(FViewMapping[AClass.ClassName]);
 
-  LRttiType := TRttiSingleton.GetInstance.GetRttiType(AClass);
+  LRttiType := GetRttiType(AClass);
   Result    := FPopularMapping.PopularView(LRttiType);
   /// Add List
   if Result <> nil then
@@ -407,6 +404,18 @@ end;
 function TMappingExplorer.GetRepositoryMapping: TMappingRepository;
 begin
   Result := FRepositoryMapping;
+end;
+
+function TMappingExplorer.GetRttiType(const AClass: TClass): TRttiType;
+var
+  FContext: TRttiContext;
+begin
+  FContext := TRttiContext.Create;
+  try
+    Result := FContext.GetType(AClass);
+  finally
+    FContext.Free;
+  end;
 end;
 
 end.

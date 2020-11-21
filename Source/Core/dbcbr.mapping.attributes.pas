@@ -42,6 +42,11 @@ uses
   dbcbr.types.mapping;
 
 type
+  EFieldNotNull = class(Exception)
+  public
+    constructor Create(const ADisplayLabel: String);
+  end;
+
   Entity = class(TCustomAttribute)
   private
     FName: String;
@@ -1085,6 +1090,14 @@ begin
 
   if (FMin > 0) and (Length(AProperty.GetValue(AObject).AsString) < FMin) then
     raise EMinLengthConstraint.Create(AProperty.name, FMin);
+end;
+
+{ EFieldNotNull }
+
+constructor EFieldNotNull.Create(const ADisplayLabel: String);
+begin
+  inherited CreateFmt('Campo [ %s ] não pode ser vazio',
+                      [ADisplayLabel]);
 end;
 
 end.

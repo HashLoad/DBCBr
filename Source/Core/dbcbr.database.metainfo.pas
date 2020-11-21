@@ -103,9 +103,7 @@ end;
 procedure TDatabaseMetaInfo.ExtractMetaInfo;
 begin
   inherited;
-  /// <summary>
-  ///   Extrai todo metadata com base nos modelos existentes
-  /// </summary>
+  // Extrai todo metadata com base nos modelos existentes
   FMetadata.ExtractMetadata(FCatalogMetadata);
 end;
 

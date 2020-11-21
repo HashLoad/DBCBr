@@ -85,20 +85,20 @@ end;
 
 procedure TDatabaseCompare.ExecuteDDLCommands;
 var
-  oCommand: TDDLCommand;
-  sCommand: string;
+  LDDLCommand: TDDLCommand;
+  LCommand: string;
 begin
   inherited;
   if FCommandsAutoExecute then
     FConnTarget.StartTransaction;
   try
     try
-      for oCommand in FDDLCommands do
+      for LDDLCommand in FDDLCommands do
       begin
-        sCommand := oCommand.BuildCommand(FGeneratorCommand);
-        if Length(sCommand) > 0 then
+        LCommand := LDDLCommand.BuildCommand(FGeneratorCommand);
+        if Length(LCommand) > 0 then
           if FCommandsAutoExecute then
-            FConnTarget.AddScript(sCommand);
+            FConnTarget.AddScript(LCommand);
       end;
       if FConnTarget.InTransaction then
       begin
@@ -110,8 +110,8 @@ begin
       begin
         if FConnTarget.InTransaction then
           FConnTarget.Rollback;
-        raise Exception.Create('ORMBr Command : [' + oCommand.Warning + '] - ' + E.Message + sLineBreak +
-                               'Script : "' + sCommand + '"');
+        raise Exception.Create('DBCBr Command : [' + LDDLCommand.Warning + '] - ' + E.Message + sLineBreak +
+                               'Script : "' + LCommand + '"');
       end;
     end;
   finally
@@ -123,13 +123,9 @@ end;
 procedure TDatabaseCompare.ExtractDatabase;
 begin
   inherited;
-  /// <summary>
-  ///   Extrai todo metadata com base nos modelos existentes
-  /// </summary>
+  // Extrai todo metadata com base nos modelos existentes
   FMetadataMaster.ExtractMetadata(FCatalogMaster);
-  /// <summary>
-  ///   Extrai todo metadata com base banco de dados acessado
-  /// </summary>
+  // Extrai todo metadata com base banco de dados acessado
   FMetadataTarget.ExtractMetadata(FCatalogTarget);
 end;
 

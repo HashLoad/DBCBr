@@ -41,13 +41,17 @@ uses
   SysUtils,
   StrUtils,
   TypInfo,
-  dbcbr.mapping.rttiutils,
-  dbcbr.types.nullable,
   dbcbr.mapping.attributes,
   dbcbr.types.mapping,
   dbcbr.mapping.classes;
 
 type
+  TObjectHelper = class helper for TObject
+  public
+    function MethodCall(const AMethodName: string;
+      const AParameters: array of TValue): TValue;
+  end;
+
   TRttiTypeHelper = class helper for TRttiType
   public
     function GetPrimaryKey: TArray<TCustomAttribute>;
@@ -98,18 +102,15 @@ type
       AValue: Variant): TValue;
     function  GetEnumToFieldValue(const AInstance: TObject;
       AFieldType: TFieldType): TValue;
-    procedure SetNullableValue(AInstance: Pointer; ATypeInfo:
-      PTypeInfo; AValue: Variant);
   end;
 
 implementation
 
 uses
-  dbcbr.core.consts,
-  dbcbr.mapping.explorer,
-  dbcbr.types.blob,
-  dbcbr.utils,
-  dbcbr.objects.helper;
+  dbcbr.mapping.explorer;
+
+const
+  cENUMSTYPEERROR = 'Invalid type. Type enumerator supported [ftBoolean, ftInteger, ftFixedChar, ftString]';
 
 { TRttiPropertyHelper }
 
@@ -251,20 +252,18 @@ begin
         ftBoolean:
           Result := TValue.From<Boolean>(StrToBoolDef(LEnumeration.EnumValues[LValue.AsOrdinal], Boolean(0)));
       else
-        raise Exception.Create(cENUMERATIONSTYPEERROR);
+        raise Exception.Create(cENUMSTYPEERROR);
       end
     end;
   end;
-  /// <summary>
-  ///   Usar tipo Boolean nativo na propriedade da classe modelo.
-  /// </summary>
+  // Usar tipo Boolean nativo na propriedade da classe modelo.
   if Result.IsEmpty then
   begin
     case AFieldType of
       ftBoolean:
         Result := TValue.From<Variant>(Self.GetValue(AInstance).AsVariant);
     else
-      raise Exception.Create(cENUMERATIONSTYPEERROR);
+      raise Exception.Create(cENUMSTYPEERROR);
     end
   end;
 end;
@@ -687,55 +686,6 @@ begin
     Exit(True);
 end;
 
-procedure TRttiPropertyHelper.SetNullableValue(AInstance: Pointer;
-  ATypeInfo: PTypeInfo; AValue: Variant);
-var
-  LUtils: IUtilSingleton;
-begin
-  LUtils := TUtilSingleton.GetInstance;
-  if ATypeInfo = TypeInfo(Nullable<Integer>) then
-    if TVarData(AValue).VType <= varNull then
-      Self.SetValue(AInstance, TValue.From(Nullable<Integer>.Create(AValue)))
-    else
-      Self.SetValue(AInstance, TValue.From(Nullable<Integer>.Create(Integer(AValue))))
-  else
-  if ATypeInfo = TypeInfo(Nullable<String>) then
-    Self.SetValue(AInstance, TValue.From(Nullable<String>.Create(AValue)))
-  else
-  if ATypeInfo = TypeInfo(Nullable<TDateTime>) then
-    if TVarData(AValue).VType <= varNull then
-      Self.SetValue(AInstance, TValue.From(Nullable<TDateTime>.Create(AValue)))
-    else
-      Self.SetValue(AInstance, TValue.From(Nullable<TDateTime>.Create(LUtils.Iso8601ToDateTime(AValue))))
-  else
-  if ATypeInfo = TypeInfo(Nullable<Currency>) then
-    if TVarData(AValue).VType <= varNull then
-      Self.SetValue(AInstance, TValue.From(Nullable<Currency>.Create(AValue)))
-    else
-      Self.SetValue(AInstance, TValue.From(Nullable<Currency>.Create(Currency(AValue))))
-  else
-  if ATypeInfo = TypeInfo(Nullable<Double>) then
-    if TVarData(AValue).VType <= varNull then
-      Self.SetValue(AInstance, TValue.From(Nullable<Double>.Create(AValue)))
-    else
-      Self.SetValue(AInstance, TValue.From(Nullable<Double>.Create(Currency(AValue))))
-  else
-  if ATypeInfo = TypeInfo(Nullable<Boolean>) then
-    Self.SetValue(AInstance, TValue.From(Nullable<Boolean>.Create(AValue)))
-  else
-  if ATypeInfo = TypeInfo(Nullable<TDate>) then
-    if TVarData(AValue).VType <= varNull then
-      Self.SetValue(AInstance, TValue.From(Nullable<TDate>.Create(AValue)))
-    else
-      Self.SetValue(AInstance, TValue.From(Nullable<TDate>.Create(TDate(AValue))))
-  else
-  if ATypeInfo = TypeInfo(Nullable<TTime>) then
-    if TVarData(AValue).VType <= varNull then
-      Self.SetValue(AInstance, TValue.From(Nullable<TTime>.Create(AValue)))
-    else
-      Self.SetValue(AInstance, TValue.From(Nullable<TTime>.Create(TTime(AValue))));
-end;
-
 { TRttiTypeHelper }
 
 function TRttiTypeHelper.GetAggregateField: TArray<TCustomAttribute>;
@@ -783,6 +733,28 @@ begin
     Result := True
   else
     Result := False;
+end;
+
+{ TObjectHelper }
+
+function TObjectHelper.MethodCall(const AMethodName: string;
+  const AParameters: array of TValue): TValue;
+var
+  LRttiType: TRttiType;
+  LMethod: TRttiMethod;
+  LContext: TRttiContext;
+begin
+  LContext := TRttiContext.Create;
+  try
+    LRttiType := LContext.GetType(Self.ClassType);
+    LMethod   := LRttiType.GetMethod(AMethodName);
+    if Assigned(LMethod) then
+       Result := LMethod.Invoke(Self, AParameters)
+  else
+     raise Exception.CreateFmt('Cannot find method "%s" in the object', [AMethodName]);
+  finally
+    LContext.Free;
+  end;
 end;
 
 end.
