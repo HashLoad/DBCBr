@@ -59,6 +59,13 @@ type
     function IsList: Boolean;
   end;
 
+  TRttiFieldHelper = class helper for TRttiField
+  public
+    function IsLazy: Boolean;
+    function GetTypeValue: TRttiType;
+    function GetLazyValue: TRttiType;
+  end;
+
   TRttiPropertyHelper = class helper for TRttiProperty
   private
     function ResolveNullableValue(AObject: TObject): Boolean;
@@ -755,6 +762,54 @@ begin
   finally
     LContext.Free;
   end;
+end;
+
+{ TRttiMemberHelper }
+
+function TRttiFieldHelper.GetLazyValue: TRttiType;
+var
+  LTypeName: string;
+  LContext: TRttiContext;
+begin
+  LContext := TRttiContext.Create;
+  try
+    LTypeName := Self.FieldType.Handle.Name;
+    LTypeName := StringReplace(LTypeName,'Lazy<','',[]);
+    LTypeName := StringReplace(LTypeName,'>','',[]);
+    ///
+    Result := LContext.FindType(LTypeName);
+  finally
+    LContext.Free;
+  end;
+end;
+
+function TRttiFieldHelper.GetTypeValue: TRttiType;
+var
+  LTypeName: string;
+  LContext: TRttiContext;
+begin
+  LContext := TRttiContext.Create;
+  try
+    LTypeName := Self.FieldType.Handle.Name;
+    LTypeName := StringReplace(LTypeName,'TObjectList<','',[]);
+    LTypeName := StringReplace(LTypeName,'TList<','',[]);
+    LTypeName := StringReplace(LTypeName,'>','',[]);
+    ///
+    Result := LContext.FindType(LTypeName);
+  finally
+    LContext.Free;
+  end;
+end;
+
+function TRttiFieldHelper.IsLazy: Boolean;
+const
+  LPrefixString = 'Lazy';
+var
+  LTypeInfo: PTypeInfo;
+begin
+  LTypeInfo := Self.FieldType.Handle;
+  Result := Assigned(LTypeInfo) and (Self.FieldType.TypeKind = tkRecord)
+                                and StartsText(LPrefixString, GetTypeName(LTypeInfo));
 end;
 
 end.

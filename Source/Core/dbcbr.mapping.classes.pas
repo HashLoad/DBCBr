@@ -113,6 +113,7 @@ type
     FIsPrimaryKey: Boolean;
     FIsNoValidate: Boolean;
     FIsNullable: Boolean;
+    FIsLazy: Boolean;
     FIsVirtualData: Boolean;
     FProperty: TRttiProperty;
     FDictionary: Dictionary;
@@ -134,6 +135,7 @@ type
     property IsNoValidate: Boolean read FIsNoValidate write FIsNoValidate;
     property IsHidden: Boolean read FIsHidden write FIsHidden;
     property IsNullable: Boolean read FIsNullable write FIsNullable;
+    property IsLazy: Boolean read FIsLazy write FIsLazy;
     property IsVirtualData: Boolean read FIsVirtualData write FIsVirtualData;
     property ColumnProperty: TRttiProperty read FProperty write FProperty;
     property ColumnDictionary: Dictionary read FDictionary write FDictionary;
@@ -349,6 +351,14 @@ type
   end;
   // FieldEventsMappingList
   TFieldEventsMappingList = class(TObjectList<TFieldEventsMapping>);
+
+  TLazyMapping = class
+  private
+    FFieldLazy: TRttiField;
+  public
+    constructor Create(const AFieldLazy: TRttiField);
+    property FieldLazy: TRttiField read FFieldLazy;
+  end;
 
 implementation
 
@@ -568,6 +578,13 @@ destructor TPrimaryKeyColumnsMapping.Destroy;
 begin
   FColumns.Free;
   inherited;
+end;
+
+{ TLazyMapping }
+
+constructor TLazyMapping.Create(const AFieldLazy: TRttiField);
+begin
+  FFieldLazy := AFieldLazy;
 end;
 
 end.
