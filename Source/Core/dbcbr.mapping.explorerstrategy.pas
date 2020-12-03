@@ -54,6 +54,7 @@ type
     function GetMappingFieldEvents(const AClass: TClass): TFieldEventsMappingList;
     function GetMappingEnumeration(const AClass: TClass): TEnumerationMappingList;
     function GetMappingPrimaryKeyColumns(const AClass: TClass): TPrimaryKeyColumnsMapping;
+    procedure GetMappingLazy(const AClass: TClass);
     property Repository: TMappingRepository read GetRepositoryMapping;
   end;
 
@@ -77,6 +78,7 @@ type
     function GetMappingFieldEvents(const AClass: TClass): TFieldEventsMappingList; virtual; abstract;
     function GetMappingEnumeration(const AClass: TClass): TEnumerationMappingList; virtual; abstract;
     function GetMappingPrimaryKeyColumns(const AClass: TClass): TPrimaryKeyColumnsMapping; virtual; abstract;
+    procedure GetMappingLazy(const AClass: TClass); virtual; abstract;
     property Repository: TMappingRepository read GetRepositoryMapping;
   end;
 

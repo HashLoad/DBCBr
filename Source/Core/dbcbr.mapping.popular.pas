@@ -68,6 +68,7 @@ type
     function PopularEnumeration(ARttiType: TRttiType): TEnumerationMappingList;
     function PopularPrimaryKeyColumns(ARttiType: TRttiType;
       AClass: TClass): TPrimaryKeyColumnsMapping;
+    function PopularLazy(ARttiType: TRttiType; var AFieldName: String): TLazyMapping;
   end;
 
 implementation
@@ -161,6 +162,7 @@ begin
       Result.Last.IsHidden := LProperty.IsHidden;
       Result.Last.IsPrimaryKey := LProperty.IsPrimaryKey(AClass);
       Result.Last.IsNullable := LProperty.IsNullable;
+      Result.Last.IsLazy := LProperty.IsLazy;
       Result.Last.IsVirtualData := LProperty.IsVirtualData;
       Result.Last.DefaultValue := '';
       Result.Last.ColumnDictionary := LProperty.GetDictionary;
@@ -306,6 +308,21 @@ begin
   end;
 end;
 
+function TMappingPopular.PopularLazy(ARttiType: TRttiType;
+  var AFieldName: String): TLazyMapping;
+var
+  LField: TRttiField;
+begin
+  Result := nil;
+  for LField in ARttiType.GetFields do
+  begin
+    if not LField.IsLazy then
+      Continue;
+    AFieldName := LField.FieldType.Handle.NameFld.ToString;
+    Result := TLazyMapping.Create(LField);
+  end;
+end;
+
 function TMappingPopular.PopularOrderBy(ARttiType: TRttiType): TOrderByMapping;
 var
   LAttrib: TCustomAttribute;
@@ -402,10 +419,8 @@ begin
       SetLength(LColumns, 0);
       if not (LAssociation is Association) then // Association
         Continue;
-
       if Length(Association(LAssociation).ColumnsNameRef) = 0 then
         Continue;
-
       if Result = nil then
          Result := TAssociationMappingList.Create;
 
