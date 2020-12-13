@@ -194,8 +194,7 @@ begin
   Result := nil;
   if AValue = Null then
     Exit;
-  LEnumerationList := TMappingExplorer
-                        .GetInstance.GetMappingEnumeration(AInstance.ClassType);
+  LEnumerationList := TMappingExplorer.GetMappingEnumeration(AInstance.ClassType);
   if LEnumerationList = nil then
     Exit;
   for LEnumeration in LEnumerationList do
@@ -216,8 +215,7 @@ var
   LIndex: Integer;
 begin
   Result := nil;
-  LEnumerationList := TMappingExplorer
-                        .GetInstance.GetMappingEnumeration(AInstance.ClassType);
+  LEnumerationList := TMappingExplorer.GetMappingEnumeration(AInstance.ClassType);
   if LEnumerationList = nil then
     Exit;
   for LEnumeration in LEnumerationList do
@@ -238,8 +236,7 @@ var
   LValue: TValue;
 begin
   Result := nil;
-  LEnumerationList := TMappingExplorer
-                        .GetInstance.GetMappingEnumeration(AInstance.ClassType);
+  LEnumerationList := TMappingExplorer.GetMappingEnumeration(AInstance.ClassType);
   if LEnumerationList <> nil then
   begin
     LValue := Self.GetValue(AInstance);
@@ -658,7 +655,7 @@ var
   LColumnName: string;
 begin
   Result := False;
-  LPrimaryKey := TMappingExplorer.GetInstance.GetMappingPrimaryKey(AClass);
+  LPrimaryKey := TMappingExplorer.GetMappingPrimaryKey(AClass);
   if LPrimaryKey = nil then
     Exit;
 

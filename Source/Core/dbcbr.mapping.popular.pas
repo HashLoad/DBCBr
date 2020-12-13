@@ -47,14 +47,14 @@ uses
 
 type
   TMappingPopular = class
-  private
-    FMappingExplorerStrategy: TMappingExplorerStrategy;
   public
-    constructor Create(AMappingExplorerStrategy: TMappingExplorerStrategy);
     function PopularTable(ARttiType: TRttiType): TTableMapping;
+    function PopularView(ARttiType: TRttiType): TViewMapping;
     function PopularOrderBy(ARttiType: TRttiType): TOrderByMapping;
     function PopularSequence(ARttiType: TRttiType): TSequenceMapping;
     function PopularPrimaryKey(ARttiType: TRttiType): TPrimaryKeyMapping;
+    function PopularNotServerUse(ARttiType: TRttiType): Boolean;
+    //
     function PopularForeignKey(ARttiType: TRttiType): TForeignKeyMappingList;
     function PopularIndexe(ARttiType: TRttiType): TIndexeMappingList;
     function PopularCheck(ARttiType: TRttiType): TCheckMappingList;
@@ -63,7 +63,6 @@ type
     function PopularAssociation(ARttiType: TRttiType): TAssociationMappingList;
     function PopularJoinColumn(ARttiType: TRttiType): TJoinColumnMappingList;
     function PopularTrigger(ARttiType: TRttiType): TTriggerMappingList;
-    function PopularView(ARttiType: TRttiType): TViewMapping;
     function PopularFieldEvents(ARttiType: TRttiType): TFieldEventsMappingList;
     function PopularEnumeration(ARttiType: TRttiType): TEnumerationMappingList;
     function PopularPrimaryKeyColumns(ARttiType: TRttiType;
@@ -77,11 +76,6 @@ uses
   dbcbr.mapping.explorer;
 
 { TMappingPopular }
-
-constructor TMappingPopular.Create(AMappingExplorerStrategy: TMappingExplorerStrategy);
-begin
-  FMappingExplorerStrategy := AMappingExplorerStrategy;
-end;
 
 function TMappingPopular.PopularCalcField(ARttiType: TRttiType): TCalcFieldMappingList;
 var
@@ -323,6 +317,21 @@ begin
   end;
 end;
 
+function TMappingPopular.PopularNotServerUse(ARttiType: TRttiType): Boolean;
+var
+  LAttrib: TCustomAttribute;
+begin
+  Result := False;
+  for LAttrib in ARttiType.GetAttributes do
+  begin
+    if not (LAttrib is NotServerUse) then // NotServerUse
+      Continue;
+
+    Result := True;
+    Break;
+  end;
+end;
+
 function TMappingPopular.PopularOrderBy(ARttiType: TRttiType): TOrderByMapping;
 var
   LAttrib: TCustomAttribute;
@@ -335,6 +344,7 @@ begin
 
     Result := TOrderByMapping.Create;
     Result.ColumnsName := OrderBy(LAttrib).ColumnsName;
+    Break;
   end;
 end;
 
@@ -348,8 +358,7 @@ begin
   begin
     if not (LAttrib is PrimaryKey) then // PrimaryKey
       Continue;
-    if Result <> nil then
-      raise Exception.Create('There must be only one PrimaryKey() attribute in your model class.');
+
     Result := TPrimaryKeyMapping.Create(PrimaryKey(LAttrib).Columns,
                                         PrimaryKey(LAttrib).SequenceType = AutoInc,
                                         PrimaryKey(LAttrib).SequenceType = TableInc,
@@ -357,6 +366,7 @@ begin
                                         PrimaryKey(LAttrib).SortingOrder,
                                         PrimaryKey(LAttrib).Unique,
                                         PrimaryKey(LAttrib).Description);
+    Break;
   end;
 end;
 
@@ -366,7 +376,7 @@ var
   LColumns: TColumnMappingList;
   LColumn: TColumnMapping;
 begin
-  LColumns := TMappingExplorer.GetInstance.GetMappingColumn(AClass);
+  LColumns := TMappingExplorer.GetMappingColumn(AClass);
   if LColumns = nil then
     Exit(nil);
 
@@ -399,6 +409,7 @@ begin
     Result.Name := Sequence(LAttrib).Name;
     Result.Initial := Sequence(LAttrib).Initial;
     Result.Increment := Sequence(LAttrib).Increment;
+    Break;
   end;
   if (Result <> nil) and (LTable <> nil) then
     Result.TableName := LTable.Name;
@@ -460,6 +471,7 @@ begin
     Result.Name := Table(LAttrib).Name;
     Result.Description := Table(LAttrib).Description;
     Result.Schema := '';
+    Break;
   end;
 end;
 
@@ -494,6 +506,7 @@ begin
     Result.Name := View(LAttrib).Name;
     Result.Description := View(LAttrib).Description;
     Result.Script := '';
+    Break;
   end;
 end;
 
