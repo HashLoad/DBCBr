@@ -81,6 +81,9 @@ type
     function  IsNoValidate: Boolean;
     function  IsVirtualData: Boolean;
     function  IsBlob: Boolean;
+    function  IsDate: Boolean;
+    function  IsDateTime: Boolean;
+    function  IsTime: Boolean;
     function  IsLazy: Boolean;
     function  IsNullable: Boolean;
     function  IsAssociation: Boolean;
@@ -459,6 +462,28 @@ begin
    Exit(False);
 end;
 
+function TRttiPropertyHelper.IsDate: Boolean;
+const
+  LPrefixString = 'TDate';
+var
+  LTypeInfo: PTypeInfo;
+begin
+  LTypeInfo := Self.PropertyType.Handle;
+  Result := Assigned(LTypeInfo) and (LTypeInfo.Kind = tkRecord)
+                                and ContainsText(GetTypeName(LTypeInfo), LPrefixString);
+end;
+
+function TRttiPropertyHelper.IsDateTime: Boolean;
+const
+  LPrefixString = 'TDateTime';
+var
+  LTypeInfo: PTypeInfo;
+begin
+  LTypeInfo := Self.PropertyType.Handle;
+  Result := Assigned(LTypeInfo) and (LTypeInfo.Kind = tkRecord)
+                                and ContainsText(GetTypeName(LTypeInfo), LPrefixString);
+end;
+
 function TRttiPropertyHelper.IsVirtualData: Boolean;
 var
   LAttribute: TCustomAttribute;
@@ -662,6 +687,17 @@ begin
   for LColumnName in LPrimaryKey.Columns do
     if SameText(LColumnName, Column(Self.GetColumn).ColumnName) then
       Exit(True);
+end;
+
+function TRttiPropertyHelper.IsTime: Boolean;
+const
+  LPrefixString = 'TTime';
+var
+  LTypeInfo: PTypeInfo;
+begin
+  LTypeInfo := Self.PropertyType.Handle;
+  Result := Assigned(LTypeInfo) and (LTypeInfo.Kind = tkRecord)
+                                and ContainsText(GetTypeName(LTypeInfo), LPrefixString);
 end;
 
 function TRttiPropertyHelper.IsNoValidate: Boolean;

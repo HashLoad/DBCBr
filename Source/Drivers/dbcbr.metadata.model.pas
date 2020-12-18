@@ -85,9 +85,9 @@ var
   LTable: TTableMIK;
   LTableMap: TTableMapping;
 begin
-  for LClass in TMappingExplorer.GetInstance.Repository.List.Entitys do
+  for LClass in TMappingExplorer.GetRepositoryMapping.List.Entitys do
   begin
-    LTableMap := TMappingExplorer.GetInstance.GetMappingTable(LClass);
+    LTableMap := TMappingExplorer.GetMappingTable(LClass);
     if LTableMap <> nil then
     begin
       LTable := TTableMIK.Create(FCatalogMetadata);
@@ -127,7 +127,7 @@ var
   LCheckMapList: TCheckMappingList;
   LCheckMap: TCheckMapping;
 begin
-  LCheckMapList := TMappingExplorer.GetInstance.GetMappingCheck(AClass);
+  LCheckMapList := TMappingExplorer.GetMappingCheck(AClass);
   if LCheckMapList <> nil then
   begin
     for LCheckMap in LCheckMapList do
@@ -147,7 +147,7 @@ var
   LColumnMap: TColumnMapping;
   LColumnMapList: TColumnMappingList;
 begin
-  LColumnMapList := TMappingExplorer.GetInstance.GetMappingColumn(AClass);
+  LColumnMapList := TMappingExplorer.GetMappingColumn(AClass);
   if LColumnMapList <> nil then
   begin
     for LColumnMap in LColumnMapList do
@@ -217,7 +217,7 @@ var
   end;
 
 begin
-  LForeignKeyMapList := TMappingExplorer.GetInstance.GetMappingForeignKey(AClass);
+  LForeignKeyMapList := TMappingExplorer.GetMappingForeignKey(AClass);
   if LForeignKeyMapList <> nil then
   begin
     for LForeignKeyMap in LForeignKeyMapList do
@@ -264,7 +264,7 @@ var
   end;
 
 begin
-  LPrimaryKeyMap := TMappingExplorer.GetInstance.GetMappingPrimaryKey(AClass);
+  LPrimaryKeyMap := TMappingExplorer.GetMappingPrimaryKey(AClass);
   if LPrimaryKeyMap <> nil then
   begin
     ATable.PrimaryKey.Name := Format('PK_%s', [ATable.Name]);
@@ -288,9 +288,9 @@ var
   LSequence: TSequenceMIK;
   LSequenceMap: TSequenceMapping;
 begin
-  for LClass in TMappingExplorer.GetInstance.Repository.List.Entitys do
+  for LClass in TMappingExplorer.GetRepositoryMapping.List.Entitys do
   begin
-    LSequenceMap := TMappingExplorer.GetInstance.GetMappingSequence(LClass);
+    LSequenceMap := TMappingExplorer.GetMappingSequence(LClass);
     if LSequenceMap <> nil then
     begin
       LSequence := TSequenceMIK.Create(FCatalogMetadata);
@@ -335,7 +335,7 @@ var
   end;
 
 begin
-  LIndexeKeyMapList := TMappingExplorer.GetInstance.GetMappingIndexe(AClass);
+  LIndexeKeyMapList := TMappingExplorer.GetMappingIndexe(AClass);
   if LIndexeKeyMapList <> nil then
   begin
     for LIndexeKeyMap in LIndexeKeyMapList do
