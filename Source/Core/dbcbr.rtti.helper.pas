@@ -81,6 +81,9 @@ type
     function  IsNoValidate: Boolean;
     function  IsVirtualData: Boolean;
     function  IsBlob: Boolean;
+    function  IsDate: Boolean;
+    function  IsDateTime: Boolean;
+    function  IsTime: Boolean;
     function  IsLazy: Boolean;
     function  IsNullable: Boolean;
     function  IsAssociation: Boolean;
@@ -194,8 +197,7 @@ begin
   Result := nil;
   if AValue = Null then
     Exit;
-  LEnumerationList := TMappingExplorer
-                        .GetInstance.GetMappingEnumeration(AInstance.ClassType);
+  LEnumerationList := TMappingExplorer.GetMappingEnumeration(AInstance.ClassType);
   if LEnumerationList = nil then
     Exit;
   for LEnumeration in LEnumerationList do
@@ -216,8 +218,7 @@ var
   LIndex: Integer;
 begin
   Result := nil;
-  LEnumerationList := TMappingExplorer
-                        .GetInstance.GetMappingEnumeration(AInstance.ClassType);
+  LEnumerationList := TMappingExplorer.GetMappingEnumeration(AInstance.ClassType);
   if LEnumerationList = nil then
     Exit;
   for LEnumeration in LEnumerationList do
@@ -238,8 +239,7 @@ var
   LValue: TValue;
 begin
   Result := nil;
-  LEnumerationList := TMappingExplorer
-                        .GetInstance.GetMappingEnumeration(AInstance.ClassType);
+  LEnumerationList := TMappingExplorer.GetMappingEnumeration(AInstance.ClassType);
   if LEnumerationList <> nil then
   begin
     LValue := Self.GetValue(AInstance);
@@ -462,6 +462,28 @@ begin
    Exit(False);
 end;
 
+function TRttiPropertyHelper.IsDate: Boolean;
+const
+  LPrefixString = 'TDate';
+var
+  LTypeInfo: PTypeInfo;
+begin
+  LTypeInfo := Self.PropertyType.Handle;
+  Result := Assigned(LTypeInfo) and (LTypeInfo.Kind = tkRecord)
+                                and ContainsText(GetTypeName(LTypeInfo), LPrefixString);
+end;
+
+function TRttiPropertyHelper.IsDateTime: Boolean;
+const
+  LPrefixString = 'TDateTime';
+var
+  LTypeInfo: PTypeInfo;
+begin
+  LTypeInfo := Self.PropertyType.Handle;
+  Result := Assigned(LTypeInfo) and (LTypeInfo.Kind = tkRecord)
+                                and ContainsText(GetTypeName(LTypeInfo), LPrefixString);
+end;
+
 function TRttiPropertyHelper.IsVirtualData: Boolean;
 var
   LAttribute: TCustomAttribute;
@@ -658,13 +680,24 @@ var
   LColumnName: string;
 begin
   Result := False;
-  LPrimaryKey := TMappingExplorer.GetInstance.GetMappingPrimaryKey(AClass);
+  LPrimaryKey := TMappingExplorer.GetMappingPrimaryKey(AClass);
   if LPrimaryKey = nil then
     Exit;
 
   for LColumnName in LPrimaryKey.Columns do
     if SameText(LColumnName, Column(Self.GetColumn).ColumnName) then
       Exit(True);
+end;
+
+function TRttiPropertyHelper.IsTime: Boolean;
+const
+  LPrefixString = 'TTime';
+var
+  LTypeInfo: PTypeInfo;
+begin
+  LTypeInfo := Self.PropertyType.Handle;
+  Result := Assigned(LTypeInfo) and (LTypeInfo.Kind = tkRecord)
+                                and ContainsText(GetTypeName(LTypeInfo), LPrefixString);
 end;
 
 function TRttiPropertyHelper.IsNoValidate: Boolean;

@@ -23,8 +23,6 @@
   @author(Skype : ispinheiro)
   @abstract(Website : http://www.ormbr.com.br)
   @abstract(Telagram : https://t.me/ormbr)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 unit dbcbr.mapping.explorer;
@@ -40,18 +38,15 @@ uses
   Generics.Collections,
   /// DBCBr
   dbcbr.rtti.helper,
-  dbcbr.mapping.explorerstrategy,
   dbcbr.mapping.classes,
   dbcbr.mapping.popular,
   dbcbr.mapping.repository,
   dbcbr.mapping.register;
 
 type
-  TMappingExplorer = class(TMappingExplorerStrategy)
+  TMappingExplorer = class
   private
   class var
-    FInstance: IMappingExplorerStrategy;
-  private
     FContext: TRttiContext;
     FRepositoryMapping: TMappingRepository;
     FPopularMapping: TMappingPopular;
@@ -71,52 +66,41 @@ type
     FEnumerationMapping: TDictionary<string, TEnumerationMappingList>;
     FFieldEventsMapping: TDictionary<string, TFieldEventsMappingList>;
     FPrimaryKeyColumnsMapping: TDictionary<string, TPrimaryKeyColumnsMapping>;
-    FLazyLoadMapping: TDictionary<string, TLazyMapping>;
-    constructor CreatePrivate;
-  protected
-    function GetRepositoryMapping: TMappingRepository; override;
-    constructor Create;
+//    FLazyLoadMapping: TDictionary<string, TLazyMapping>;
+    FNotServerUse: TDictionary<string, Boolean>;
+    class procedure ExecuteCreate;
+    class procedure ExecuteDestroy;
   public
     { Public declarations }
-    destructor Destroy; override;
-    class function GetInstance: IMappingExplorerStrategy;
-    function GetMappingTable(const AClass: TClass): TTableMapping; override;
-    function GetMappingOrderBy(const AClass: TClass): TOrderByMapping; override;
-    function GetMappingSequence(const AClass: TClass): TSequenceMapping; override;
-    function GetMappingPrimaryKey(const AClass: TClass): TPrimaryKeyMapping; override;
-    function GetMappingForeignKey(const AClass: TClass): TForeignKeyMappingList; override;
-    function GetMappingColumn(const AClass: TClass): TColumnMappingList; override;
-    function GetMappingCalcField(const AClass: TClass): TCalcFieldMappingList; override;
-    function GetMappingAssociation(const AClass: TClass): TAssociationMappingList; override;
-    function GetMappingJoinColumn(const AClass: TClass): TJoinColumnMappingList; override;
-    function GetMappingIndexe(const AClass: TClass): TIndexeMappingList; override;
-    function GetMappingCheck(const AClass: TClass): TCheckMappingList; override;
-    function GetMappingTrigger(const AClass: TClass): TTriggerMappingList; override;
-    function GetMappingView(const AClass: TClass): TViewMapping; override;
-    function GetMappingFieldEvents(const AClass: TClass): TFieldEventsMappingList; override;
-    function GetMappingEnumeration(const AClass: TClass): TEnumerationMappingList; override;
-    function GetMappingPrimaryKeyColumns(const AClass: TClass): TPrimaryKeyColumnsMapping; override;
-    procedure GetMappingLazy(const AClass: TClass); override;
-    //
-    property Repository: TMappingRepository read GetRepositoryMapping;
+    class function GetMappingTable(const AClass: TClass): TTableMapping; inline;
+    class function GetMappingOrderBy(const AClass: TClass): TOrderByMapping; inline;
+    class function GetMappingSequence(const AClass: TClass): TSequenceMapping; inline;
+    class function GetMappingPrimaryKey(const AClass: TClass): TPrimaryKeyMapping; inline;
+    class function GetMappingForeignKey(const AClass: TClass): TForeignKeyMappingList; inline;
+    class function GetMappingColumn(const AClass: TClass): TColumnMappingList; inline;
+    class function GetMappingCalcField(const AClass: TClass): TCalcFieldMappingList; inline;
+    class function GetMappingAssociation(const AClass: TClass): TAssociationMappingList; inline;
+    class function GetMappingJoinColumn(const AClass: TClass): TJoinColumnMappingList; inline;
+    class function GetMappingIndexe(const AClass: TClass): TIndexeMappingList; inline;
+    class function GetMappingCheck(const AClass: TClass): TCheckMappingList; inline;
+    class function GetMappingTrigger(const AClass: TClass): TTriggerMappingList; inline;
+    class function GetMappingView(const AClass: TClass): TViewMapping; inline;
+    class function GetMappingFieldEvents(const AClass: TClass): TFieldEventsMappingList; inline;
+    class function GetMappingEnumeration(const AClass: TClass): TEnumerationMappingList; inline;
+    class function GetMappingPrimaryKeyColumns(const AClass: TClass): TPrimaryKeyColumnsMapping; inline;
+    class function GetNotServerUse(const AClass: TClass): Boolean; inline;
+    class function GetRepositoryMapping: TMappingRepository; inline;
+//    class procedure GetMappingLazy(const AClass: TClass);
   end;
 
 implementation
 
 { TMappingExplorer }
 
-constructor TMappingExplorer.Create;
+class procedure TMappingExplorer.ExecuteCreate;
 begin
-   raise Exception
-           .Create('Para usar o IMappingExplorer use o método TMappingExplorer.GetInstance()');
-end;
-
-constructor TMappingExplorer.CreatePrivate;
-begin
-  inherited;
   FContext := TRttiContext.Create;
-  FRepositoryMapping  := TMappingRepository.Create(TRegisterClass.GetAllEntityClass, TRegisterClass.GetAllViewClass);
-  FPopularMapping     := TMappingPopular.Create(Self);
+  FPopularMapping     := TMappingPopular.Create;
   FTableMapping       := TObjectDictionary<string, TTableMapping>.Create([doOwnsValues]);
   FOrderByMapping     := TObjectDictionary<string, TOrderByMapping>.Create([doOwnsValues]);
   FSequenceMapping    := TObjectDictionary<string, TSequenceMapping>.Create([doOwnsValues]);
@@ -132,11 +116,12 @@ begin
   FViewMapping        := TObjectDictionary<string, TViewMapping>.Create([doOwnsValues]);
   FFieldEventsMapping := TObjectDictionary<string, TFieldEventsMappingList>.Create([doOwnsValues]);
   FEnumerationMapping := TObjectDictionary<string, TEnumerationMappingList>.Create([doOwnsValues]);
-  FLazyLoadMapping    := TObjectDictionary<string, TLazyMapping>.Create([doOwnsValues]);
+//  FLazyLoadMapping    := TObjectDictionary<string, TLazyMapping>.Create([doOwnsValues]);
   FPrimaryKeyColumnsMapping := TObjectDictionary<string, TPrimaryKeyColumnsMapping>.Create([doOwnsValues]);
+  FNotServerUse       := TDictionary<string, Boolean>.Create;
 end;
 
-destructor TMappingExplorer.Destroy;
+class procedure TMappingExplorer.ExecuteDestroy;
 begin
   FContext.Free;
   FPopularMapping.Free;
@@ -155,21 +140,14 @@ begin
   FViewMapping.Free;
   FFieldEventsMapping.Free;
   FEnumerationMapping.Free;
-  FLazyLoadMapping.Free;
+//  FLazyLoadMapping.Free;
   FPrimaryKeyColumnsMapping.Free;
+  FNotServerUse.Free;
   if Assigned(FRepositoryMapping) then
      FRepositoryMapping.Free;
-  inherited;
 end;
 
-class function TMappingExplorer.GetInstance: IMappingExplorerStrategy;
-begin
-   if not Assigned(FInstance) then
-      FInstance := TMappingExplorer.CreatePrivate;
-   Result := FInstance;
-end;
-
-function TMappingExplorer.GetMappingPrimaryKey(
+class function TMappingExplorer.GetMappingPrimaryKey(
   const AClass: TClass): TPrimaryKeyMapping;
 var
   LRttiType: TRttiType;
@@ -179,12 +157,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularPrimaryKey(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FPrimaryKeyMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FPrimaryKeyMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingPrimaryKeyColumns(
+class function TMappingExplorer.GetMappingPrimaryKeyColumns(
   const AClass: TClass): TPrimaryKeyColumnsMapping;
 var
   LRttiType: TRttiType;
@@ -194,12 +171,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularPrimaryKeyColumns(LRttiType, AClass);
-   /// Add List
-  if Result <> nil then
-    FPrimaryKeyColumnsMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FPrimaryKeyColumnsMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingSequence(
+class function TMappingExplorer.GetMappingSequence(
   const AClass: TClass): TSequenceMapping;
 var
   LRttiType: TRttiType;
@@ -209,12 +185,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularSequence(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FSequenceMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FSequenceMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingCalcField(
+class function TMappingExplorer.GetMappingCalcField(
   const AClass: TClass): TCalcFieldMappingList;
 var
   LRttiType: TRttiType;
@@ -224,12 +199,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularCalcField(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FCalcFieldMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FCalcFieldMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingCheck(
+class function TMappingExplorer.GetMappingCheck(
   const AClass: TClass): TCheckMappingList;
 var
   LRttiType: TRttiType;
@@ -239,12 +213,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularCheck(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FCheckMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FCheckMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingColumn(const AClass: TClass): TColumnMappingList;
+class function TMappingExplorer.GetMappingColumn(const AClass: TClass): TColumnMappingList;
 var
   LRttiType: TRttiType;
 begin
@@ -253,12 +226,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularColumn(LRttiType, AClass);
-   /// Add List
-  if Result <> nil then
-    FColumnMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FColumnMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingEnumeration(
+class function TMappingExplorer.GetMappingEnumeration(
   const AClass: TClass): TEnumerationMappingList;
 var
   LRttiType: TRttiType;
@@ -268,12 +240,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result := FPopularMapping.PopularEnumeration(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FEnumerationMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FEnumerationMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingFieldEvents(
+class function TMappingExplorer.GetMappingFieldEvents(
   const AClass: TClass): TFieldEventsMappingList;
 var
   LRttiType: TRttiType;
@@ -283,12 +254,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularFieldEvents(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FFieldEventsMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FFieldEventsMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingForeignKey(
+class function TMappingExplorer.GetMappingForeignKey(
   const AClass: TClass): TForeignKeyMappingList;
 var
   LRttiType: TRttiType;
@@ -298,12 +268,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularForeignKey(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FForeingnKeyMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FForeingnKeyMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingIndexe(
+class function TMappingExplorer.GetMappingIndexe(
   const AClass: TClass): TIndexeMappingList;
 var
   LRttiType: TRttiType;
@@ -313,12 +282,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularIndexe(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FIndexeMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FIndexeMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingJoinColumn(
+class function TMappingExplorer.GetMappingJoinColumn(
   const AClass: TClass): TJoinColumnMappingList;
 var
   LRttiType: TRttiType;
@@ -328,33 +296,32 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularJoinColumn(LRttiType);
-  /// Add List
-  if Result <> nil then
-    FJoinColumnMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FJoinColumnMapping.Add(AClass.ClassName, Result);
 end;
 
-procedure TMappingExplorer.GetMappingLazy(const AClass: TClass);
-var
-  LRttiType: TRttiType;
-  LFieldName: String;
-  LField: TRttiField;
-begin
-  LRttiType := FContext.GetType(AClass);
-  for LField in LRttiType.GetFields do
-  begin
-    if LField.IsLazy then
-      GetMappingLazy(LField.GetLazyValue.AsInstance.MetaclassType)
-    else
-    if LField.FieldType.TypeKind = tkClass then
-      GetMappingLazy(LField.GetTypeValue.AsInstance.MetaclassType)
-    else
-      Continue;
-    LFieldName := 'T' + LField.FieldType.Handle.NameFld.ToString;
-    FLazyLoadMapping.Add(LFieldName, TLazyMapping.Create(LField));
-  end;
-end;
+//class procedure TMappingExplorer.GetMappingLazy(const AClass: TClass);
+//var
+//  LRttiType: TRttiType;
+//  LFieldName: String;
+//  LField: TRttiField;
+//begin
+//  LRttiType := FContext.GetType(AClass);
+//  for LField in LRttiType.GetFields do
+//  begin
+//    if LField.IsLazy then
+//      GetMappingLazy(LField.GetLazyValue.AsInstance.MetaclassType)
+//    else
+//    if LField.FieldType.TypeKind = tkClass then
+//      GetMappingLazy(LField.GetTypeValue.AsInstance.MetaclassType)
+//    else
+//      Continue;
+//    LFieldName := 'T' + LField.FieldType.Handle.NameFld.ToString;
+//    FLazyLoadMapping.Add(LFieldName, TLazyMapping.Create(LField));
+//  end;
+//end;
 
-function TMappingExplorer.GetMappingOrderBy(
+class function TMappingExplorer.GetMappingOrderBy(
   const AClass: TClass): TOrderByMapping;
 var
   LRttiType: TRttiType;
@@ -364,12 +331,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularOrderBy(LRttiType);
-   /// Add List
-  if Result <> nil then
-    FOrderByMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FOrderByMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingAssociation(
+class function TMappingExplorer.GetMappingAssociation(
   const AClass: TClass): TAssociationMappingList;
 var
   LRttiType: TRttiType;
@@ -379,12 +345,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularAssociation(LRttiType);
-  /// Add List
-  if Result <> nil then
-    FAssociationMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FAssociationMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingTable(
+class function TMappingExplorer.GetMappingTable(
   const AClass: TClass): TTableMapping;
 var
   LRttiType: TRttiType;
@@ -394,12 +359,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularTable(LRttiType);
-  /// Add List
-  if Result <> nil then
-    FTableMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FTableMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingTrigger(
+class function TMappingExplorer.GetMappingTrigger(
   const AClass: TClass): TTriggerMappingList;
 var
   LRttiType: TRttiType;
@@ -409,12 +373,11 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularTrigger(LRttiType);
-  /// Add List
-  if Result <> nil then
-    FTriggerMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FTriggerMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetMappingView(
+class function TMappingExplorer.GetMappingView(
   const AClass: TClass): TViewMapping;
 var
   LRttiType: TRttiType;
@@ -424,15 +387,36 @@ begin
 
   LRttiType := FContext.GetType(AClass);
   Result    := FPopularMapping.PopularView(LRttiType);
-  /// Add List
-  if Result <> nil then
-    FViewMapping.Add(AClass.ClassName, Result);
+  // Add List
+  FViewMapping.Add(AClass.ClassName, Result);
 end;
 
-function TMappingExplorer.GetRepositoryMapping: TMappingRepository;
+class function TMappingExplorer.GetNotServerUse(const AClass: TClass): Boolean;
+var
+  LRttiType: TRttiType;
 begin
+  if FNotServerUse.ContainsKey(AClass.ClassName) then
+     Exit(FNotServerUse[AClass.ClassName]);
+
+  LRttiType := FContext.GetType(AClass);
+  Result    := FPopularMapping.PopularNotServerUse(LRttiType);
+  // Add List
+  FNotServerUse.Add(AClass.ClassName, Result);
+end;
+
+class function TMappingExplorer.GetRepositoryMapping: TMappingRepository;
+begin
+  if not Assigned(FRepositoryMapping) then
+    FRepositoryMapping := TMappingRepository.Create(TRegisterClass.GetAllEntityClass,
+                                                    TRegisterClass.GetAllViewClass);
   Result := FRepositoryMapping;
 end;
+
+initialization
+  TMappingExplorer.ExecuteCreate;
+
+finalization
+  TMappingExplorer.ExecuteDestroy;
 
 end.
 
