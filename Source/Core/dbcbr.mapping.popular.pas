@@ -39,7 +39,6 @@ uses
   SysUtils,
   StrUtils,
   Generics.Collections,
-  dbcbr.mapping.explorerstrategy,
   dbcbr.mapping.attributes,
   dbcbr.mapping.classes,
   dbcbr.rtti.helper,
