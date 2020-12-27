@@ -116,9 +116,9 @@ begin
   FViewMapping        := TObjectDictionary<string, TViewMapping>.Create([doOwnsValues]);
   FFieldEventsMapping := TObjectDictionary<string, TFieldEventsMappingList>.Create([doOwnsValues]);
   FEnumerationMapping := TObjectDictionary<string, TEnumerationMappingList>.Create([doOwnsValues]);
-//  FLazyLoadMapping    := TObjectDictionary<string, TLazyMapping>.Create([doOwnsValues]);
-  FPrimaryKeyColumnsMapping := TObjectDictionary<string, TPrimaryKeyColumnsMapping>.Create([doOwnsValues]);
   FNotServerUse       := TDictionary<string, Boolean>.Create;
+  FPrimaryKeyColumnsMapping := TObjectDictionary<string, TPrimaryKeyColumnsMapping>.Create([doOwnsValues]);
+//  FLazyLoadMapping    := TObjectDictionary<string, TLazyMapping>.Create([doOwnsValues]);
 end;
 
 class procedure TMappingExplorer.ExecuteDestroy;
