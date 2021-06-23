@@ -626,7 +626,8 @@ procedure TDatabaseFactory.ComparePrimaryKey(AMasterTable, ATargetTable: TTableM
 var
   LColumnMaster: TPair<string, TColumnMIK>;
   LColumn: TColumnMIK;
-  LGeneratedDropPK: Boolean;
+  LDropPK: Boolean;
+  LRecreatePK: Boolean;
 
   function ExistTargetColumn(AColumnName: string): TColumnMIK;
   var
@@ -639,25 +640,28 @@ var
   end;
 
 begin
-  LGeneratedDropPK := False;
+  LDropPK := False;
   if not SameText(AMasterTable.PrimaryKey.Name, ATargetTable.PrimaryKey.Name) and
     (Trim(ATargetTable.PrimaryKey.Name) <> EmptyStr) then
   begin
-    ActionDropPrimaryKey(ATargetTable.PrimaryKey);
-  	LGeneratedDropPK := True;
+  	LDropPK := True;
   end;
 
   // Se alguma coluna não existir na PrimaryKey do banco recria a PrimaryKey.
+  LRecreatePK := False;
   for LColumnMaster in AMasterTable.PrimaryKey.FieldsSort do
   begin
     LColumn := ExistTargetColumn(LColumnMaster.Value.Name);
     if LColumn = nil then
     begin
-	    if not LGeneratedDropPK then
-        ActionDropPrimaryKey(ATargetTable.PrimaryKey);
-      ActionCreatePrimaryKey(AMasterTable.PrimaryKey);
+      LRecreatePK := True;
+      Break;
     end;
   end;
+  if LDropPK then
+    ActionDropPrimaryKey(ATargetTable.PrimaryKey);
+  if LRecreatePK then
+    ActionCreatePrimaryKey(AMasterTable.PrimaryKey);
 end;
 
 procedure TDatabaseFactory.CompareSequences(AMasterDB, ATargetDB: TCatalogMetadataMIK);
