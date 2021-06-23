@@ -639,11 +639,12 @@ var
   end;
 
 begin
-  LGeneratedDropPK := False; 
-  if not SameText(AMasterTable.PrimaryKey.Name, ATargetTable.PrimaryKey.Name) and (Trim(ATargetTable.PrimaryKey.Name <> EmptyStr) then
+  LGeneratedDropPK := False;
+  if not SameText(AMasterTable.PrimaryKey.Name, ATargetTable.PrimaryKey.Name) and
+    (Trim(ATargetTable.PrimaryKey.Name) <> EmptyStr) then
   begin
     ActionDropPrimaryKey(ATargetTable.PrimaryKey);
-	LGeneratedDropPK := True;
+  	LGeneratedDropPK := True;
   end;
 
   // Se alguma coluna não existir na PrimaryKey do banco recria a PrimaryKey.
@@ -652,7 +653,7 @@ begin
     LColumn := ExistTargetColumn(LColumnMaster.Value.Name);
     if LColumn = nil then
     begin
-	  if not LGeneratedDropPK then
+	    if not LGeneratedDropPK then
         ActionDropPrimaryKey(ATargetTable.PrimaryKey);
       ActionCreatePrimaryKey(AMasterTable.PrimaryKey);
     end;
