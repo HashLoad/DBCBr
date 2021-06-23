@@ -638,7 +638,7 @@ var
   end;
 
 begin
-  if not SameText(AMasterTable.PrimaryKey.Name, ATargetTable.PrimaryKey.Name) then
+  if not SameText(AMasterTable.PrimaryKey.Name, ATargetTable.PrimaryKey.Name) and (Trim(ATargetTable.PrimaryKey.Name <> EmptyStr) then
     ActionDropPrimaryKey(ATargetTable.PrimaryKey);
 
   // Se alguma coluna não existir na PrimaryKey do banco recria a PrimaryKey.
