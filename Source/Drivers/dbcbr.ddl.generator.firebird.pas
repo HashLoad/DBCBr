@@ -41,6 +41,7 @@ uses
 type
   TDDLSQLGeneratorFirebird = class(TDDLSQLGenerator)
   protected
+    function BuilderAlterFieldDefinition(AColumn: TColumnMIK): string; override;
   public
     function GenerateCreateTable(ATable: TTableMIK): string; override;
     function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
@@ -174,11 +175,18 @@ begin
   Result := Format(Result, [ASequence.Name]);
 end;
 
+function TDDLSQLGeneratorFirebird.BuilderAlterFieldDefinition(AColumn: TColumnMIK): string;
+begin
+  Result := AColumn.Name + ' TYPE ' +
+            GetFieldTypeDefinition(AColumn)    +
+            GetFieldNotNullDefinition(AColumn) +
+            GetAlterFieldDefaultDefinition(AColumn);
+end;
+
 function TDDLSQLGeneratorFirebird.GenerateAlterColumn(AColumn: TColumnMIK): string;
 begin
-  Result := 'ALTER TABLE %s ALTER COLUMN %s TYPE %s;';
+  Result := 'ALTER TABLE %s ALTER COLUMN %s;';
   Result := Format(Result, [AColumn.Table.Name,
-                            AColumn.Name,
                             BuilderAlterFieldDefinition(AColumn)]);
 end;
 
