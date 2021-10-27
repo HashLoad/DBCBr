@@ -179,8 +179,7 @@ function TDDLSQLGeneratorFirebird.BuilderAlterFieldDefinition(AColumn: TColumnMI
 begin
   Result := AColumn.Name + ' TYPE ' +
             GetFieldTypeDefinition(AColumn)    +
-            GetFieldNotNullDefinition(AColumn) +
-            GetAlterFieldDefaultDefinition(AColumn);
+            GetFieldNotNullDefinition(AColumn);
 end;
 
 function TDDLSQLGeneratorFirebird.GenerateAlterColumn(AColumn: TColumnMIK): string;
