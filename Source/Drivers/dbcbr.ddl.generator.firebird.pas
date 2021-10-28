@@ -52,6 +52,7 @@ type
     function GenerateEnableForeignKeys(AEnable: Boolean): string; override;
     function GenerateEnableTriggers(AEnable: Boolean): string; override;
     function GenerateAlterColumn(AColumn: TColumnMIK): string; override;
+    function GenerateAlterColumnPosition(AColumn: TColumnMIK): string; override;
     function GenerateAlterDefaultValue(AColumn: TColumnMIK): string; override;
     function GenerateDropDefaultValue(AColumn: TColumnMIK): string; override;
     function GenerateCreateView(AView: TViewMIK): string; override;
@@ -187,6 +188,14 @@ begin
   Result := 'ALTER TABLE %s ALTER COLUMN %s;';
   Result := Format(Result, [AColumn.Table.Name,
                             BuilderAlterFieldDefinition(AColumn)]);
+end;
+
+function TDDLSQLGeneratorFirebird.GenerateAlterColumnPosition(AColumn: TColumnMIK): string;
+begin
+  Result := 'ALTER TABLE %s ALTER COLUMN %s POSITION %D;';
+  Result := Format(Result, [AColumn.Table.Name,
+                            AColumn.Name,
+                            AColumn.Position + 1]);
 end;
 
 function TDDLSQLGeneratorFirebird.GenerateEnableForeignKeys(AEnable: Boolean): string;

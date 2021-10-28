@@ -70,6 +70,7 @@ type
     procedure ActionDropCheck(ACheck: TCheckMIK);
     procedure ActionDropView(AView: TViewMIK);
     procedure ActionAlterColumn(AColumn: TColumnMIK);
+    procedure ActionAlterColumnPosition(AColumn: TColumnMIK);
     procedure ActionDropDefaultValue(AColumn: TColumnMIK);
     procedure ActionAlterDefaultValue(AColumn: TColumnMIK);
     procedure ActionAlterCheck(ACheck: TCheckMIK);
@@ -79,6 +80,7 @@ type
     procedure ActionEnableForeignKeys(AEnable: Boolean);
     procedure ActionEnableTriggers(AEnable: Boolean);
     function DeepEqualsColumn(AMasterColumn, ATargetColumn: TColumnMIK): Boolean;
+    function KeepEqualsPosition(AMasterColumn, ATargetColumn: TColumnMIK): Boolean;
     function DeepEqualsDefaultValue(AMasterColumn, ATargetColumn: TColumnMIK): Boolean;
     function DeepEqualsForeignKey(AMasterForeignKey, ATargetForeignKey: TForeignKeyMIK): Boolean;
     function DeepEqualsForeignKeyFromColumns(AMasterForeignKey, ATargetForeignKey: TForeignKeyMIK): Boolean;
@@ -131,9 +133,6 @@ begin
     Exit(False);
   if GetFieldTypeValid(AMasterColumn.FieldType) <> GetFieldTypeValid(ATargetColumn.FieldType) then
     Exit(False);
-  if ComparerFieldPosition then
-    if (AMasterColumn.Position <> ATargetColumn.Position) then
-      Exit(False);
 //  if AMasterColumn.Description <> ATargetColumn.Description then
 //    Exit(False);
 end;
@@ -206,6 +205,14 @@ begin
     Result := ftMemo
   else
     Result := AFieldType;
+end;
+
+function TDatabaseFactory.KeepEqualsPosition(AMasterColumn,
+  ATargetColumn: TColumnMIK): Boolean;
+begin
+  Result := True;
+  if (AMasterColumn.Position <> ATargetColumn.Position) then
+    Exit(False);
 end;
 
 procedure TDatabaseFactory.CompareTables(AMasterDB, ATargetDB: TCatalogMetadataMIK);
@@ -333,6 +340,7 @@ var
   LColumnMaster: TPair<string, TColumnMIK>;
   LColumnTarget: TPair<string, TColumnMIK>;
   LColumn: TColumnMIK;
+  LReorderColumns: Boolean;
 
   function ExistMasterColumn(AColumnName: string): TColumnMIK;
   var
@@ -364,6 +372,7 @@ begin
   end;
   // Adiciona coluna do modelo que não exista no banco
   // Compara coluna que exista no modelo e no banco
+  LReorderColumns := False;
   for LColumnMaster in AMasterTable.FieldsSort do
   begin
     LColumn := ExistTargetColumn(LColumnMaster.Value.Name);
@@ -373,6 +382,9 @@ begin
     begin
       if not DeepEqualsColumn(LColumnMaster.Value, LColumn) then
         ActionAlterColumn(LColumnMaster.Value);
+
+      if not KeepEqualsPosition(LColumnMaster.Value, LColumn) then
+        LReorderColumns := True;
 
       // Compara DefaultValue
       if not DeepEqualsDefaultValue(LColumnMaster.Value, LColumn) then
@@ -384,6 +396,11 @@ begin
       end;
     end;
   end;
+  if ComparerFieldPosition and LReorderColumns then
+    for LColumnMaster in AMasterTable.FieldsSort do
+    begin
+      ActionAlterColumnPosition(LColumnMaster.Value);
+    end;
 end;
 
 procedure TDatabaseFactory.CompareTablesForeignKeys(AMasterDB, ATargetDB: TCatalogMetadataMIK);
@@ -690,6 +707,11 @@ end;
 procedure TDatabaseFactory.ActionAlterColumn(AColumn: TColumnMIK);
 begin
   FDDLCommands.Add(TDDLCommandAlterColumn.Create(AColumn));
+end;
+
+procedure TDatabaseFactory.ActionAlterColumnPosition(AColumn: TColumnMIK);
+begin
+  FDDLCommands.Add(TDDLCommandAlterColumnPosition.Create(AColumn));
 end;
 
 procedure TDatabaseFactory.ActionAlterDefaultValue(AColumn: TColumnMIK);
