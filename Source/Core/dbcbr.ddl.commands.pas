@@ -78,6 +78,14 @@ type
     function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
   end;
 
+  TDDLCommandAlterColumnPosition = class(TDDLCommand)
+  strict private
+    FColumn: TColumnMIK;
+  public
+    constructor Create(AColumn: TColumnMIK);
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+  end;
+
   TDDLCommandAlterDefaultValue = class(TDDLCommand)
   strict private
     FColumn: TColumnMIK;
@@ -574,6 +582,21 @@ constructor TDDLCommandAlterCheck.Create(ACheck: TCheckMIK);
 begin
   FCheck := ACheck;
   FWarning := Format('Create Check: %s', [ACheck.Name]);
+end;
+
+{ TDDLCommandAlterColumnPosition }
+
+function TDDLCommandAlterColumnPosition.BuildCommand(
+  ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+begin
+  FCommand := ASQLGeneratorCommand.GenerateAlterColumnPosition(FColumn);
+  Result := FCommand;
+end;
+
+constructor TDDLCommandAlterColumnPosition.Create(AColumn: TColumnMIK);
+begin
+  FColumn := AColumn;
+  FWarning := Format('Alter Column Position: %s', [AColumn.Name]);
 end;
 
 end.

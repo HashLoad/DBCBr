@@ -41,6 +41,7 @@ uses
 type
   TDDLSQLGeneratorFirebird = class(TDDLSQLGenerator)
   protected
+    function BuilderAlterFieldDefinition(AColumn: TColumnMIK): string; override;
   public
     function GenerateCreateTable(ATable: TTableMIK): string; override;
     function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
@@ -51,6 +52,7 @@ type
     function GenerateEnableForeignKeys(AEnable: Boolean): string; override;
     function GenerateEnableTriggers(AEnable: Boolean): string; override;
     function GenerateAlterColumn(AColumn: TColumnMIK): string; override;
+    function GenerateAlterColumnPosition(AColumn: TColumnMIK): string; override;
     function GenerateAlterDefaultValue(AColumn: TColumnMIK): string; override;
     function GenerateDropDefaultValue(AColumn: TColumnMIK): string; override;
     function GenerateCreateView(AView: TViewMIK): string; override;
@@ -174,12 +176,26 @@ begin
   Result := Format(Result, [ASequence.Name]);
 end;
 
+function TDDLSQLGeneratorFirebird.BuilderAlterFieldDefinition(AColumn: TColumnMIK): string;
+begin
+  Result := AColumn.Name + ' TYPE ' +
+            GetFieldTypeDefinition(AColumn)    +
+            GetFieldNotNullDefinition(AColumn);
+end;
+
 function TDDLSQLGeneratorFirebird.GenerateAlterColumn(AColumn: TColumnMIK): string;
 begin
-  Result := 'ALTER TABLE %s ALTER COLUMN %s TYPE %s;';
+  Result := 'ALTER TABLE %s ALTER COLUMN %s;';
+  Result := Format(Result, [AColumn.Table.Name,
+                            BuilderAlterFieldDefinition(AColumn)]);
+end;
+
+function TDDLSQLGeneratorFirebird.GenerateAlterColumnPosition(AColumn: TColumnMIK): string;
+begin
+  Result := 'ALTER TABLE %s ALTER COLUMN %s POSITION %D;';
   Result := Format(Result, [AColumn.Table.Name,
                             AColumn.Name,
-                            BuilderAlterFieldDefinition(AColumn)]);
+                            AColumn.Position + 1]);
 end;
 
 function TDDLSQLGeneratorFirebird.GenerateEnableForeignKeys(AEnable: Boolean): string;

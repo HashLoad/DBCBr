@@ -51,6 +51,7 @@ type
     function GenerateCreateTrigger(ATrigger: TTriggerMIK): string;
     function GenerateCreateColumn(AColumn: TColumnMIK): string;
     function GenerateAlterColumn(AColumn: TColumnMIK): string;
+    function GenerateAlterColumnPosition(AColumn: TColumnMIK): string;
     function GenerateAlterDefaultValue(AColumn: TColumnMIK): string;
     function GenerateAlterCheck(ACheck: TCheckMIK): string;
     function GenerateDropTable(ATable: TTableMIK): string;
