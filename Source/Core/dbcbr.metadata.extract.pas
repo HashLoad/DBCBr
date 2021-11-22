@@ -316,7 +316,16 @@ begin
     end;
     ftGuid:
     begin
-      if      FDriverName = dnFirebird  then AColumn.TypeName := 'CHAR(36)'
+      if FDriverName = dnFirebird  then
+      begin
+        /// <summary>
+        /// A GUID field will be created using the following specification:
+        /// CHAR(16) CHARACTER SET OCTETS;
+        /// </summary>
+        AColumn.TypeName := 'CHAR(16) CHARACTER SET OCTETS';
+        if not FConnection.DBOptions.StoreGUIDAsOctet then
+          AColumn.TypeName := 'CHAR(36)';
+      end
       else if FDriverName = dnInterbase then AColumn.TypeName := 'CHAR(36)'
       else if FDriverName = dnMySQL     then AColumn.TypeName := 'CHAR(36)'
       else if FDriverName = dnOracle    then AColumn.TypeName := 'NCHAR2(36)'
