@@ -133,6 +133,8 @@ begin
     Exit(False);
   if GetFieldTypeValid(AMasterColumn.FieldType) <> GetFieldTypeValid(ATargetColumn.FieldType) then
     Exit(False);
+  if (AMasterColumn.CharSet <> EmptyStr) and (AMasterColumn.CharSet <> ATargetColumn.CharSet) then
+    Exit(False);
 //  if AMasterColumn.Description <> ATargetColumn.Description then
 //    Exit(False);
 end;
@@ -195,7 +197,7 @@ begin
   if AFieldType in [ftCurrency, ftFloat, ftBCD, ftExtended, ftSingle, ftFMTBcd] then
     Result := ftCurrency
   else
-  if AFieldType in [ftString, ftFixedChar, ftWideString, ftFixedWideChar] then
+  if AFieldType in [ftString, ftFixedChar, ftWideString, ftFixedWideChar, ftGuid] then
     Result := ftString
   else
   if AFieldType in [ftInteger, ftShortint, ftSmallint, ftLargeint] then

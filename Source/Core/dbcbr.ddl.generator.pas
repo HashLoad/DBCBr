@@ -330,7 +330,7 @@ function TDDLSQLGenerator.GetFieldTypeDefinition(AColumn: TColumnMIK): string;
 var
   LResult: string;
 begin
-  LResult := AColumn.TypeName;
+  LResult := AColumn.TypeName + IfThen(Length(AColumn.CharSet) > 0, ' CHARACTER SET ' + AColumn.CharSet, '');
   LResult := StringReplace(LResult, '%l', IntToStr(AColumn.Size), [rfIgnoreCase]);
   LResult := StringReplace(LResult, '%p', IntToStr(AColumn.Precision), [rfIgnoreCase]);
   LResult := StringReplace(LResult, '%s', IntToStr(AColumn.Scale), [rfIgnoreCase]);
