@@ -231,7 +231,7 @@ begin
       else                                    AColumn.TypeName := 'NUMERIC(%l)';
     ftString:
       if FDriverName = dnOracle                               then AColumn.TypeName := 'VARCHAR2(%l)'
-      else if (FDriverName = dnMSSQL) and (AColumn.Size = -1) then AColumn.TypeName := 'VARCHAR(MAX)'       
+      else if (FDriverName = dnMSSQL) and (AColumn.Size = -1) then AColumn.TypeName := 'VARCHAR(MAX)'
       else                                                         AColumn.TypeName := 'VARCHAR(%l)';
     ftWideString:
       if      FDriverName = dnOracle    then AColumn.TypeName := 'NVARCHAR2(%l)'
@@ -318,13 +318,18 @@ begin
     begin
       if FDriverName = dnFirebird  then
       begin
-        /// <summary>
-        /// A GUID field will be created using the following specification:
-        /// CHAR(16) CHARACTER SET OCTETS;
-        /// </summary>
-        AColumn.TypeName := 'CHAR(16) CHARACTER SET OCTETS';
         if not FConnection.DBOptions.StoreGUIDAsOctet then
-          AColumn.TypeName := 'CHAR(36)';
+          AColumn.TypeName := 'CHAR(36)'
+        else
+        begin
+          /// <summary>
+          /// A GUID field will be created using the following specification:
+          /// CHAR(16) CHARACTER SET OCTETS;
+          /// </summary>
+          AColumn.TypeName := 'CHAR(%l)';
+          AColumn.CharSet := 'OCTETS';
+          AColumn.Size := 16;
+        end;
       end
       else if FDriverName = dnInterbase then AColumn.TypeName := 'CHAR(36)'
       else if FDriverName = dnMySQL     then AColumn.TypeName := 'CHAR(36)'
