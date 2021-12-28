@@ -77,6 +77,7 @@ begin
   FCatalogMetadata.Schema := '';
   GetSequences;
   GetTables;
+  GetViews;
 end;
 
 procedure TModelMetadata.GetTables;
@@ -354,7 +355,22 @@ begin
 end;
 
 procedure TModelMetadata.GetViews;
+var
+  LClass: TClass;
+  LView: TViewMIK;
+  LViewMap: TViewMapping;
 begin
+  for LClass in TMappingExplorer.GetRepositoryMapping.List.Views do
+  begin
+    LViewMap := TMappingExplorer.GetMappingView(LClass);
+    if LViewMap <> nil then
+    begin
+      LView := TViewMIK.Create(FCatalogMetadata);
+      LView.Name := LViewMap.Name;
+      LView.Description := LViewMap.Description;
+      FCatalogMetadata.Views.Add(UpperCase(LView.Name), LView);
+    end;
+  end;
 
 end;
 
