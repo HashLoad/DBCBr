@@ -52,11 +52,17 @@ type
       const AParameters: array of TValue): TValue;
   end;
 
+  TArrayHelper = class
+  public
+    class function ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>; static;
+  end;
+
   TRttiTypeHelper = class helper for TRttiType
   public
     function GetPrimaryKey: TArray<TCustomAttribute>;
     function GetAggregateField: TArray<TCustomAttribute>;
     function IsList: Boolean;
+    function GetPropertiesOrdered: TArray<TRttiProperty>;
   end;
 
   TRttiFieldHelper = class helper for TRttiField
@@ -764,6 +770,33 @@ begin
   end;
 end;
 
+function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
+var
+  LArray: TArray<TArray<TRttiProperty>>;
+  LRttiType: TRttiType;
+  LDepth: Integer;
+begin
+  LRttiType := Self;
+  LDepth := 0;
+  while LRttiType <> nil do
+  begin
+    Inc(LDepth);
+    LRttiType := LRttiType.BaseType;
+  end;
+
+  SetLength(LArray, LDepth);
+  LRttiType := Self;
+  LDepth := 0;
+  while LRttiType <> nil do
+  begin
+    LArray[LDepth] := LRttiType.GetDeclaredProperties;
+    Inc(LDepth);
+    LRttiType := LRttiType.BaseType;
+  end;
+
+  Result := TArrayHelper.ConcatReverse<TRttiProperty>(LArray);
+end;
+
 function TRttiTypeHelper.IsList: Boolean;
 begin
   if Pos('TObjectList<', Self.AsInstance.Name) > 0 then
@@ -843,6 +876,25 @@ begin
   LTypeInfo := Self.FieldType.Handle;
   Result := Assigned(LTypeInfo) and (Self.FieldType.TypeKind = tkRecord)
                                 and StartsText(LPrefixString, GetTypeName(LTypeInfo));
+end;
+
+{ TArrayHelper }
+
+class function TArrayHelper.ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>;
+var
+  i, j, out, len: Integer;
+begin
+  len := 0;
+  for i := 0 to High(Args) do
+    len := len + Length(Args[i]);
+  SetLength(Result, len);
+  out := 0;
+  for i := High(Args) downto 0 do
+    for j := 0 to High(Args[i]) do
+    begin
+      Result[out] := Args[i][j];
+      Inc(out);
+    end;
 end;
 
 end.

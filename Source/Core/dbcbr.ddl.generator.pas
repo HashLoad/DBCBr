@@ -52,6 +52,7 @@ type
     function GenerateCreateView(AView: TViewMIK): string; virtual; abstract;
     function GenerateCreateTrigger(ATrigger: TTriggerMIK): string; virtual; abstract;
     function GenerateAlterColumn(AColumn: TColumnMIK): string; virtual; abstract;
+    function GenerateAlterColumnPosition(AColumn: TColumnMIK): string; virtual; abstract;
     function GenerateAlterDefaultValue(AColumn: TColumnMIK): string; virtual; abstract;
     function GenerateAlterCheck(ACheck: TCheckMIK): string; virtual; abstract;
     function GenerateAddPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; virtual; abstract;
@@ -329,7 +330,7 @@ function TDDLSQLGenerator.GetFieldTypeDefinition(AColumn: TColumnMIK): string;
 var
   LResult: string;
 begin
-  LResult := AColumn.TypeName;
+  LResult := AColumn.TypeName + IfThen(Length(AColumn.CharSet) > 0, ' CHARACTER SET ' + AColumn.CharSet, '');
   LResult := StringReplace(LResult, '%l', IntToStr(AColumn.Size), [rfIgnoreCase]);
   LResult := StringReplace(LResult, '%p', IntToStr(AColumn.Precision), [rfIgnoreCase]);
   LResult := StringReplace(LResult, '%s', IntToStr(AColumn.Scale), [rfIgnoreCase]);
