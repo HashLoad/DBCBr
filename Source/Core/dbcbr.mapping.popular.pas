@@ -23,8 +23,6 @@
   @author(Skype : ispinheiro)
   @abstract(Website : http://www.ormbr.com.br)
   @abstract(Telagram : https://t.me/ormbr)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 unit dbcbr.mapping.popular;
@@ -46,6 +44,9 @@ uses
 
 type
   TMappingPopular = class
+  private
+    function PopularLazy(ARttiType: TRttiType;
+      var AFieldName: String): TLazyMapping;
   public
     function PopularTable(ARttiType: TRttiType): TTableMapping;
     function PopularView(ARttiType: TRttiType): TViewMapping;
@@ -64,9 +65,8 @@ type
     function PopularTrigger(ARttiType: TRttiType): TTriggerMappingList;
     function PopularFieldEvents(ARttiType: TRttiType): TFieldEventsMappingList;
     function PopularEnumeration(ARttiType: TRttiType): TEnumerationMappingList;
-    function PopularPrimaryKeyColumns(ARttiType: TRttiType;
-      AClass: TClass): TPrimaryKeyColumnsMapping;
-    function PopularLazy(ARttiType: TRttiType; var AFieldName: String): TLazyMapping;
+    function PopularPrimaryKeyColumns(ARttiType: TRttiType; AClass: TClass): TPrimaryKeyColumnsMapping;
+//    function PopularLazy(ARttiType: TRttiType; var AFieldName: String): TLazyMapping;
   end;
 
 implementation
