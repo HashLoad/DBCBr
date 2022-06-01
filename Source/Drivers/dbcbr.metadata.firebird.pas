@@ -22,8 +22,6 @@
   @author(Isaque Pinheiro <isaquepsp@gmail.com>)
   @author(Skype : ispinheiro)
 
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
-
   @abstract(Contribuição - Carlos Eduardo R. Grillo)
 }
 
@@ -134,29 +132,17 @@ begin
     LTable := TTableMIK.Create(FCatalogMetadata);
     LTable.Name := VarToStr(LDBResultSet.GetFieldValue('table_name'));
     LTable.Description := VarToStr(LDBResultSet.GetFieldValue('table_description'));
-    /// <summary>
-    /// Extrair colunas da tabela
-    /// </summary>
+    // Extrair colunas da tabela
     GetColumns(LTable);
-    /// <summary>
-    /// Extrair Primary Key da tabela
-    /// </summary>
+    // Extrair Primary Key da tabela
     GetPrimaryKey(LTable);
-    /// <summary>
-    /// Extrair Foreign Keys da tabela
-    /// </summary>
+    // Extrair Foreign Keys da tabela
     GetForeignKeys(LTable);
-    /// <summary>
-    /// Extrair Indexes da tabela
-    /// </summary>
+    // Extrair Indexes da tabela
     GetIndexeKeys(LTable);
-    /// <summary>
-    /// Extrair Checks da tabela
-    /// </summary>
+    // Extrair Checks da tabela
     GetChecks(LTable);
-    /// <summary>
-    /// Adiciona na lista de tabelas extraidas
-    /// </summary>
+    // Adiciona na lista de tabelas extraidas
     FCatalogMetadata.Tables.Add(UpperCase(LTable.Name), LTable);
   end;
 end;
@@ -217,9 +203,7 @@ begin
     ResolveFieldType(LColumn,
                      VarAsType(LDBResultSet.GetFieldValue('column_type'), varInteger),
                      ResolveIntegerNullValue(LDBResultSet.GetFieldValue('column_subtype')));
-    /// <summary>
-    /// Resolve Field Type
-    /// </summary>
+    // Resolve Field Type
     GetFieldTypeDefinition(LColumn);
     ATable.Fields.Add(FormatFloat('000000', LColumn.Position), LColumn);
   end;
@@ -254,9 +238,7 @@ begin
   begin
     ATable.PrimaryKey.Name := VarToStr(LDBResultSet.GetFieldValue('pk_name'));
     ATable.PrimaryKey.Description := VarToStr(LDBResultSet.GetFieldValue('pk_description'));
-    /// <summary>
-    /// Extrai as columnas da primary key
-    /// </summary>
+    // Extrai as columnas da primary key
     GetPrimaryKeyColumns(ATable.PrimaryKey);
   end;
 end;
@@ -273,16 +255,12 @@ procedure TCatalogMetadataFirebird.GetForeignKeys(ATable: TTableMIK);
     LDBResultSet := Execute;
     while LDBResultSet.NotEof do
     begin
-      /// <summary>
-      /// Coluna tabela source
-      /// </summary>
+      // Coluna tabela source
       LFromField := TColumnMIK.Create(ATable);
       LFromField.Name := VarToStr(LDBResultSet.GetFieldValue('column_name'));
       LFromField.Position := VarAsType(LDBResultSet.GetFieldValue('column_position'), varInteger);
       AForeignKey.FromFields.Add(FormatFloat('000000', LFromField.Position), LFromField);
-      /// <summary>
-      /// Coluna tabela referencia
-      /// </summary>
+      // Coluna tabela referencia
       LToField := TColumnMIK.Create(ATable);
       LToField.Name := VarToStr(LDBResultSet.GetFieldValue('column_reference'));
       LToField.Position := VarAsType(LDBResultSet.GetFieldValue('column_referenceposition'), varInteger);
@@ -306,9 +284,7 @@ begin
     LForeignKey.OnDelete := GetRuleAction(VarToStrDef(LDBResultSet.GetFieldValue('fk_deleteaction'), 'RESTRICT'));
     LForeignKey.Description :=  VarToStr(LDBResultSet.GetFieldValue('fk_description'));
     ATable.ForeignKeys.Add(UpperCase(LForeignKey.Name), LForeignKey);
-    /// <summary>
-    /// Gera a lista de campos do foreignkey
-    /// </summary>
+    // Gera a lista de campos do foreignkey
     GetForeignKeyColumns(LForeignKey);
   end;
 end;
@@ -391,9 +367,7 @@ begin
     LIndexeKey.Name := VarToStr(LDBResultSet.GetFieldValue('indexe_name'));
     LIndexeKey.Unique := VarAsType(LDBResultSet.GetFieldValue('indexe_unique'), varBoolean);
     ATable.IndexeKeys.Add(UpperCase(LIndexeKey.Name), LIndexeKey);
-    /// <summary>
-    /// Gera a lista de campos do indexe
-    /// </summary>
+    // Gera a lista de campos do indexe
     GetIndexeKeyColumns(LIndexeKey);
   end;
 end;
@@ -430,9 +404,7 @@ begin
     LView.Script := VarToStr(LDBResultSet.GetFieldValue('view_script'));
     LView.Description := VarToStr(LDBResultSet.GetFieldValue('view_description'));
     FCatalogMetadata.Views.Add(UpperCase(LView.Name), LView);
-    /// <summary>
-    /// Gera a lista de campos da view
-    /// </summary>
+    // Gera a lista de campos da view
     GetViewColumns(LView);
   end;
 end;

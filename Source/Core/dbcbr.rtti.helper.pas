@@ -772,6 +772,7 @@ end;
 
 function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
 var
+<<<<<<< HEAD
   flat: TArray<TArray<TRttiProperty>>;
   t: TRttiType;
   depth: Integer;
@@ -795,6 +796,31 @@ begin
   end;
 
   Result := TArrayHelper.ConcatReverse<TRttiProperty>(flat);
+=======
+  LArray: TArray<TArray<TRttiProperty>>;
+  LRttiType: TRttiType;
+  LDepth: Integer;
+begin
+  LRttiType := Self;
+  LDepth := 0;
+  while LRttiType <> nil do
+  begin
+    Inc(LDepth);
+    LRttiType := LRttiType.BaseType;
+  end;
+
+  SetLength(LArray, LDepth);
+  LRttiType := Self;
+  LDepth := 0;
+  while LRttiType <> nil do
+  begin
+    LArray[LDepth] := LRttiType.GetDeclaredProperties;
+    Inc(LDepth);
+    LRttiType := LRttiType.BaseType;
+  end;
+
+  Result := TArrayHelper.ConcatReverse<TRttiProperty>(LArray);
+>>>>>>> release/1.1.1
 end;
 
 function TRttiTypeHelper.IsList: Boolean;
