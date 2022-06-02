@@ -23,8 +23,6 @@
   @author(Skype : ispinheiro)
   @abstract(Website : http://www.ormbr.com.br)
   @abstract(Telagram : https://t.me/ormbr)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 unit dbcbr.mapping.classes;
@@ -198,11 +196,13 @@ type
     FSortingOrder: TSortingOrder;
     FUnique: Boolean;
     FAutoIncrement: Boolean;
+    FSequenceIncrement: Boolean;
     FTableIncrement: Boolean;
     FGuidIncrement: Boolean;
   public
     constructor Create(const AColumns: TArray<string>;
       const AAutoInc: Boolean;
+      const ASequenceInc: Boolean;
       const ATableInc: Boolean;
       const AGuidInc: Boolean;
       const ASortingOrder: TSortingOrder;
@@ -214,6 +214,7 @@ type
     property SortingOrder: TSortingOrder read FSortingOrder;
     property Unique: Boolean read FUnique;
     property AutoIncrement: boolean read FAutoIncrement;
+    property SequenceIncrement: boolean read FSequenceIncrement;
     property TableIncrement: boolean read FTableIncrement;
     property GuidIncrement: boolean read FGuidIncrement;
   end;
@@ -405,6 +406,7 @@ end;
 
 constructor TPrimaryKeyMapping.Create(const AColumns: TArray<string>;
   const AAutoInc: Boolean;
+  const ASequenceInc: Boolean;
   const ATableInc: Boolean;
   const AGuidInc: Boolean;
   const ASortingOrder: TSortingOrder;
@@ -418,6 +420,7 @@ begin
   FSortingOrder := ASortingOrder;
   FUnique := AUnique;
   FAutoIncrement := AAutoInc;
+  FSequenceIncrement := ASequenceInc;
   FTableIncrement := ATableInc;
   FGuidIncrement := AGuidInc;
   FDescription := ADescription;

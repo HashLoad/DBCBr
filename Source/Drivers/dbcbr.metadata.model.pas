@@ -21,8 +21,6 @@
   @created(20 Jul 2016)
   @author(Isaque Pinheiro <isaquepsp@gmail.com>)
   @author(Skype : ispinheiro)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 unit dbcbr.metadata.model;
@@ -77,6 +75,7 @@ begin
   FCatalogMetadata.Schema := '';
   GetSequences;
   GetTables;
+  GetViews;
 end;
 
 procedure TModelMetadata.GetTables;
@@ -354,8 +353,22 @@ begin
 end;
 
 procedure TModelMetadata.GetViews;
+var
+  LClass: TClass;
+  LView: TViewMIK;
+  LViewMap: TViewMapping;
 begin
-
+  for LClass in TMappingExplorer.GetRepositoryMapping.List.Views do
+  begin
+    LViewMap := TMappingExplorer.GetMappingView(LClass);
+    if LViewMap <> nil then
+    begin
+      LView := TViewMIK.Create(FCatalogMetadata);
+      LView.Name := LViewMap.Name;
+      LView.Description := LViewMap.Description;
+      FCatalogMetadata.Views.Add(UpperCase(LView.Name), LView);
+    end;
+  end;
 end;
 
 end.

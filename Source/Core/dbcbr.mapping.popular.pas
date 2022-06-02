@@ -127,7 +127,7 @@ var
   LColumn: Column;
 begin
   Result := nil;
-  for LProperty in ARttiType.GetPropertiesOrdered do
+  for LProperty in ARttiType.GetProperties do
   begin
     for LAttrib in LProperty.GetAttributes do
     begin
@@ -359,9 +359,10 @@ begin
       Continue;
 
     Result := TPrimaryKeyMapping.Create(PrimaryKey(LAttrib).Columns,
-                                        PrimaryKey(LAttrib).SequenceType = AutoInc,
-                                        PrimaryKey(LAttrib).SequenceType = TableInc,
-                                        PrimaryKey(LAttrib).SequenceType = GuidInc,
+                                        PrimaryKey(LAttrib).AutoIncType = AutoInc,
+                                        PrimaryKey(LAttrib).GeneratorType = SequenceInc,
+                                        PrimaryKey(LAttrib).GeneratorType = TableInc,
+                                        PrimaryKey(LAttrib).GeneratorType = GuidInc,
                                         PrimaryKey(LAttrib).SortingOrder,
                                         PrimaryKey(LAttrib).Unique,
                                         PrimaryKey(LAttrib).Description);

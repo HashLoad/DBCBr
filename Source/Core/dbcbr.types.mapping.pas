@@ -23,8 +23,6 @@
   @author(Skype : ispinheiro)
   @abstract(Website : http://www.ormbr.com.br)
   @abstract(Telagram : https://t.me/ormbr)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 unit dbcbr.types.mapping;
@@ -37,7 +35,8 @@ type
   TMultiplicity = (OneToOne, OneToMany, ManyToOne, ManyToMany);
   TGenerated = (Never, Insert, Always);
   TJoin = (InnerJoin, LeftJoin, RightJoin, FullJoin);
-  TSequenceType = (NotInc, AutoInc, TableInc, GuidInc);
+  TAutoIncType = (NotInc, AutoInc);
+  TGeneratorType = (SequenceInc, TableInc, GuidInc);
   TRestriction = (NotNull, NoInsert, NoUpdate, NoValidate, Unique, Hidden, VirtualData);
   TRestrictions = set of TRestriction;
   TCascadeAction = (CascadeNone, CascadeAutoInc, CascadeInsert, CascadeUpdate, CascadeDelete);
