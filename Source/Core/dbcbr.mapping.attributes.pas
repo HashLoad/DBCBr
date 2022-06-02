@@ -248,19 +248,22 @@ type
     FColumns: TArray<string>;
     FSortingOrder: TSortingOrder;
     FUnique: Boolean;
-    FSequenceType: TSequenceType;
+    FAutoIncType: TAutoIncType;
+    FGeneratorType: TGeneratorType;
     FDescription: string;
   public
     constructor Create(const AColumns, ADescription: string); overload;
     constructor Create(const AColumns: string;
-      const ASequenceType: TSequenceType = NotInc;
+      const AAutoIncType: TAutoIncType = NotInc;
+      const AGeneratorType: TGeneratorType = SequenceInc;
       const ASortingOrder: TSortingOrder = NoSort;
       const AUnique: Boolean = False;
       const ADescription: string = ''); overload;
     property Columns: TArray<string> read FColumns;
     property SortingOrder: TSortingOrder read FSortingOrder;
     property Unique: Boolean read FUnique;
-    property SequenceType: TSequenceType read FSequenceType;
+    property AutoIncType: TAutoIncType read FAutoIncType;
+    property GeneratorType: TGeneratorType read FGeneratorType;
     property Description: string read FDescription;
   end;
 
@@ -759,11 +762,12 @@ end;
 
 constructor PrimaryKey.Create(const AColumns, ADescription: string);
 begin
-  Create(AColumns, NotInc, NoSort, False, ADescription);
+  Create(AColumns, NotInc, SequenceInc, NoSort, False, ADescription);
 end;
 
 constructor PrimaryKey.Create(const AColumns: string;
-  const ASequenceType: TSequenceType;
+  const AAutoIncType: TAutoIncType;
+  const AGeneratorType: TGeneratorType;
   const ASortingOrder: TSortingOrder;
   const AUnique: Boolean;
   const ADescription: string);
@@ -784,7 +788,8 @@ begin
       rColumns.Free;
     end;
   end;
-  FSequenceType := ASequenceType;
+  FAutoIncType := AAutoIncType;
+  FGeneratorType := AGeneratorType;
   FSortingOrder := ASortingOrder;
   FUnique := AUnique;
   FDescription := ADescription;
@@ -819,7 +824,15 @@ begin
   end;
 end;
 
-{ Sequence }
+{constructor PrimaryKey.Create(const AColumns: string;
+  const AAutoIncType: TAutoIncType; const AGeneratorType: TGeneratorType;
+  const ASortingOrder: TSortingOrder; const AUnique: Boolean;
+  const ADescription: string);
+begin
+
+end;
+
+ Sequence }
 
 constructor Sequence.Create(const AName: string; const AInitial, AIncrement: Integer);
 begin

@@ -23,8 +23,6 @@
   @author(Skype : ispinheiro)
   @abstract(Website : http://www.ormbr.com.br)
   @abstract(Telagram : https://t.me/ormbr)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 {$INCLUDE ..\dbcbr.inc}
@@ -41,6 +39,8 @@ uses
   SysUtils,
   StrUtils,
   TypInfo,
+  Generics.Collections,
+  Generics.Defaults,
   dbcbr.mapping.attributes,
   dbcbr.types.mapping,
   dbcbr.mapping.classes;
@@ -52,10 +52,10 @@ type
       const AParameters: array of TValue): TValue;
   end;
 
-  TArrayHelper = class
-  public
-    class function ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>; static;
-  end;
+//  TArrayHelper = class
+//  public
+//    class function ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>; static;
+//  end;
 
   TRttiTypeHelper = class helper for TRttiType
   public
@@ -770,6 +770,7 @@ begin
   end;
 end;
 
+<<<<<<< HEAD
 function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
 var
 <<<<<<< HEAD
@@ -823,6 +824,8 @@ begin
 >>>>>>> release/1.1.1
 end;
 
+=======
+>>>>>>> release/1.1.2
 function TRttiTypeHelper.IsList: Boolean;
 begin
   if Pos('TObjectList<', Self.AsInstance.Name) > 0 then
@@ -906,21 +909,62 @@ end;
 
 { TArrayHelper }
 
-class function TArrayHelper.ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>;
-var
-  i, j, out, len: Integer;
+//function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
+//var
+//  LArray: TArray<TArray<TRttiProperty>>;
+//  LRttiType: TRttiType;
+//  LDepth: Integer;
+//begin
+//  LRttiType := Self;
+//  LDepth := 0;
+//  while LRttiType <> nil do
+//  begin
+//    Inc(LDepth);
+//    LRttiType := LRttiType.BaseType;
+//  end;
+//
+//  SetLength(LArray, LDepth);
+//  LRttiType := Self;
+//  LDepth := 0;
+//  while LRttiType <> nil do
+//  begin
+//    LArray[LDepth] := LRttiType.GetDeclaredProperties;
+//    Inc(LDepth);
+//    LRttiType := LRttiType.BaseType;
+//  end;
+//
+//  Result := TArrayHelper.ConcatReverse<TRttiProperty>(LArray);
+//end;
+//
+//class function TArrayHelper.ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>;
+//var
+//  LFor, JFor, out, LLen: Integer;
+//begin
+//  LLen := 0;
+//  for LFor := 0 to High(Args) do
+//    LLen := LLen + Length(Args[LFor]);
+//  SetLength(Result, LLen);
+//  out := 0;
+//  for LFor := High(Args) downto 0 do
+//  begin
+//    for JFor := 0 to High(Args[LFor]) do
+//    begin
+//      Result[out] := Args[LFor][JFor];
+//      Inc(out);
+//    end;
+//  end;
+//end;
+
+function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
 begin
-  len := 0;
-  for i := 0 to High(Args) do
-    len := len + Length(Args[i]);
-  SetLength(Result, len);
-  out := 0;
-  for i := High(Args) downto 0 do
-    for j := 0 to High(Args[i]) do
-    begin
-      Result[out] := Args[i][j];
-      Inc(out);
-    end;
+  Result := Self.GetProperties;
+  TArray.Sort<TRttiProperty>(Result,
+    TComparer<TRttiProperty>.Construct(
+      function (const Left, Right: TRttiProperty): Integer
+      begin
+        Result := CompareStr(UpperCase(Left.Name), UpperCase(Right.Name));
+      end)
+    );
 end;
 
 end.

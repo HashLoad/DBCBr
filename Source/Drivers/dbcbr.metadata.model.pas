@@ -21,8 +21,6 @@
   @created(20 Jul 2016)
   @author(Isaque Pinheiro <isaquepsp@gmail.com>)
   @author(Skype : ispinheiro)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 unit dbcbr.metadata.model;
@@ -371,7 +369,10 @@ begin
       FCatalogMetadata.Views.Add(UpperCase(LView.Name), LView);
     end;
   end;
+<<<<<<< HEAD
 
+=======
+>>>>>>> release/1.1.2
 end;
 
 end.
