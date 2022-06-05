@@ -127,7 +127,7 @@ var
   LColumn: Column;
 begin
   Result := nil;
-  for LProperty in ARttiType.GetProperties do
+  for LProperty in ARttiType.GetPropertiesOrdered do
   begin
     for LAttrib in LProperty.GetAttributes do
     begin

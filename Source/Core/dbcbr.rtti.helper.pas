@@ -52,10 +52,10 @@ type
       const AParameters: array of TValue): TValue;
   end;
 
-//  TArrayHelper = class
-//  public
-//    class function ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>; static;
-//  end;
+  TArrayHelper = class
+  public
+    class function ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>; static;
+  end;
 
   TRttiTypeHelper = class helper for TRttiType
   public
@@ -853,62 +853,53 @@ end;
 
 { TArrayHelper }
 
-//function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
-//var
-//  LArray: TArray<TArray<TRttiProperty>>;
-//  LRttiType: TRttiType;
-//  LDepth: Integer;
-//begin
-//  LRttiType := Self;
-//  LDepth := 0;
-//  while LRttiType <> nil do
-//  begin
-//    Inc(LDepth);
-//    LRttiType := LRttiType.BaseType;
-//  end;
-//
-//  SetLength(LArray, LDepth);
-//  LRttiType := Self;
-//  LDepth := 0;
-//  while LRttiType <> nil do
-//  begin
-//    LArray[LDepth] := LRttiType.GetDeclaredProperties;
-//    Inc(LDepth);
-//    LRttiType := LRttiType.BaseType;
-//  end;
-//
-//  Result := TArrayHelper.ConcatReverse<TRttiProperty>(LArray);
-//end;
-//
-//class function TArrayHelper.ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>;
-//var
-//  LFor, JFor, out, LLen: Integer;
-//begin
-//  LLen := 0;
-//  for LFor := 0 to High(Args) do
-//    LLen := LLen + Length(Args[LFor]);
-//  SetLength(Result, LLen);
-//  out := 0;
-//  for LFor := High(Args) downto 0 do
-//  begin
-//    for JFor := 0 to High(Args[LFor]) do
-//    begin
-//      Result[out] := Args[LFor][JFor];
-//      Inc(out);
-//    end;
-//  end;
-//end;
-
 function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
+var
+  LArray: TArray<TArray<TRttiProperty>>;
+  LRttiType: TRttiType;
+  LDepth: Integer;
 begin
-  Result := Self.GetProperties;
-  TArray.Sort<TRttiProperty>(Result,
-    TComparer<TRttiProperty>.Construct(
-      function (const Left, Right: TRttiProperty): Integer
-      begin
-        Result := CompareStr(UpperCase(Left.Name), UpperCase(Right.Name));
-      end)
-    );
+  LRttiType := Self;
+  LDepth := 0;
+  while LRttiType <> nil do
+  begin
+    SetLength(LArray, LDepth +1);
+    LArray[LDepth] := LRttiType.GetDeclaredProperties;
+    LRttiType := LRttiType.BaseType;
+    Inc(LDepth);
+  end;
+  Result := TArrayHelper.ConcatReverse<TRttiProperty>(LArray);
 end;
+
+class function TArrayHelper.ConcatReverse<T>(const Args: array of TArray<T>): TArray<T>;
+var
+  LFor, JFor, LOut, LLen: Integer;
+begin
+  LLen := 0;
+  for LFor := 0 to High(Args) do
+    LLen := LLen + Length(Args[LFor]);
+  SetLength(Result, LLen);
+  LOut := 0;
+  for LFor := High(Args) downto 0 do
+  begin
+    for JFor := 0 to High(Args[LFor]) do
+    begin
+      Result[LOut] := Args[LFor][JFor];
+      Inc(LOut);
+    end;
+  end;
+end;
+
+//function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
+//begin
+//  Result := Self.GetProperties;
+//  TArray.Sort<TRttiProperty>(Result,
+//    TComparer<TRttiProperty>.Construct(
+//      function (const Left, Right: TRttiProperty): Integer
+//      begin
+//        Result := CompareStr(UpperCase(Left.Name), UpperCase(Right.Name));
+//      end)
+//    );
+//end;
 
 end.
