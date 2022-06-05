@@ -770,62 +770,6 @@ begin
   end;
 end;
 
-<<<<<<< HEAD
-function TRttiTypeHelper.GetPropertiesOrdered: TArray<TRttiProperty>;
-var
-<<<<<<< HEAD
-  flat: TArray<TArray<TRttiProperty>>;
-  t: TRttiType;
-  depth: Integer;
-begin
-  t := Self;
-  depth := 0;
-  while t <> nil do
-  begin
-    Inc(depth);
-    t := t.BaseType;
-  end;
-
-  SetLength(flat, depth);
-  t := Self;
-  depth := 0;
-  while t <> nil do
-  begin
-    flat[depth] := t.GetDeclaredProperties;
-    Inc(depth);
-    t := t.BaseType;
-  end;
-
-  Result := TArrayHelper.ConcatReverse<TRttiProperty>(flat);
-=======
-  LArray: TArray<TArray<TRttiProperty>>;
-  LRttiType: TRttiType;
-  LDepth: Integer;
-begin
-  LRttiType := Self;
-  LDepth := 0;
-  while LRttiType <> nil do
-  begin
-    Inc(LDepth);
-    LRttiType := LRttiType.BaseType;
-  end;
-
-  SetLength(LArray, LDepth);
-  LRttiType := Self;
-  LDepth := 0;
-  while LRttiType <> nil do
-  begin
-    LArray[LDepth] := LRttiType.GetDeclaredProperties;
-    Inc(LDepth);
-    LRttiType := LRttiType.BaseType;
-  end;
-
-  Result := TArrayHelper.ConcatReverse<TRttiProperty>(LArray);
->>>>>>> release/1.1.1
-end;
-
-=======
->>>>>>> release/1.1.2
 function TRttiTypeHelper.IsList: Boolean;
 begin
   if Pos('TObjectList<', Self.AsInstance.Name) > 0 then
