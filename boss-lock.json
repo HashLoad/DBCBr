@@ -1,5 +1,14 @@
 {
 	"hash": "d41d8cd98f00b204e9800998ecf8427e",
 	"updated": "2020-11-14T11:35:00.1900724-03:00",
-	"installedModules": {}
+	"installedModules": {
+		"github.com/hashload/dbebr": {
+			"name": "dbebr",
+			"version": "1.1.1",
+			"hash": "4826f0583132709b7537cf15897e0a48",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		}
+	}
 }
