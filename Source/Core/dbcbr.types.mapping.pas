@@ -36,7 +36,7 @@ type
   TGenerated = (Never, Insert, Always);
   TJoin = (InnerJoin, LeftJoin, RightJoin, FullJoin);
   TAutoIncType = (NotInc, AutoInc);
-  TGeneratorType = (SequenceInc, TableInc, GuidInc);
+  TGeneratorType = (SequenceInc, TableInc, GuidInc, NoneInc);
   TRestriction = (NotNull, NoInsert, NoUpdate, NoValidate, Unique, Hidden, VirtualData);
   TRestrictions = set of TRestriction;
   TCascadeAction = (CascadeNone, CascadeAutoInc, CascadeInsert, CascadeUpdate, CascadeDelete);
