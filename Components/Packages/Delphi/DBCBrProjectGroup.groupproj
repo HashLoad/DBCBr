@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{C35DE740-8D90-412D-A302-C760B3749F8C}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\..\..\DBEBr\Components\Packages\Delphi\DBEBrCore.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="DBCBrCore.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="DBEBrCore">
+        <MSBuild Projects="..\..\..\..\DBEBr\Components\Packages\Delphi\DBEBrCore.dproj"/>
+    </Target>
+    <Target Name="DBEBrCore:Clean">
+        <MSBuild Projects="..\..\..\..\DBEBr\Components\Packages\Delphi\DBEBrCore.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DBEBrCore:Make">
+        <MSBuild Projects="..\..\..\..\DBEBr\Components\Packages\Delphi\DBEBrCore.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DBCBrCore">
+        <MSBuild Projects="DBCBrCore.dproj"/>
+    </Target>
+    <Target Name="DBCBrCore:Clean">
+        <MSBuild Projects="DBCBrCore.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DBCBrCore:Make">
+        <MSBuild Projects="DBCBrCore.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="DBEBrCore;DBCBrCore"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="DBEBrCore:Clean;DBCBrCore:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="DBEBrCore:Make;DBCBrCore:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
