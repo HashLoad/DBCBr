@@ -124,9 +124,7 @@
         <Borland.ProjectType>Package</Borland.ProjectType>
         <BorlandProject>
             <Delphi.Personality>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Program Files (x86)\Embarcadero\Studio\20.0\bin\designide260.bpl">Embarcadero Designer IDE Package</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
                 <Source>
                     <Source Name="MainSource">DBCBrCore.dpk</Source>
                 </Source>
