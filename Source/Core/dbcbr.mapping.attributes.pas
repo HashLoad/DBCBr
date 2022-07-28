@@ -259,6 +259,11 @@ type
       const ASortingOrder: TSortingOrder = NoSort;
       const AUnique: Boolean = False;
       const ADescription: string = ''); overload;
+    constructor Create(const AColumns: string;
+      const AAutoIncType: TAutoIncType = NotInc;
+      const ASortingOrder: TSortingOrder = NoSort;
+      const AUnique: Boolean = False;
+      const ADescription: string = ''); overload;
     property Columns: TArray<string> read FColumns;
     property SortingOrder: TSortingOrder read FSortingOrder;
     property Unique: Boolean read FUnique;
@@ -767,6 +772,15 @@ end;
 
 constructor PrimaryKey.Create(const AColumns: string;
   const AAutoIncType: TAutoIncType;
+  const ASortingOrder: TSortingOrder;
+  const AUnique: Boolean;
+  const ADescription: string);
+begin
+  Create(AColumns, AAutoIncType, NoneInc, ASortingOrder, AUnique, ADescription);
+end;
+
+constructor PrimaryKey.Create(const AColumns: string;
+  const AAutoIncType: TAutoIncType;
   const AGeneratorType: TGeneratorType;
   const ASortingOrder: TSortingOrder;
   const AUnique: Boolean;
@@ -824,15 +838,7 @@ begin
   end;
 end;
 
-{constructor PrimaryKey.Create(const AColumns: string;
-  const AAutoIncType: TAutoIncType; const AGeneratorType: TGeneratorType;
-  const ASortingOrder: TSortingOrder; const AUnique: Boolean;
-  const ADescription: string);
-begin
-
-end;
-
- Sequence }
+{Sequence }
 
 constructor Sequence.Create(const AName: string; const AInitial, AIncrement: Integer);
 begin
