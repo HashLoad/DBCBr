@@ -369,10 +369,6 @@ begin
       FCatalogMetadata.Views.Add(UpperCase(LView.Name), LView);
     end;
   end;
-<<<<<<< HEAD
-
-=======
->>>>>>> release/1.1.2
 end;
 
 end.
