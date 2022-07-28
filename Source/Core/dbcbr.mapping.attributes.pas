@@ -255,6 +255,11 @@ type
     constructor Create(const AColumns, ADescription: string); overload;
     constructor Create(const AColumns: string;
       const AAutoIncType: TAutoIncType = NotInc;
+      const ASortingOrder: TSortingOrder = NoSort;
+      const AUnique: Boolean = False;
+      const ADescription: string = ''); overload;
+    constructor Create(const AColumns: string;
+      const AAutoIncType: TAutoIncType = NotInc;
       const AGeneratorType: TGeneratorType = NoneInc;
       const ASortingOrder: TSortingOrder = NoSort;
       const AUnique: Boolean = False;
@@ -763,6 +768,15 @@ end;
 constructor PrimaryKey.Create(const AColumns, ADescription: string);
 begin
   Create(AColumns, NotInc, SequenceInc, NoSort, False, ADescription);
+end;
+
+constructor PrimaryKey.Create(const AColumns: string;
+  const AAutoIncType: TAutoIncType;
+  const ASortingOrder: TSortingOrder;
+  const AUnique: Boolean;
+  const ADescription: string);
+begin
+  Create(AColumns, AAutoIncType, NoneInc, ASortingOrder, AUnique, ADescription);
 end;
 
 constructor PrimaryKey.Create(const AColumns: string;
