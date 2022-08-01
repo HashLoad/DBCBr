@@ -1,11 +1,11 @@
 {
-	"name": "DBCBr",
-	"description": "",
-	"version": "1.0.4",
-	"homepage": "",
-	"mainsrc": "Source",
-	"projects": [],
-	"dependencies": {
-		"github.com/hashload/dbebr": "^1.1.1"
-	}
+  "name": "DBCBr",
+  "description": "",
+  "version": "1.1.32",
+  "homepage": "",
+  "mainsrc": "Source",
+  "projects": [],
+  "dependencies": {
+    "github.com/hashload/dbebr": "^1.1.1"
+  }
 }
