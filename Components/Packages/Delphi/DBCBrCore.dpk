@@ -25,32 +25,38 @@ package DBCBrCore;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'ORMBr - Core'}
+{$DESCRIPTION 'Database Compare - Core'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 
 requires
   rtl,
-  vcl,
-  vclimg,
-  dbrtl;
+  dbrtl,
+  DBEBrCore;
 
 contains
-  ormbr.database.abstract in '..\..\Source\Core\ormbr.database.abstract.pas',
-  ormbr.database.compare in '..\..\Source\Core\ormbr.database.compare.pas',
-  ormbr.database.factory in '..\..\Source\Core\ormbr.database.factory.pas',
-  ormbr.database.interfaces in '..\..\Source\Core\ormbr.database.interfaces.pas',
-  ormbr.database.mapping in '..\..\Source\Core\ormbr.database.mapping.pas',
-  ormbr.database.metainfo in '..\..\Source\Core\ormbr.database.metainfo.pas',
-  ormbr.ddl.commands in '..\..\Source\Core\ormbr.ddl.commands.pas',
-  ormbr.ddl.generator in '..\..\Source\Core\ormbr.ddl.generator.pas',
-  ormbr.ddl.interfaces in '..\..\Source\Core\ormbr.ddl.interfaces.pas',
-  ormbr.ddl.register in '..\..\Source\Core\ormbr.ddl.register.pas',
-  ormbr.factory.interfaces in '..\..\Source\Core\ormbr.factory.interfaces.pas',
-  ormbr.metadata.db.factory in '..\..\Source\Core\ormbr.metadata.db.factory.pas',
-  ormbr.metadata.extract in '..\..\Source\Core\ormbr.metadata.extract.pas',
-  ormbr.metadata.interfaces in '..\..\Source\Core\ormbr.metadata.interfaces.pas',
-  ormbr.metadata.register in '..\..\Source\Core\ormbr.metadata.register.pas',
-  ormbr.types.mapping in '..\..\Source\Core\ormbr.types.mapping.pas';
+  dbcbr.database.abstract in '..\..\..\Source\Core\dbcbr.database.abstract.pas',
+  dbcbr.database.compare in '..\..\..\Source\Core\dbcbr.database.compare.pas',
+  dbcbr.database.factory in '..\..\..\Source\Core\dbcbr.database.factory.pas',
+  dbcbr.database.interfaces in '..\..\..\Source\Core\dbcbr.database.interfaces.pas',
+  dbcbr.database.mapping in '..\..\..\Source\Core\dbcbr.database.mapping.pas',
+  dbcbr.database.metainfo in '..\..\..\Source\Core\dbcbr.database.metainfo.pas',
+  dbcbr.ddl.commands in '..\..\..\Source\Core\dbcbr.ddl.commands.pas',
+  dbcbr.ddl.generator in '..\..\..\Source\Core\dbcbr.ddl.generator.pas',
+  dbcbr.ddl.interfaces in '..\..\..\Source\Core\dbcbr.ddl.interfaces.pas',
+  dbcbr.ddl.register in '..\..\..\Source\Core\dbcbr.ddl.register.pas',
+  dbcbr.mapping.attributes in '..\..\..\Source\Core\dbcbr.mapping.attributes.pas',
+  dbcbr.mapping.classes in '..\..\..\Source\Core\dbcbr.mapping.classes.pas',
+  dbcbr.mapping.exceptions in '..\..\..\Source\Core\dbcbr.mapping.exceptions.pas',
+  dbcbr.mapping.explorer in '..\..\..\Source\Core\dbcbr.mapping.explorer.pas',
+  dbcbr.mapping.popular in '..\..\..\Source\Core\dbcbr.mapping.popular.pas',
+  dbcbr.mapping.register in '..\..\..\Source\Core\dbcbr.mapping.register.pas',
+  dbcbr.mapping.repository in '..\..\..\Source\Core\dbcbr.mapping.repository.pas',
+  dbcbr.metadata.db.factory in '..\..\..\Source\Core\dbcbr.metadata.db.factory.pas',
+  dbcbr.metadata.extract in '..\..\..\Source\Core\dbcbr.metadata.extract.pas',
+  dbcbr.metadata.interfaces in '..\..\..\Source\Core\dbcbr.metadata.interfaces.pas',
+  dbcbr.metadata.register in '..\..\..\Source\Core\dbcbr.metadata.register.pas',
+  dbcbr.rtti.helper in '..\..\..\Source\Core\dbcbr.rtti.helper.pas',
+  dbcbr.types.mapping in '..\..\..\Source\Core\dbcbr.types.mapping.pas';
 
 end.

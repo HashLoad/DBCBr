@@ -255,7 +255,12 @@ type
     constructor Create(const AColumns, ADescription: string); overload;
     constructor Create(const AColumns: string;
       const AAutoIncType: TAutoIncType = NotInc;
-      const AGeneratorType: TGeneratorType = SequenceInc;
+      const ASortingOrder: TSortingOrder = NoSort;
+      const AUnique: Boolean = False;
+      const ADescription: string = ''); overload;
+    constructor Create(const AColumns: string;
+      const AAutoIncType: TAutoIncType = NotInc;
+      const AGeneratorType: TGeneratorType = NoneInc;
       const ASortingOrder: TSortingOrder = NoSort;
       const AUnique: Boolean = False;
       const ADescription: string = ''); overload;

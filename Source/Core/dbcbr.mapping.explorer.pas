@@ -117,6 +117,7 @@ begin
   FFieldEventsMapping := TObjectDictionary<string, TFieldEventsMappingList>.Create([doOwnsValues]);
   FEnumerationMapping := TObjectDictionary<string, TEnumerationMappingList>.Create([doOwnsValues]);
   FPrimaryKeyColumnsMapping := TObjectDictionary<string, TPrimaryKeyColumnsMapping>.Create([doOwnsValues]);
+  FNotServerUse := TDictionary<string, Boolean>.Create();
 //  FLazyLoadMapping    := TObjectDictionary<string, TLazyMapping>.Create([doOwnsValues]);
 end;
 
