@@ -23,8 +23,6 @@
   @author(Skype : ispinheiro)
   @abstract(Website : http://www.ormbr.com.br)
   @abstract(Telagram : https://t.me/ormbr)
-
-  ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
 unit dbcbr.mapping.attributes;
@@ -261,11 +259,6 @@ type
     constructor Create(const AColumns: string;
       const AAutoIncType: TAutoIncType = NotInc;
       const AGeneratorType: TGeneratorType = NoneInc;
-      const ASortingOrder: TSortingOrder = NoSort;
-      const AUnique: Boolean = False;
-      const ADescription: string = ''); overload;
-    constructor Create(const AColumns: string;
-      const AAutoIncType: TAutoIncType = NotInc;
       const ASortingOrder: TSortingOrder = NoSort;
       const AUnique: Boolean = False;
       const ADescription: string = ''); overload;
@@ -1088,9 +1081,7 @@ begin
     tkLString,
     tkWString,
     tkUString: isOk := not (AProperty.GetValue(AObject).AsString = '');
-
     tkFloat : isOk := not (AProperty.GetValue(AObject).AsExtended = 0);
-
     tkInteger,
     tkInt64 : isOk := not (AProperty.GetValue(AObject).IsEmpty);
   end;
