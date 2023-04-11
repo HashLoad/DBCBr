@@ -172,6 +172,7 @@ var
   LAttrib: TCustomAttribute;
 begin
   Result := nil;
+
   for LProperty in ARttiType.GetProperties do
   begin
     for LAttrib in LProperty.GetAttributes do
