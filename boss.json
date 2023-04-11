@@ -1,11 +1,11 @@
 {
   "name": "DBCBr",
   "description": "",
-  "version": "^master",
+  "version": "",
   "homepage": "https://www.isaquepinheiro.com.br",
   "mainsrc": "Source/",
   "projects": [],
   "dependencies": {
-    "github.com/hashload/dbebr": "^master"
+    "github.com/hashload/dbebr": ""
   }
 }
