@@ -17,12 +17,15 @@ Projeto open source DBCBr (Database Compare Brasil), um código totalmente indep
 ## 🏛 Delphi Versions
 Embarcadero Delphi XE e superior.
 
+## ⚙️ Instalação
+Instalação usando o [`boss install`]
+```sh
+boss install "https://github.com/HashLoad/dbcbr"
+```
+
 ## ⚠ Dependências
 
 :heavy_check_mark: [DBEBr Framework for Delphi/Lazarus](https://github.com/hashload/dbebr)
-
-## ⚙️ Instalação
-O DBCBr não precisa ser instalado, basta adicionar as units no path libriry do seu delphi e começar a usa-lo.
 
 ## ⚡️ Como usar
 ```Delphi
