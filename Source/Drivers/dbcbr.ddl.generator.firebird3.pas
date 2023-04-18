@@ -18,29 +18,30 @@
 }
 
 { @abstract(ORMBr Framework.)
-  @created(20 Jul 2016)
+  @created(12 Out 2016)
   @author(Isaque Pinheiro <isaquepsp@gmail.com>)
   @author(Skype : ispinheiro)
 
   ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
-unit dbcbr.metadata.interbase;
+unit dbcbr.ddl.generator.firebird3;
 
 interface
 
 uses
-  dbcbr.metadata.register,
-  dbcbr.metadata.extract,
-  dbebr.factory.interfaces;
+  dbebr.factory.interfaces,
+  dbcbr.ddl.register,
+  dbcbr.ddl.generator,
+  dbcbr.ddl.generator.firebird;
 
 type
-  TCatalogMetadataInterbase = class(TCatalogMetadataFirebird)
+  TDDLSQLGeneratorFirebird3 = class(TDDLSQLGeneratorFirebird)
   end;
 
 implementation
 
 initialization
-  TMetadataRegister.GetInstance.RegisterMetadata(dnInterbase, TCatalogMetadataInterbase.Create);
+  TSQLDriverRegister.GetInstance.RegisterDriver(dnFirebird3, TDDLSQLGeneratorFirebird3.Create);
 
 end.

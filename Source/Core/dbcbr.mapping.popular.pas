@@ -360,10 +360,16 @@ begin
       Continue;
 
     Result := TPrimaryKeyMapping.Create(PrimaryKey(LAttrib).Columns,
-                                        PrimaryKey(LAttrib).AutoIncType = AutoInc,
-                                        PrimaryKey(LAttrib).GeneratorType = SequenceInc,
-                                        PrimaryKey(LAttrib).GeneratorType = TableInc,
-                                        PrimaryKey(LAttrib).GeneratorType = GuidInc,
+                                        PrimaryKey(LAttrib).AutoIncType = TAutoIncType.AutoInc,
+  { TODO -oISAQUE -cREFATORAÇÃO :
+    Foi alterado a propriedade do mapeamento para o mesmo tipo da declaração
+    dando assim mais recurso ao incluir novos tipos como foi o caso necessário
+    de adicionar os tipo Guid32Inc, Guid36Inc e Guid38Inc }
+
+//                                        PrimaryKey(LAttrib).GeneratorType = SequenceInc,
+//                                        PrimaryKey(LAttrib).GeneratorType = TableInc,
+//                                        PrimaryKey(LAttrib).GeneratorType = GuidInc,
+                                        PrimaryKey(LAttrib).GeneratorType,
                                         PrimaryKey(LAttrib).SortingOrder,
                                         PrimaryKey(LAttrib).Unique,
                                         PrimaryKey(LAttrib).Description);
