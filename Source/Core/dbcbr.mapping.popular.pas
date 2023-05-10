@@ -39,14 +39,10 @@ uses
   Generics.Collections,
   dbcbr.mapping.attributes,
   dbcbr.mapping.classes,
-  dbcbr.rtti.helper,
   dbcbr.types.mapping;
 
 type
   TMappingPopular = class
-  private
-    function PopularLazy(ARttiType: TRttiType;
-      var AFieldName: String): TLazyMapping;
   public
     function PopularTable(ARttiType: TRttiType): TTableMapping;
     function PopularView(ARttiType: TRttiType): TViewMapping;
@@ -66,12 +62,13 @@ type
     function PopularFieldEvents(ARttiType: TRttiType): TFieldEventsMappingList;
     function PopularEnumeration(ARttiType: TRttiType): TEnumerationMappingList;
     function PopularPrimaryKeyColumns(ARttiType: TRttiType; AClass: TClass): TPrimaryKeyColumnsMapping;
-//    function PopularLazy(ARttiType: TRttiType; var AFieldName: String): TLazyMapping;
+    function PopularLazy(ARttiType: TRttiType; var AFieldName: String): TLazyMapping;
   end;
 
 implementation
 
 uses
+  dbcbr.rtti.helper,
   dbcbr.mapping.explorer;
 
 { TMappingPopular }

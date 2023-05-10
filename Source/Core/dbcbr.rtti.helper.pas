@@ -41,6 +41,7 @@ uses
   TypInfo,
   Generics.Collections,
   Generics.Defaults,
+  dbcbr.mapping.popular,
   dbcbr.mapping.attributes,
   dbcbr.types.mapping,
   dbcbr.mapping.classes;
@@ -812,7 +813,7 @@ var
 begin
   LContext := TRttiContext.Create;
   try
-    LTypeName := Self.FieldType.Handle.Name;
+    LTypeName := String(Self.FieldType.Handle.Name);
     LTypeName := StringReplace(LTypeName,'Lazy<','',[]);
     LTypeName := StringReplace(LTypeName,'>','',[]);
     ///
@@ -829,7 +830,7 @@ var
 begin
   LContext := TRttiContext.Create;
   try
-    LTypeName := Self.FieldType.Handle.Name;
+    LTypeName := String(Self.FieldType.Handle.Name);
     LTypeName := StringReplace(LTypeName,'TObjectList<','',[]);
     LTypeName := StringReplace(LTypeName,'TList<','',[]);
     LTypeName := StringReplace(LTypeName,'>','',[]);

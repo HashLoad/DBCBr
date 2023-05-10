@@ -3,7 +3,6 @@
 
                    Copyright (c) 2016, Isaque Pinheiro
                           All rights reserved.
-
                     GNU Lesser General Public License
                       Versão 3, 29 de junho de 2007
 
@@ -16,7 +15,6 @@
        Licença, complementado pelas permissões adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
-
 { @abstract(ORMBr Framework.)
   @created(20 Jul 2016)
   @author(Isaque Pinheiro <isaquepsp@gmail.com>)
@@ -266,10 +264,14 @@ type
     property SortingOrder: TSortingOrder read FSortingOrder;
     property Unique: Boolean read FUnique;
     property AutoIncType: TAutoIncType read FAutoIncType;
-    property GeneratorType: TGeneratorType read FGeneratorType;
-    property Description: string read FDescription;
-  end;
-
+
+    property GeneratorType: TGeneratorType read FGeneratorType;
+
+    property Description: string read FDescription;
+
+  end;
+
+
   Indexe = class(TCustomAttribute)
   private
     FName: string;
@@ -327,8 +329,10 @@ type
     property RefColumnNameSelect: string read FRefColumnNameSelect;
     property Join: TJoin read FJoin;
     property AliasColumn: string read FAliasColumn;
-    property AliasRefTable: string read FAliasRefTable;
-  end;
+
+    property AliasRefTable: string read FAliasRefTable;
+
+  end;
 
   Restrictions = class(TCustomAttribute)
   private
