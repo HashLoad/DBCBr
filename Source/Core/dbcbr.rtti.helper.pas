@@ -41,6 +41,7 @@ uses
   TypInfo,
   Generics.Collections,
   Generics.Defaults,
+  dbcbr.mapping.popular,
   dbcbr.mapping.attributes,
   dbcbr.types.mapping,
   dbcbr.mapping.classes;
@@ -166,7 +167,7 @@ begin
       if LAttribute is CascadeActions then // CascadeActions
          Exit(CascadeActions(LAttribute).CascadeActions);
    end;
-   Exit([CascadeNone]);
+   Exit([TCascadeAction.CascadeNone]);
 end;
 
 function TRttiPropertyHelper.GetColumn: Column;
@@ -429,7 +430,7 @@ begin
   LAttribute := LAssociationList[0];
   if LAttribute = nil then
     Exit;
-  if CascadeNone in Self.GetCascadeActions then
+  if TCascadeAction.CascadeNone in Self.GetCascadeActions then
     Result := True;
 end;
 
@@ -497,7 +498,7 @@ begin
    LAttribute := Self.GetRestriction;
    if LAttribute <> nil then
    begin
-     if VirtualData in Restrictions(LAttribute).Restrictions then
+     if TRestriction.VirtualData in Restrictions(LAttribute).Restrictions then
        Exit(True);
    end;
    Exit(False);
@@ -510,7 +511,7 @@ begin
    LAttribute := Self.GetRestriction;
    if LAttribute <> nil then
    begin
-     if Hidden in Restrictions(LAttribute).Restrictions then
+     if TRestriction.Hidden in Restrictions(LAttribute).Restrictions then
        Exit(True);
    end;
    Exit(False);
@@ -523,7 +524,7 @@ begin
    LAttribute := Self.GetRestriction;
    if LAttribute <> nil then
    begin
-     if NoInsert in Restrictions(LAttribute).Restrictions then
+     if TRestriction.NoInsert in Restrictions(LAttribute).Restrictions then
        Exit(True);
    end;
    Exit(False);
@@ -574,7 +575,7 @@ begin
   if LAttribute = nil then
     Exit;
 
-  if NotNull in Restrictions(LAttribute).Restrictions then
+  if TRestriction.NotNull in Restrictions(LAttribute).Restrictions then
     Exit(True);
 end;
 
@@ -587,7 +588,7 @@ begin
   if LAttribute = nil then
     Exit;
 
-  if NoUpdate in Restrictions(LAttribute).Restrictions then
+  if TRestriction.NoUpdate in Restrictions(LAttribute).Restrictions then
     Exit(True);
 end;
 
@@ -715,7 +716,7 @@ begin
   if LAttribute = nil then
     Exit;
 
-  if NoValidate in Restrictions(LAttribute).Restrictions then
+  if TRestriction.NoValidate in Restrictions(LAttribute).Restrictions then
     Exit(True);
 end;
 
@@ -728,7 +729,7 @@ begin
   if LAttribute = nil then
     Exit;
 
-  if Unique in Restrictions(LAttribute).Restrictions then
+  if TRestriction.Unique in Restrictions(LAttribute).Restrictions then
     Exit(True);
 end;
 
@@ -812,7 +813,7 @@ var
 begin
   LContext := TRttiContext.Create;
   try
-    LTypeName := Self.FieldType.Handle.Name;
+    LTypeName := String(Self.FieldType.Handle.Name);
     LTypeName := StringReplace(LTypeName,'Lazy<','',[]);
     LTypeName := StringReplace(LTypeName,'>','',[]);
     ///
@@ -829,7 +830,7 @@ var
 begin
   LContext := TRttiContext.Create;
   try
-    LTypeName := Self.FieldType.Handle.Name;
+    LTypeName := String(Self.FieldType.Handle.Name);
     LTypeName := StringReplace(LTypeName,'TObjectList<','',[]);
     LTypeName := StringReplace(LTypeName,'TList<','',[]);
     LTypeName := StringReplace(LTypeName,'>','',[]);

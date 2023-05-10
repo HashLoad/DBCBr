@@ -355,7 +355,7 @@ begin
     oForeignKey := TForeignKeyMIK.Create(ATable);
     oForeignKey.Name := VarToStr(oDBResultSet.GetFieldValue('fk_name'));
     oForeignKey.FromTable := VarToStr(oDBResultSet.GetFieldValue('table_reference'));
-    oForeignKey.OnUpdate := None;
+    oForeignKey.OnUpdate := TRuleAction.None;
     oForeignKey.OnDelete := GetRuleAction(VarToStr(oDBResultSet.GetFieldValue('fk_deleteaction')));
     oForeignKey.Description := VarToStr(oDBResultSet.GetFieldValue('fk_description'));
     ATable.ForeignKeys.Add(oForeignKey.Name, oForeignKey);

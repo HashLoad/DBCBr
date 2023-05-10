@@ -196,15 +196,17 @@ type
     FSortingOrder: TSortingOrder;
     FUnique: Boolean;
     FAutoIncrement: Boolean;
-    FSequenceIncrement: Boolean;
-    FTableIncrement: Boolean;
-    FGuidIncrement: Boolean;
+    FGeneratorType: TGeneratorType;
+//    FSequenceIncrement: Boolean;
+//    FTableIncrement: Boolean;
+//    FGuidIncrement: Boolean;
   public
     constructor Create(const AColumns: TArray<string>;
       const AAutoInc: Boolean;
-      const ASequenceInc: Boolean;
-      const ATableInc: Boolean;
-      const AGuidInc: Boolean;
+//      const ASequenceInc: Boolean;
+//      const ATableInc: Boolean;
+//      const AGuidInc: Boolean;
+      const AGeneratorType: TGeneratorType;
       const ASortingOrder: TSortingOrder;
       const AUnique: Boolean;
       const ADescription: string = '');
@@ -214,9 +216,10 @@ type
     property SortingOrder: TSortingOrder read FSortingOrder;
     property Unique: Boolean read FUnique;
     property AutoIncrement: boolean read FAutoIncrement;
-    property SequenceIncrement: boolean read FSequenceIncrement;
-    property TableIncrement: boolean read FTableIncrement;
-    property GuidIncrement: boolean read FGuidIncrement;
+//    property SequenceIncrement: boolean read FSequenceIncrement;
+//    property TableIncrement: boolean read FTableIncrement;
+//    property GuidIncrement: boolean read FGuidIncrement;
+    property GeneratorType: TGeneratorType read FGeneratorType;
   end;
 
   // IndexeMapping
@@ -406,9 +409,10 @@ end;
 
 constructor TPrimaryKeyMapping.Create(const AColumns: TArray<string>;
   const AAutoInc: Boolean;
-  const ASequenceInc: Boolean;
-  const ATableInc: Boolean;
-  const AGuidInc: Boolean;
+//  const ASequenceInc: Boolean;
+//  const ATableInc: Boolean;
+//  const AGuidInc: Boolean;
+  const AGeneratorType: TGeneratorType;
   const ASortingOrder: TSortingOrder;
   const AUnique: Boolean;
   const ADescription: string);
@@ -420,9 +424,10 @@ begin
   FSortingOrder := ASortingOrder;
   FUnique := AUnique;
   FAutoIncrement := AAutoInc;
-  FSequenceIncrement := ASequenceInc;
-  FTableIncrement := ATableInc;
-  FGuidIncrement := AGuidInc;
+  FGeneratorType := AGeneratorType;
+//  FSequenceIncrement := ASequenceInc;
+//  FTableIncrement := ATableInc;
+//  FGuidIncrement := AGuidInc;
   FDescription := ADescription;
   if Length(AColumns) > 0 then
   begin

@@ -357,17 +357,17 @@ end;
 function TDDLSQLGenerator.GetRuleDeleteActionDefinition(ARuleAction: TRuleAction): string;
 begin
   Result := '';
-  if      ARuleAction in [Cascade]    then Result := 'ON DELETE CASCADE'
-  else if ARuleAction in [SetNull]    then Result := 'ON DELETE SET NULL'
-  else if ARuleAction in [SetDefault] then Result := 'ON DELETE SET DEFAULT';
+  if      ARuleAction in [TRuleAction.Cascade]    then Result := 'ON DELETE CASCADE'
+  else if ARuleAction in [TRuleAction.SetNull]    then Result := 'ON DELETE SET NULL'
+  else if ARuleAction in [TRuleAction.SetDefault] then Result := 'ON DELETE SET DEFAULT';
 end;
 
 function TDDLSQLGenerator.GetRuleUpdateActionDefinition(ARuleAction: TRuleAction): string;
 begin
   Result := '';
-  if      ARuleAction in [Cascade]    then Result := 'ON UPDATE CASCADE'
-  else if ARuleAction in [SetNull]    then Result := 'ON UPDATE SET NULL'
-  else if ARuleAction in [SetDefault] then Result := 'ON UPDATE SET DEFAULT';
+  if      ARuleAction in [TRuleAction.Cascade]    then Result := 'ON UPDATE CASCADE'
+  else if ARuleAction in [TRuleAction.SetNull]    then Result := 'ON UPDATE SET NULL'
+  else if ARuleAction in [TRuleAction.SetDefault] then Result := 'ON UPDATE SET DEFAULT';
 end;
 
 function TDDLSQLGenerator.GetSupportedFeatures: TSupportedFeatures;

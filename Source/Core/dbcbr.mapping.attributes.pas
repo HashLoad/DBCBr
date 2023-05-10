@@ -3,7 +3,6 @@
 
                    Copyright (c) 2016, Isaque Pinheiro
                           All rights reserved.
-
                     GNU Lesser General Public License
                       Versão 3, 29 de junho de 2007
 
@@ -16,7 +15,6 @@
        Licença, complementado pelas permissões adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
-
 { @abstract(ORMBr Framework.)
   @created(20 Jul 2016)
   @author(Isaque Pinheiro <isaquepsp@gmail.com>)
@@ -229,8 +227,8 @@ type
     FDescription: string;
   public
     constructor Create(const AName, AFromColumns, ATableNameRef, AToColumns: string;
-      const ARuleDelete: TRuleAction = None;
-      const ARuleUpdate: TRuleAction = None;
+      const ARuleDelete: TRuleAction = TRuleAction.None;
+      const ARuleUpdate: TRuleAction = TRuleAction.None;
       const ADescription: string = ''); overload;
     property Name: string read FName;
     property TableNameRef: string read FTableNameRef;
@@ -252,24 +250,28 @@ type
   public
     constructor Create(const AColumns, ADescription: string); overload;
     constructor Create(const AColumns: string;
-      const AAutoIncType: TAutoIncType = NotInc;
-      const ASortingOrder: TSortingOrder = NoSort;
+      const AAutoIncType: TAutoIncType = TAutoIncType.NotInc;
+      const ASortingOrder: TSortingOrder = TSortingOrder.NoSort;
       const AUnique: Boolean = False;
       const ADescription: string = ''); overload;
     constructor Create(const AColumns: string;
-      const AAutoIncType: TAutoIncType = NotInc;
-      const AGeneratorType: TGeneratorType = NoneInc;
-      const ASortingOrder: TSortingOrder = NoSort;
+      const AAutoIncType: TAutoIncType = TAutoIncType.NotInc;
+      const AGeneratorType: TGeneratorType = TGeneratorType.NoneInc;
+      const ASortingOrder: TSortingOrder = TSortingOrder.NoSort;
       const AUnique: Boolean = False;
       const ADescription: string = ''); overload;
     property Columns: TArray<string> read FColumns;
     property SortingOrder: TSortingOrder read FSortingOrder;
     property Unique: Boolean read FUnique;
     property AutoIncType: TAutoIncType read FAutoIncType;
-    property GeneratorType: TGeneratorType read FGeneratorType;
-    property Description: string read FDescription;
-  end;
-
+
+    property GeneratorType: TGeneratorType read FGeneratorType;
+
+    property Description: string read FDescription;
+
+  end;
+
+
   Indexe = class(TCustomAttribute)
   private
     FName: string;
@@ -280,7 +282,7 @@ type
   public
     constructor Create(const AName, AColumns, ADescription: string); overload;
     constructor Create(const AName, AColumns: string;
-      const ASortingOrder: TSortingOrder = NoSort;
+      const ASortingOrder: TSortingOrder = TSortingOrder.NoSort;
       const AUnique: Boolean = False;
       const ADescription: string = ''); overload;
     property Name: string read FName;
@@ -320,15 +322,17 @@ type
       ARefColumnNameSelect: string; const AJoin: TJoin;
       const AAliasColumn: string); overload;
     constructor Create(const AColumnName, ARefTableName, ARefColumnName,
-      ARefColumnNameSelect: string; const AJoin: TJoin = InnerJoin); overload;
+      ARefColumnNameSelect: string; const AJoin: TJoin = TJoin.InnerJoin); overload;
     property ColumnName: string read FColumnName;
     property RefColumnName: string read FRefColumnName;
     property RefTableName: string read FRefTableName;
     property RefColumnNameSelect: string read FRefColumnNameSelect;
     property Join: TJoin read FJoin;
     property AliasColumn: string read FAliasColumn;
-    property AliasRefTable: string read FAliasRefTable;
-  end;
+
+    property AliasRefTable: string read FAliasRefTable;
+
+  end;
 
   Restrictions = class(TCustomAttribute)
   private
@@ -765,7 +769,12 @@ end;
 
 constructor PrimaryKey.Create(const AColumns, ADescription: string);
 begin
-  Create(AColumns, NotInc, SequenceInc, NoSort, False, ADescription);
+  Create(AColumns,
+         TAutoIncType.NotInc,
+         TGeneratorType.SequenceInc,
+         TSortingOrder.NoSort,
+         False,
+         ADescription);
 end;
 
 constructor PrimaryKey.Create(const AColumns: string;
@@ -774,7 +783,12 @@ constructor PrimaryKey.Create(const AColumns: string;
   const AUnique: Boolean;
   const ADescription: string);
 begin
-  Create(AColumns, AAutoIncType, NoneInc, ASortingOrder, AUnique, ADescription);
+  Create(AColumns,
+         AAutoIncType,
+         TGeneratorType.NoneInc,
+         ASortingOrder,
+         AUnique,
+         ADescription);
 end;
 
 constructor PrimaryKey.Create(const AColumns: string;
@@ -868,7 +882,7 @@ end;
 
 constructor Indexe.Create(const AName, AColumns, ADescription: string);
 begin
-  Create(AName, AColumns, NoSort, False, ADescription);
+  Create(AName, AColumns, TSortingOrder.NoSort, False, ADescription);
 end;
 
 constructor Indexe.Create(const AName, AColumns: string;
