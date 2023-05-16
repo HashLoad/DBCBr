@@ -30,7 +30,7 @@ unit dbcbr.types.mapping;
 interface
 
 type
-  {$SCOPEDENUMS ON}
+//  {$SCOPEDENUMS ON}
   TRuleAction = (None, Cascade, SetNull, SetDefault);
   TSortingOrder = (NoSort, Ascending, Descending);
   TMultiplicity = (OneToOne, OneToMany, ManyToOne, ManyToMany);
@@ -63,7 +63,7 @@ type
   TEnumType = (etChar, etString, etInteger, etBoolean);
   TFieldEvent = (onChange, onGetText, onSetText, onValidate);
   TFieldEvents = set of TFieldEvent;
-  {$SCOPEDENUMS OFF}
+//  {$SCOPEDENUMS OFF}
 
 implementation
 
