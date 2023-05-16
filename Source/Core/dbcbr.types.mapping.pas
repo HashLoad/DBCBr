@@ -30,22 +30,40 @@ unit dbcbr.types.mapping;
 interface
 
 type
+//  {$SCOPEDENUMS ON}
   TRuleAction = (None, Cascade, SetNull, SetDefault);
   TSortingOrder = (NoSort, Ascending, Descending);
   TMultiplicity = (OneToOne, OneToMany, ManyToOne, ManyToMany);
   TGenerated = (Never, Insert, Always);
   TJoin = (InnerJoin, LeftJoin, RightJoin, FullJoin);
   TAutoIncType = (NotInc, AutoInc);
-  TGeneratorType = (SequenceInc, TableInc, GuidInc, NoneInc);
-  TRestriction = (NotNull, NoInsert, NoUpdate, NoValidate, Unique, Hidden, VirtualData);
+  TGeneratorType = (NoneInc,
+                    SequenceInc,
+                    TableInc,
+                    GuidInc, // 'deprected Use Guid32Inc, Guid36Inc or Guid38Inc'
+                    Guid38Inc,
+                    Guid36Inc,
+                    Guid32Inc);
+  TRestriction = (NotNull,
+                  NoInsert,
+                  NoUpdate,
+                  NoValidate,
+                  Unique,
+                  Hidden,
+                  VirtualData);
   TRestrictions = set of TRestriction;
-  TCascadeAction = (CascadeNone, CascadeAutoInc, CascadeInsert, CascadeUpdate, CascadeDelete);
+  TCascadeAction = (CascadeNone,
+                    CascadeAutoInc,
+                    CascadeInsert,
+                    CascadeUpdate,
+                    CascadeDelete);
   TCascadeActions = set of TCascadeAction;
   TMasterEvent = (AutoPost, AutoEdit, AutoInsert);
   TMasterEvents = set of TMasterEvent;
   TEnumType = (etChar, etString, etInteger, etBoolean);
   TFieldEvent = (onChange, onGetText, onSetText, onValidate);
   TFieldEvents = set of TFieldEvent;
+//  {$SCOPEDENUMS OFF}
 
 implementation
 

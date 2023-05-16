@@ -48,11 +48,13 @@ type
     procedure SetModelForDatabase(const Value: Boolean);
     function GetCatalogMetadata: TCatalogMetadataMIK;
     procedure SetCatalogMetadata(const Value: TCatalogMetadataMIK);
+    procedure SetGuidOrOctetos(const AColumn: TColumnMIK;
+      const ADriverName: TDriverName);
   protected
     FConnection: IDBConnection;
     FCatalogMetadata: TCatalogMetadataMIK;
     FModelForDatabase: Boolean;
-    procedure GetFieldTypeDefinition(AColumn: TColumnMIK); virtual;
+    procedure GetFieldTypeDefinition(const AColumn: TColumnMIK); virtual;
     function GetRuleAction(ARuleAction: string): TRuleAction; overload;
     function GetRuleAction(ARuleAction: Variant): TRuleAction; overload;
   public
@@ -198,45 +200,45 @@ begin
   FModelForDatabase := Value;
 end;
 
-procedure TMetadataAbstract.GetFieldTypeDefinition(AColumn: TColumnMIK);
+procedure TMetadataAbstract.GetFieldTypeDefinition(const AColumn: TColumnMIK);
 var
-  FDriverName: TDriverName;
+  LDriverName: TDriverName;
 begin
-  FDriverName := FConnection.GetDriverName;
+  LDriverName := FConnection.GetDriverName;
   case AColumn.FieldType of
     ftBoolean:
     begin
-      if      FDriverName = dnADS   then AColumn.TypeName := 'LOGICAL'
-      else if FDriverName = dnASA   then AColumn.TypeName := 'BIT'
-      else if FDriverName = dnMSSQL then AColumn.TypeName := 'BIT'
+      if      LDriverName = dnADS   then AColumn.TypeName := 'LOGICAL'
+      else if LDriverName = dnASA   then AColumn.TypeName := 'BIT'
+      else if LDriverName = dnMSSQL then AColumn.TypeName := 'BIT'
       else                               AColumn.TypeName := 'BOOLEAN';
     end;
     ftByte, ftShortint, ftSmallint, ftWord:
     begin
-      if FDriverName = dnOracle then AColumn.TypeName := 'NUMBER'
+      if LDriverName = dnOracle then AColumn.TypeName := 'NUMBER'
       else                           AColumn.TypeName := 'SMALLINT';
     end;
     ftInteger, ftLongWord:
     begin
-      if      FDriverName = dnMSSQL  then AColumn.TypeName := 'INT'
-      else if FDriverName = dnMySQL  then AColumn.TypeName := 'INT'
-      else if FDriverName = dnOracle then AColumn.TypeName := 'NUMBER'
+      if      LDriverName = dnMSSQL  then AColumn.TypeName := 'INT'
+      else if LDriverName = dnMySQL  then AColumn.TypeName := 'INT'
+      else if LDriverName = dnOracle then AColumn.TypeName := 'NUMBER'
       else                                AColumn.TypeName := 'INTEGER';
     end;
     ftLargeint:
-      if      FDriverName = dnOracle     then AColumn.TypeName := 'NUMBER'
-      else if FDriverName = dnFirebird   then AColumn.TypeName := 'BIGINT'
-      else if FDriverName = dnInterbase  then AColumn.TypeName := 'BIGINT'
-      else if FDriverName = dnPostgreSQL then AColumn.TypeName := 'BIGINT'
+      if      LDriverName = dnOracle     then AColumn.TypeName := 'NUMBER'
+      else if LDriverName = dnFirebird   then AColumn.TypeName := 'BIGINT'
+      else if LDriverName = dnInterbase  then AColumn.TypeName := 'BIGINT'
+      else if LDriverName = dnPostgreSQL then AColumn.TypeName := 'BIGINT'
       else                                    AColumn.TypeName := 'NUMERIC(%l)';
     ftString:
-      if FDriverName = dnOracle                               then AColumn.TypeName := 'VARCHAR2(%l)'
-      else if (FDriverName = dnMSSQL) and (AColumn.Size = -1) then AColumn.TypeName := 'VARCHAR(MAX)'
+      if LDriverName = dnOracle                               then AColumn.TypeName := 'VARCHAR2(%l)'
+      else if (LDriverName = dnMSSQL) and (AColumn.Size = -1) then AColumn.TypeName := 'VARCHAR(MAX)'
       else                                                         AColumn.TypeName := 'VARCHAR(%l)';
     ftWideString:
-      if      FDriverName = dnOracle    then AColumn.TypeName := 'NVARCHAR2(%l)'
-      else if FDriverName = dnFirebird  then AColumn.TypeName := 'VARCHAR(%l)'
-      else if FDriverName = dnInterbase then AColumn.TypeName := 'VARCHAR(%l)'
+      if      LDriverName = dnOracle    then AColumn.TypeName := 'NVARCHAR2(%l)'
+      else if LDriverName = dnFirebird  then AColumn.TypeName := 'VARCHAR(%l)'
+      else if LDriverName = dnInterbase then AColumn.TypeName := 'VARCHAR(%l)'
       else                                   AColumn.TypeName := 'NVARCHAR(%l)';
     ftFixedChar:
       AColumn.TypeName := 'CHAR(%l)';
@@ -245,96 +247,92 @@ begin
     ftDate:
       AColumn.TypeName := 'DATE';
     ftTime:
-      if FDriverName = dnOracle then AColumn.TypeName := 'DATE'
+      if LDriverName = dnOracle then AColumn.TypeName := 'DATE'
       else                           AColumn.TypeName := 'TIME';
     ftDateTime:
-      if      FDriverName = dnInterbase  then AColumn.TypeName := 'DATE'
-      else if FDriverName = dnFirebird   then AColumn.TypeName := 'DATE'
-      else if FDriverName = dnOracle     then AColumn.TypeName := 'DATE'
-      else if FDriverName = dnPostgreSQL then AColumn.TypeName := 'DATE'
+      if      LDriverName = dnInterbase  then AColumn.TypeName := 'DATE'
+      else if LDriverName = dnFirebird   then AColumn.TypeName := 'DATE'
+      else if LDriverName = dnOracle     then AColumn.TypeName := 'DATE'
+      else if LDriverName = dnPostgreSQL then AColumn.TypeName := 'DATE'
       else                                   AColumn.TypeName := 'DATETIME';
     ftTimeStamp, ftOraTimeStamp, ftTimeStampOffset:
-      if FDriverName = dnOracle    then AColumn.TypeName := 'DATE'
+      if LDriverName = dnOracle    then AColumn.TypeName := 'DATE'
       else                              AColumn.TypeName := 'TIMESTAMP';
     ftFloat:
     begin
-      if      FDriverName = dnSQLite     then AColumn.TypeName := 'FLOAT(%p,%s)'
-      else if FDriverName = dnPostgreSQL then AColumn.TypeName := 'NUMERIC(%p,%s)'
+      if      LDriverName = dnSQLite     then AColumn.TypeName := 'FLOAT(%p,%s)'
+      else if LDriverName = dnPostgreSQL then AColumn.TypeName := 'NUMERIC(%p,%s)'
       else                                    AColumn.TypeName := 'FLOAT';
     end;
     ftSingle:
-      if FDriverName = dnOracle    then AColumn.TypeName := 'NUMBER(%p,%s)'
+      if LDriverName = dnOracle    then AColumn.TypeName := 'NUMBER(%p,%s)'
       else                              AColumn.TypeName := 'REAL';
     ftExtended:
     begin
-      if      FDriverName = dnMSSQL  then AColumn.TypeName := 'FLOAT'
-      else if FDriverName = dnSQLite then AColumn.TypeName := 'DOUBLE'
-      else if FDriverName = dnMySQL  then AColumn.TypeName := 'DOUBLE'
-      else if FDriverName = dnDB2    then AColumn.TypeName := 'DOUBLE'
-      else if FDriverName = dnOracle then AColumn.TypeName := 'BINARY_DOUBLE'
+      if      LDriverName = dnMSSQL  then AColumn.TypeName := 'FLOAT'
+      else if LDriverName = dnSQLite then AColumn.TypeName := 'DOUBLE'
+      else if LDriverName = dnMySQL  then AColumn.TypeName := 'DOUBLE'
+      else if LDriverName = dnDB2    then AColumn.TypeName := 'DOUBLE'
+      else if LDriverName = dnOracle then AColumn.TypeName := 'BINARY_DOUBLE'
       else                                AColumn.TypeName := 'DOUBLE PRECISION';
     end;
     ftCurrency:
     begin
-      if      FDriverName = dnMSSQL      then AColumn.TypeName := 'MONEY'
-      else if FDriverName = dnSQLite     then AColumn.TypeName := 'MONEY'
-      else if FDriverName = dnPostgreSQL then AColumn.TypeName := 'MONEY'
-      else if FDriverName = dnOracle     then AColumn.TypeName := 'NUMBER(%p,%s)'
+      if      LDriverName = dnMSSQL      then AColumn.TypeName := 'MONEY'
+      else if LDriverName = dnSQLite     then AColumn.TypeName := 'MONEY'
+      else if LDriverName = dnPostgreSQL then AColumn.TypeName := 'MONEY'
+      else if LDriverName = dnOracle     then AColumn.TypeName := 'NUMBER(%p,%s)'
       else                                    AColumn.TypeName := 'NUMERIC(%p,%s)';
     end;
     ftBCD, ftFMTBcd:
     begin
-      if      FDriverName = dnOracle  then AColumn.TypeName := 'NUMBER(%p,%s)'
-      else if FDriverName = dnSQLite  then AColumn.TypeName := 'FLOAT(%p,%s)'
+      if      LDriverName = dnOracle  then AColumn.TypeName := 'NUMBER(%p,%s)'
+      else if LDriverName = dnSQLite  then AColumn.TypeName := 'FLOAT(%p,%s)'
       else                                 AColumn.TypeName := 'DECIMAL(%p,%s)';
     end;
     ftBlob, ftOraBlob:
     begin
-      if      FDriverName = dnMSSQL      then AColumn.TypeName := 'VARBINARY(MAX)'
-      else if FDriverName = dnPostgreSQL then AColumn.TypeName := 'BYTEA'
+      if      LDriverName = dnMSSQL      then AColumn.TypeName := 'VARBINARY(MAX)'
+      else if LDriverName = dnPostgreSQL then AColumn.TypeName := 'BYTEA'
       else                                    AColumn.TypeName := 'BLOB'
     end;
-    ftGraphic: 
-    begin 
-      if FDriverName = dnMSSQL  then AColumn.TypeName := 'IMAGE'
+    ftGraphic:
+    begin
+      if LDriverName = dnMSSQL  then AColumn.TypeName := 'IMAGE'
       else                           AColumn.TypeName := 'BLOB'
     end;
     ftWideMemo:
     begin
-      if      FDriverName = dnFirebird  then AColumn.TypeName := 'BLOB SUB_TYPE 1'
-      else if FDriverName = dnInterbase then AColumn.TypeName := 'BLOB SUB_TYPE 1'
-      else if FDriverName = dnMSSQL     then AColumn.TypeName := 'NTEXT'
-      else if FDriverName = dnOracle    then AColumn.TypeName := 'NCLOB'
+      if      LDriverName = dnFirebird  then AColumn.TypeName := 'BLOB SUB_TYPE 1'
+      else if LDriverName = dnInterbase then AColumn.TypeName := 'BLOB SUB_TYPE 1'
+      else if LDriverName = dnMSSQL     then AColumn.TypeName := 'NTEXT'
+      else if LDriverName = dnOracle    then AColumn.TypeName := 'NCLOB'
       else                                   AColumn.TypeName := 'TEXT';
     end;
     ftMemo, ftOraClob:
     begin
-      if      FDriverName = dnFirebird  then AColumn.TypeName := 'BLOB SUB_TYPE 1'
-      else if FDriverName = dnInterbase then AColumn.TypeName := 'BLOB SUB_TYPE 1'
-      else if FDriverName = dnOracle    then AColumn.TypeName := 'CLOB'
+      if      LDriverName = dnFirebird  then AColumn.TypeName := 'BLOB SUB_TYPE 1'
+      else if LDriverName = dnInterbase then AColumn.TypeName := 'BLOB SUB_TYPE 1'
+      else if LDriverName = dnOracle    then AColumn.TypeName := 'CLOB'
       else                                   AColumn.TypeName := 'TEXT';
     end;
     ftGuid:
     begin
-      if FDriverName = dnFirebird  then
+      // GUID OCTETs (ou simplesmente octetos) se referem aos 16 bytes
+      // (128 bits) que compõem um GUID (Globally Unique Identifier).
+      // Cada octeto é representado por dois caracteres em hexadecimal,
+      // formando uma sequência de 32 caracteres hexadecimais separados
+      // por hífens (por exemplo, "550e8400-e29b-41d4-a716-446655440000").
+      if FConnection.Options.StoreGUIDAsOctet then
       begin
-        if not FConnection.DBOptions.StoreGUIDAsOctet then
-          AColumn.TypeName := 'CHAR(36)'
-        else
-        begin
-          /// <summary>
-          /// A GUID field will be created using the following specification:
-          /// CHAR(16) CHARACTER SET OCTETS;
-          /// </summary>
-          AColumn.TypeName := 'CHAR(%l)';
-          AColumn.CharSet := 'OCTETS';
-          AColumn.Size := 16;
-        end;
+        SetGuidOrOctetos(AColumn, LDriverName);
       end
-      else if FDriverName = dnInterbase then AColumn.TypeName := 'CHAR(36)'
-      else if FDriverName = dnMySQL     then AColumn.TypeName := 'CHAR(36)'
-      else if FDriverName = dnOracle    then AColumn.TypeName := 'NCHAR2(36)'
-      else                                   AColumn.TypeName := 'GUID';
+      else if LDriverName = dnPostgreSQL then AColumn.TypeName := 'CHAR(%1)'
+      else if LDriverName = dnFirebird   then AColumn.TypeName := 'CHAR(%1)'
+      else if LDriverName = dnInterbase  then AColumn.TypeName := 'CHAR(%1)'
+      else if LDriverName = dnMySQL      then AColumn.TypeName := 'CHAR(%1)'
+      else if LDriverName = dnOracle     then AColumn.TypeName := 'NCHAR2(%1)'
+      else                                    AColumn.TypeName := 'GUID';
     end;
   else
     raise Exception.Create('Tipo da coluna definida [' + AColumn.Table.Name + '.' +
@@ -382,20 +380,39 @@ end;
 
 function TMetadataAbstract.GetRuleAction(ARuleAction: string): TRuleAction;
 begin
-  if      ARuleAction = 'NO ACTION'   then Result := None
-  else if ARuleAction = 'SET NULL'    then Result := SetNull
-  else if ARuleAction = 'SET DEFAULT' then Result := SetDefault
-  else if ARuleAction = 'CASCADE'     then Result := Cascade
-  else Result := None;
+  if      ARuleAction = 'NO ACTION'   then Result := TRuleAction.None
+  else if ARuleAction = 'SET NULL'    then Result := TRuleAction.SetNull
+  else if ARuleAction = 'SET DEFAULT' then Result := TRuleAction.SetDefault
+  else if ARuleAction = 'CASCADE'     then Result := TRuleAction.Cascade
+  else Result := TRuleAction.None;
 end;
 
 function TMetadataAbstract.GetRuleAction(ARuleAction: Variant): TRuleAction;
 begin
-  if      ARuleAction = 0 then Result := None
-  else if ARuleAction = 1 then Result := Cascade
-  else if ARuleAction = 2 then Result := SetNull
-  else if ARuleAction = 3 then Result := SetDefault
-  else Result := None;
+  if      ARuleAction = 0 then Result := TRuleAction.None
+  else if ARuleAction = 1 then Result := TRuleAction.Cascade
+  else if ARuleAction = 2 then Result := TRuleAction.SetNull
+  else if ARuleAction = 3 then Result := TRuleAction.SetDefault
+  else Result := TRuleAction.None;
+end;
+
+procedure TMetadataAbstract.SetGuidOrOctetos(const AColumn: TColumnMIK;
+  const ADriverName: TDriverName);
+begin
+  if ADriverName = dnFirebird  then
+  begin
+    AColumn.TypeName := 'CHAR(%l)';
+    AColumn.CharSet := 'OCTETS';
+    AColumn.Size := 16;
+  end
+  else
+  if ADriverName = dnPostgreSQL  then
+  begin
+    AColumn.TypeName := 'BYTE(%1)';
+    AColumn.Size := 16;
+  end
+  else
+    AColumn.TypeName := 'CHAR(%1)';
 end;
 
 end.

@@ -25,22 +25,23 @@
   ORM Brasil é um ORM simples e descomplicado para quem utiliza Delphi.
 }
 
-unit dbcbr.metadata.interbase;
+unit dbcbr.metadata.firebird3;
 
 interface
 
 uses
+  dbcbr.metadata.firebird,
   dbcbr.metadata.register,
   dbcbr.metadata.extract,
   dbebr.factory.interfaces;
 
 type
-  TCatalogMetadataInterbase = class(TCatalogMetadataFirebird)
+  TCatalogMetadataFirebird3 = class(TCatalogMetadataFirebird)
   end;
 
 implementation
 
 initialization
-  TMetadataRegister.GetInstance.RegisterMetadata(dnInterbase, TCatalogMetadataInterbase.Create);
+  TMetadataRegister.GetInstance.RegisterMetadata(dnFirebird3, TCatalogMetadataFirebird3.Create);
 
 end.

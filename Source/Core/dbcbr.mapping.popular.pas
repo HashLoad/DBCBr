@@ -39,14 +39,10 @@ uses
   Generics.Collections,
   dbcbr.mapping.attributes,
   dbcbr.mapping.classes,
-  dbcbr.rtti.helper,
   dbcbr.types.mapping;
 
 type
   TMappingPopular = class
-  private
-    function PopularLazy(ARttiType: TRttiType;
-      var AFieldName: String): TLazyMapping;
   public
     function PopularTable(ARttiType: TRttiType): TTableMapping;
     function PopularView(ARttiType: TRttiType): TViewMapping;
@@ -66,12 +62,13 @@ type
     function PopularFieldEvents(ARttiType: TRttiType): TFieldEventsMappingList;
     function PopularEnumeration(ARttiType: TRttiType): TEnumerationMappingList;
     function PopularPrimaryKeyColumns(ARttiType: TRttiType; AClass: TClass): TPrimaryKeyColumnsMapping;
-//    function PopularLazy(ARttiType: TRttiType; var AFieldName: String): TLazyMapping;
+    function PopularLazy(ARttiType: TRttiType; var AFieldName: String): TLazyMapping;
   end;
 
 implementation
 
 uses
+  dbcbr.rtti.helper,
   dbcbr.mapping.explorer;
 
 { TMappingPopular }
@@ -360,10 +357,16 @@ begin
       Continue;
 
     Result := TPrimaryKeyMapping.Create(PrimaryKey(LAttrib).Columns,
-                                        PrimaryKey(LAttrib).AutoIncType = AutoInc,
-                                        PrimaryKey(LAttrib).GeneratorType = SequenceInc,
-                                        PrimaryKey(LAttrib).GeneratorType = TableInc,
-                                        PrimaryKey(LAttrib).GeneratorType = GuidInc,
+                                        PrimaryKey(LAttrib).AutoIncType = TAutoIncType.AutoInc,
+  { TODO -oISAQUE -cREFATORAÇÃO :
+    Foi alterado a propriedade do mapeamento para o mesmo tipo da declaração
+    dando assim mais recurso ao incluir novos tipos como foi o caso necessário
+    de adicionar os tipo Guid32Inc, Guid36Inc e Guid38Inc }
+
+//                                        PrimaryKey(LAttrib).GeneratorType = SequenceInc,
+//                                        PrimaryKey(LAttrib).GeneratorType = TableInc,
+//                                        PrimaryKey(LAttrib).GeneratorType = GuidInc,
+                                        PrimaryKey(LAttrib).GeneratorType,
                                         PrimaryKey(LAttrib).SortingOrder,
                                         PrimaryKey(LAttrib).Unique,
                                         PrimaryKey(LAttrib).Description);
