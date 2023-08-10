@@ -57,7 +57,7 @@ type
   TMappingRepository = class
   private
     FRepository: TRepository;
-    function FindEntity(AClass: TClass): TList<TClass>;
+//    function FindEntity(AClass: TClass): TList<TClass>;
   public
     constructor Create(AEntity, AView: TArray<TClass>);
     destructor Destroy; override;
@@ -107,29 +107,29 @@ var
   LClass: TClass;
 begin
   Result := nil;
-  for LClass in List.Entitys do
+  for LClass in FRepository.Entitys do
     if SameText(LClass.ClassName, ClassName) then
       Exit(LClass);
 end;
 
-function TMappingRepository.FindEntity(AClass: TClass): TList<TClass>;
-var
-  LClass: TClass;
-  LListClass: TList<TClass>;
-begin
-  Result := TList<TClass>.Create;
-  Result.AddRange(GetEntity(AClass));
-
-  for LClass in GetEntity(AClass) do
-  begin
-    LListClass := FindEntity(LClass);
-    try
-      Result.AddRange(LListClass);
-    finally
-      LListClass.Free;
-    end;
-  end;
-end;
+//function TMappingRepository.FindEntity(AClass: TClass): TList<TClass>;
+//var
+//  LClass: TClass;
+//  LListClass: TList<TClass>;
+//begin
+//  Result := TList<TClass>.Create;
+//  Result.AddRange(GetEntity(AClass));
+//
+//  for LClass in GetEntity(AClass) do
+//  begin
+//    LListClass := FindEntity(LClass);
+//    try
+//      Result.AddRange(LListClass);
+//    finally
+//      LListClass.Free;
+//    end;
+//  end;
+//end;
 
 function TMappingRepository.GetEntity(AClass: TClass): TEnumerable<TClass>;
 begin

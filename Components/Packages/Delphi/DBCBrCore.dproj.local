@@ -1,2 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/08/10 09:16:39.000.828,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.interfaces.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.843,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.register.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.796,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.exceptions.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.796,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.popular.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.733,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.metainfo.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.718,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.compare.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.781,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.classes.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.749,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.generator.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.733,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.interfaces.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.718,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.factory.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.812,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.register.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.812,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.repository.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.796,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.explorer.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.749,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.commands.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.843,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.types.mapping.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.749,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.interfaces.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.781,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.register.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.843,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.rtti.helper.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.781,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.attributes.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.828,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.db.factory.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.733,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.mapping.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.687,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.abstract.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:39.000.828,D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.extract.pas=</Transaction>
+    <Transaction>2023/08/10 09:16:52.000.906,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.mapping.pas</Transaction>
+    <Transaction>2023/08/10 09:16:52.000.796,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.abstract.pas</Transaction>
+    <Transaction>2023/08/10 09:16:52.000.953,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.metainfo.pas</Transaction>
+    <Transaction>2023/08/10 09:16:52.000.858,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.factory.pas</Transaction>
+    <Transaction>2023/08/10 09:16:52.000.968,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.commands.pas</Transaction>
+    <Transaction>2023/08/10 09:16:52.000.890,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.interfaces.pas</Transaction>
+    <Transaction>2023/08/10 09:16:52.000.812,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.database.compare.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.470,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.types.mapping.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.439,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.rtti.helper.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.251,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.register.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.266,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.repository.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.031,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.interfaces.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.376,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.interfaces.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.204,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.popular.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.062,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.register.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.125,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.classes.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.361,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.extract.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.424,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.register.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.078,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.attributes.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.188,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.explorer.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.015,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.ddl.generator.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.314,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.metadata.db.factory.pas</Transaction>
+    <Transaction>2023/08/10 09:16:53.000.141,=D:\PROJETOS-Brasil\DBCBr\Source\Core\dbcbr.mapping.exceptions.pas</Transaction>
+  </Transactions>
+</BorlandProject>

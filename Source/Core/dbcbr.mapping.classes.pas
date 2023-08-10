@@ -3,7 +3,6 @@
 
                    Copyright (c) 2016, Isaque Pinheiro
                           All rights reserved.
-
                     GNU Lesser General Public License
                       Versão 3, 29 de junho de 2007
 
@@ -16,7 +15,6 @@
        Licença, complementado pelas permissões adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
-
 { @abstract(ORMBr Framework.)
   @created(20 Jul 2016)
   @author(Isaque Pinheiro <isaquepsp@gmail.com>)
@@ -47,7 +45,7 @@ type
     property Description: string read FDescription write FDescription;
   end;
 
-  /// TableMapping
+  // TableMapping
   TTableMapping = class(TMappingDescription)
   private
     FName: string;
@@ -57,7 +55,7 @@ type
     property Schema: string read FSchema write FSchema;
   end;
 
-  /// OrderByMapping
+  // OrderByMapping
   TOrderByMapping = class
   private
     FColumnsName: string;
@@ -78,7 +76,7 @@ type
     property Increment: Integer read FIncrement write FIncrement;
   end;
 
-  /// TriggerMapping
+  // TriggerMapping
   TTriggerMapping = class(TMappingDescription)
   private
     FName: string;
@@ -138,9 +136,9 @@ type
     property ColumnProperty: TRttiProperty read FProperty write FProperty;
     property ColumnDictionary: Dictionary read FDictionary write FDictionary;
   end;
-  /// ColumnMappingList
-  TColumnMappingList = class(TObjectList<TColumnMapping>);
 
+  // ColumnMappingList
+  TColumnMappingList = class(TObjectList<TColumnMapping>);
   TCalcFieldMapping = class(TMappingDescription)
   private
     FFieldName: string;
@@ -155,10 +153,11 @@ type
     property CalcProperty: TRttiProperty read FProperty write FProperty;
     property CalcDictionary: Dictionary read FDictionary write FDictionary;
   end;
-  /// ColumnMappingList
+
+  // ColumnMappingList
   TCalcFieldMappingList = class(TObjectList<TCalcFieldMapping>);
 
-  /// AssociationMapping
+  // AssociationMapping
   TAssociationMapping = class
   private
     FMultiplicity: TMultiplicity;
@@ -166,7 +165,6 @@ type
     FColumnsNameRef: TList<string>;
     FClassNameRef: string;
     FLazy: Boolean;
-
     FProperty: TRttiProperty;
     FCascadeActions: TCascadeActions;
   public
@@ -185,6 +183,7 @@ type
     property PropertyRtti: TRttiProperty read FProperty;
     property CascadeActions: TCascadeActions read FCascadeActions;
   end;
+
   // AssociationMappingList
   TAssociationMappingList = class(TObjectList<TAssociationMapping>);
 
@@ -240,6 +239,7 @@ type
       const AUnique: Boolean;
       const ADescription: string = '');
   end;
+
   // IndexeMappingList
   TIndexeMappingList = class(TObjectList<TIndexeMapping>);
 
@@ -253,6 +253,7 @@ type
     property Name: string read FName;
     property Condition: string read FCondition;
   end;
+
   // CheckMappingList
   TCheckMappingList = class(TObjectList<TCheckMapping>);
 
@@ -264,6 +265,7 @@ type
     constructor Create(ARestrictions: TRestrictions);
     property Restrictions: TRestrictions read FRestrictions;
   end;
+
   // RestrictionMappingList
   TRestrictionMappingList = class(TObjectList<TRestrictionMapping>);
 
@@ -289,6 +291,7 @@ type
     property RuleDelete: TRuleAction read FRuleDelete;
     property RuleUpdate: TRuleAction read FRuleUpdate;
   end;
+
   // ForeignKeyMappingList
   TForeignKeyMappingList = class(TObjectList<TForeignKeyMapping>);
 
@@ -312,9 +315,10 @@ type
     property RefColumnNameSelect: string read FRefColumnNameSelect;
     property Join: TJoin read FJoin;
     property AliasColumn: string read FAliasColumn;
-    property AliasRefTable: string read FAliasRefTable;
-  end;
-  // JoinColumnMappingList
+    property AliasRefTable: string read FAliasRefTable;
+  end;
+
+  // JoinColumnMappingList
   TJoinColumnMappingList = class(TObjectList<TJoinColumnMapping>);
 
   TEnumerationMapping = class
@@ -330,6 +334,7 @@ type
     property EnumType: TEnumType read FEnumType;
     property EnumValues: TList<string> read FEnumValues;
   end;
+
   // EnumerationMappingList
   TEnumerationMappingList = class(TObjectList<TEnumerationMapping>);
 
@@ -342,7 +347,6 @@ type
     property Name: string read FName write FName;
     property Script: string read FScript write FScript;
   end;
-
   TFieldEventsMapping = class
   private
     FFieldName: String;
@@ -353,6 +357,7 @@ type
     property FieldName: String read FFieldName;
     property Events: TFieldEvents read FFieldEvents;
   end;
+
   // FieldEventsMappingList
   TFieldEventsMappingList = class(TObjectList<TFieldEventsMapping>);
 
@@ -512,7 +517,7 @@ begin
 end;
 
 destructor TForeignKeyMapping.Destroy;
-begin
+begin
   FFromColumns.Free;
   FToColumns.Free;
   inherited;
