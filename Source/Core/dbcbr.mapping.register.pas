@@ -58,7 +58,7 @@ type
 
 implementation
 
-{ TMappedClasses }
+{ TRegisterClass }
 
 class constructor TRegisterClass.Create;
 begin

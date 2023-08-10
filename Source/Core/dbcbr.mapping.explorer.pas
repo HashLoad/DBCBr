@@ -72,24 +72,24 @@ type
     class procedure ExecuteDestroy;
   public
     { Public declarations }
-    class function GetMappingTable(const AClass: TClass): TTableMapping; inline;
-    class function GetMappingOrderBy(const AClass: TClass): TOrderByMapping; inline;
-    class function GetMappingSequence(const AClass: TClass): TSequenceMapping; inline;
-    class function GetMappingPrimaryKey(const AClass: TClass): TPrimaryKeyMapping; inline;
-    class function GetMappingForeignKey(const AClass: TClass): TForeignKeyMappingList; inline;
-    class function GetMappingColumn(const AClass: TClass): TColumnMappingList; inline;
-    class function GetMappingCalcField(const AClass: TClass): TCalcFieldMappingList; inline;
-    class function GetMappingAssociation(const AClass: TClass): TAssociationMappingList; inline;
-    class function GetMappingJoinColumn(const AClass: TClass): TJoinColumnMappingList; inline;
-    class function GetMappingIndexe(const AClass: TClass): TIndexeMappingList; inline;
-    class function GetMappingCheck(const AClass: TClass): TCheckMappingList; inline;
-    class function GetMappingTrigger(const AClass: TClass): TTriggerMappingList; inline;
-    class function GetMappingView(const AClass: TClass): TViewMapping; inline;
-    class function GetMappingFieldEvents(const AClass: TClass): TFieldEventsMappingList; inline;
-    class function GetMappingEnumeration(const AClass: TClass): TEnumerationMappingList; inline;
-    class function GetMappingPrimaryKeyColumns(const AClass: TClass): TPrimaryKeyColumnsMapping; inline;
-    class function GetNotServerUse(const AClass: TClass): Boolean; inline;
-    class function GetRepositoryMapping: TMappingRepository; inline;
+    class function GetMappingTable(const AClass: TClass): TTableMapping;
+    class function GetMappingOrderBy(const AClass: TClass): TOrderByMapping;
+    class function GetMappingSequence(const AClass: TClass): TSequenceMapping;
+    class function GetMappingPrimaryKey(const AClass: TClass): TPrimaryKeyMapping;
+    class function GetMappingForeignKey(const AClass: TClass): TForeignKeyMappingList;
+    class function GetMappingColumn(const AClass: TClass): TColumnMappingList;
+    class function GetMappingCalcField(const AClass: TClass): TCalcFieldMappingList;
+    class function GetMappingAssociation(const AClass: TClass): TAssociationMappingList;
+    class function GetMappingJoinColumn(const AClass: TClass): TJoinColumnMappingList;
+    class function GetMappingIndexe(const AClass: TClass): TIndexeMappingList;
+    class function GetMappingCheck(const AClass: TClass): TCheckMappingList;
+    class function GetMappingTrigger(const AClass: TClass): TTriggerMappingList;
+    class function GetMappingView(const AClass: TClass): TViewMapping;
+    class function GetMappingFieldEvents(const AClass: TClass): TFieldEventsMappingList;
+    class function GetMappingEnumeration(const AClass: TClass): TEnumerationMappingList;
+    class function GetMappingPrimaryKeyColumns(const AClass: TClass): TPrimaryKeyColumnsMapping;
+    class function GetNotServerUse(const AClass: TClass): Boolean;
+    class function GetRepositoryMapping: TMappingRepository;
 //    class procedure GetMappingLazy(const AClass: TClass);
   end;
 
