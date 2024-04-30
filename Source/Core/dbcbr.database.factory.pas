@@ -217,8 +217,8 @@ end;
 
 procedure TDatabaseFactory.CompareTables(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  LTableMaster: TPair<string, TTableMIK>;
-  LTableTarget: TPair<string, TTableMIK>;
+  LTableMaster: TPair<String, TTableMIK>;
+  LTableTarget: TPair<String, TTableMIK>;
 begin
   // Gera script de exclusão de tabela, caso não exista um modelo para ela no banco.
   for LTableTarget in ATargetDB.Tables do
@@ -261,8 +261,8 @@ end;
 
 procedure TDatabaseFactory.CompareTriggers(AMasterTable, ATargetTable: TTableMIK);
 var
-  LTriggerMaster: TPair<string, TTriggerMIK>;
-  LTriggerTarget: TPair<string, TTriggerMIK>;
+  LTriggerMaster: TPair<String, TTriggerMIK>;
+  LTriggerTarget: TPair<String, TTriggerMIK>;
 begin
   if TSupportedFeature.Triggers in FGeneratorCommand.SupportedFeatures then
   begin
@@ -285,8 +285,8 @@ end;
 
 procedure TDatabaseFactory.CompareViews(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  LViewMaster: TPair<string, TViewMIK>;
-  LViewTarget: TPair<string, TViewMIK>;
+  LViewMaster: TPair<String, TViewMIK>;
+  LViewTarget: TPair<String, TViewMIK>;
 begin
   if TSupportedFeature.Triggers in FGeneratorCommand.SupportedFeatures then
   begin
@@ -314,8 +314,8 @@ end;
 
 procedure TDatabaseFactory.CompareChecks(AMasterTable, ATargetTable: TTableMIK);
 var
-  LCheckMaster: TPair<string, TCheckMIK>;
-  LCheckTarget: TPair<string, TCheckMIK>;
+  LCheckMaster: TPair<String, TCheckMIK>;
+  LCheckTarget: TPair<String, TCheckMIK>;
 begin
   if TSupportedFeature.Checks in FGeneratorCommand.SupportedFeatures then
   begin
@@ -337,12 +337,12 @@ end;
 
 procedure TDatabaseFactory.CompareColumns(AMasterTable, ATargetTable: TTableMIK);
 var
-  LColumnMaster: TPair<string, TColumnMIK>;
-  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumnMaster: TPair<String, TColumnMIK>;
+  LColumnTarget: TPair<String, TColumnMIK>;
   LColumn: TColumnMIK;
   LReorderColumns: Boolean;
 
-  function ExistMasterColumn(AColumnName: string): TColumnMIK;
+  function ExistMasterColumn(AColumnName: String): TColumnMIK;
   var
     LColumn: TColumnMIK;
   begin
@@ -352,7 +352,7 @@ var
         Exit(LColumn);
   end;
 
-  function ExistTargetColumn(AColumnName: string): TColumnMIK;
+  function ExistTargetColumn(AColumnName: String): TColumnMIK;
   var
     LColumn: TColumnMIK;
   begin
@@ -405,8 +405,8 @@ end;
 
 procedure TDatabaseFactory.CompareTablesForeignKeys(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  LTableMaster: TPair<string, TTableMIK>;
-  LForeignKeyMaster: TPair<string, TForeignKeyMIK>;
+  LTableMaster: TPair<String, TTableMIK>;
+  LForeignKeyMaster: TPair<String, TForeignKeyMIK>;
 begin
   // Gera script de criação das ForeingnKeys, caso não exista no banco.
   for LTableMaster in AMasterDB.Tables do
@@ -430,13 +430,13 @@ end;
 
 function TDatabaseFactory.DeepEqualsForeignKeyFromColumns(AMasterForeignKey, ATargetForeignKey: TForeignKeyMIK): Boolean;
 var
-  LColumnMaster: TPair<string, TColumnMIK>;
-  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumnMaster: TPair<String, TColumnMIK>;
+  LColumnTarget: TPair<String, TColumnMIK>;
   LColumn: TColumnMIK;
 
-  function ExistMasterFromColumn(AColumnName: string): TColumnMIK;
+  function ExistMasterFromColumn(AColumnName: String): TColumnMIK;
   var
-    LColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<String, TColumnMIK>;
   begin
     Result := nil;
     for LColumn in AMasterForeignKey.FromFields do
@@ -444,9 +444,9 @@ var
         Exit(LColumn.Value);
   end;
 
-  function ExistTargetFromColumn(AColumnName: string): TColumnMIK;
+  function ExistTargetFromColumn(AColumnName: String): TColumnMIK;
   var
-    LColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<String, TColumnMIK>;
   begin
     Result := nil;
     for LColumn in ATargetForeignKey.FromFields do
@@ -479,8 +479,8 @@ end;
 
 procedure TDatabaseFactory.CompareForeignKeys(AMasterTable, ATargetTable: TTableMIK);
 var
-  LForeignKeyMaster: TPair<string, TForeignKeyMIK>;
-  LForeignKeyTarget: TPair<string, TForeignKeyMIK>;
+  LForeignKeyMaster: TPair<String, TForeignKeyMIK>;
+  LForeignKeyTarget: TPair<String, TForeignKeyMIK>;
 begin
   if TSupportedFeature.ForeignKeys in FGeneratorCommand.SupportedFeatures then
   begin
@@ -514,13 +514,13 @@ end;
 
 function TDatabaseFactory.DeepEqualsForeignKeyToColumns(AMasterForeignKey, ATargetForeignKey: TForeignKeyMIK): Boolean;
 var
-  LColumnMaster: TPair<string, TColumnMIK>;
-  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumnMaster: TPair<String, TColumnMIK>;
+  LColumnTarget: TPair<String, TColumnMIK>;
   LColumn: TColumnMIK;
 
-  function ExistMasterToColumn(AColumnName: string): TColumnMIK;
+  function ExistMasterToColumn(AColumnName: String): TColumnMIK;
   var
-    LColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<String, TColumnMIK>;
   begin
     Result := nil;
     for LColumn in AMasterForeignKey.ToFields do
@@ -528,9 +528,9 @@ var
         Exit(LColumn.Value);
   end;
 
-  function ExistTargetFromColumn(AColumnName: string): TColumnMIK;
+  function ExistTargetFromColumn(AColumnName: String): TColumnMIK;
   var
-    LColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<String, TColumnMIK>;
   begin
     Result := nil;
     for LColumn in ATargetForeignKey.ToFields do
@@ -563,13 +563,13 @@ end;
 
 function TDatabaseFactory.DeepEqualsIndexeColumns(AMasterIndexe, ATargetIndexe: TIndexeKeyMIK): Boolean;
 var
-  LColumnMaster: TPair<string, TColumnMIK>;
-  LColumnTarget: TPair<string, TColumnMIK>;
+  LColumnMaster: TPair<String, TColumnMIK>;
+  LColumnTarget: TPair<String, TColumnMIK>;
   LColumn: TColumnMIK;
 
-  function ExistMasterColumn(AColumnName: string): TColumnMIK;
+  function ExistMasterColumn(AColumnName: String): TColumnMIK;
   var
-    LColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<String, TColumnMIK>;
   begin
     Result := nil;
     for LColumn in AMasterIndexe.Fields do
@@ -577,9 +577,9 @@ var
         Exit(LColumn.Value);
   end;
 
-  function ExistTargetColumn(AColumnName: string): TColumnMIK;
+  function ExistTargetColumn(AColumnName: String): TColumnMIK;
   var
-    LColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<String, TColumnMIK>;
   begin
     Result := nil;
     for LColumn in ATargetIndexe.Fields do
@@ -612,8 +612,8 @@ end;
 
 procedure TDatabaseFactory.CompareIndexes(AMasterTable, ATargetTable: TTableMIK);
 var
-  LIndexeMaster: TPair<string, TIndexeKeyMIK>;
-  LIndexeTarget: TPair<string, TIndexeKeyMIK>;
+  LIndexeMaster: TPair<String, TIndexeKeyMIK>;
+  LIndexeTarget: TPair<String, TIndexeKeyMIK>;
 begin
   // Remove indexe que não existe no modelo.
   for LIndexeTarget in ATargetTable.IndexeKeys do
@@ -641,14 +641,14 @@ end;
 
 procedure TDatabaseFactory.ComparePrimaryKey(AMasterTable, ATargetTable: TTableMIK);
 var
-  LColumnMaster: TPair<string, TColumnMIK>;
+  LColumnMaster: TPair<String, TColumnMIK>;
   LColumn: TColumnMIK;
   LDropPK: Boolean;
   LRecreatePK: Boolean;
 
-  function ExistTargetColumn(AColumnName: string): TColumnMIK;
+  function ExistTargetColumn(AColumnName: String): TColumnMIK;
   var
-    LColumn: TPair<string, TColumnMIK>;
+    LColumn: TPair<String, TColumnMIK>;
   begin
     Result := nil;
     for LColumn in ATargetTable.PrimaryKey.Fields do
@@ -683,8 +683,8 @@ end;
 
 procedure TDatabaseFactory.CompareSequences(AMasterDB, ATargetDB: TCatalogMetadataMIK);
 var
-  LSequenceMaster: TPair<string, TSequenceMIK>;
-  LSequenceTarget: TPair<string, TSequenceMIK>;
+  LSequenceMaster: TPair<String, TSequenceMIK>;
+  LSequenceTarget: TPair<String, TSequenceMIK>;
 begin
   if TSupportedFeature.Sequences in FGeneratorCommand.SupportedFeatures then
   begin

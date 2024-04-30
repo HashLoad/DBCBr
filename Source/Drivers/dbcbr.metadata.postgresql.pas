@@ -42,18 +42,18 @@ uses
 type
   TCatalogMetadataPostgreSQL = class(TCatalogMetadataAbstract)
   protected
-    function GetSelectTables: string; override;
-    function GetSelectTableColumns(ATableName: string): string; override;
-    function GetSelectPrimaryKey(ATableName: string): string; override;
-    function GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string; override;
-    function GetSelectForeignKey(ATableName: string): string; override;
-    function GetSelectForeignKeyColumns(AForeignKeyName: string): string; overload;
-    function GetSelectIndexe(ATableName: string): string; override;
-    function GetSelectIndexeColumns(AIndexeName: string): string; override;
-    function GetSelectTriggers(ATableName: string): string; override;
-    function GetSelectViews: string; override;
-    function GetSelectChecks(ATableName: string): string; override;
-    function GetSelectSequences: string; override;
+    function GetSelectTables: String; override;
+    function GetSelectTableColumns(ATableName: String): String; override;
+    function GetSelectPrimaryKey(ATableName: String): String; override;
+    function GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String; override;
+    function GetSelectForeignKey(ATableName: String): String; override;
+    function GetSelectForeignKeyColumns(AForeignKeyName: String): String; overload;
+    function GetSelectIndexe(ATableName: String): String; override;
+    function GetSelectIndexeColumns(AIndexeName: String): String; override;
+    function GetSelectTriggers(ATableName: String): String; override;
+    function GetSelectViews: String; override;
+    function GetSelectChecks(ATableName: String): String; override;
+    function GetSelectSequences: String; override;
     function Execute: IDBResultSet;
   public
     procedure CreateFieldTypeList; override;
@@ -200,7 +200,7 @@ var
   LDBResultSet: IDBResultSet;
   LColumn: TColumnMIK;
 
-  function ExtractDefaultValue(ADefaultValue: Variant): string;
+  function ExtractDefaultValue(ADefaultValue: Variant): String;
   begin
     Result := '';
     if ADefaultValue <> Null then
@@ -445,7 +445,7 @@ begin
   end;
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectPrimaryKey(ATableName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectPrimaryKey(ATableName: String): String;
 begin
    Result := ' select rc.constraint_name as pk_name, ' +
              '        ''''               as pk_description ' +
@@ -456,7 +456,7 @@ begin
              ' order by rc.constraint_name ';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String;
 begin
    Result := ' select c.column_name       as column_name, ' +
              '        c.ordinal_position  as column_position ' +
@@ -471,7 +471,7 @@ begin
              '          c.ordinal_position ';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectSequences: string;
+function TCatalogMetadataPostgreSQL.GetSelectSequences: String;
 begin
   Result := ' select relname as name, ' +
             '        ''''    as description ' +
@@ -479,7 +479,7 @@ begin
             ' where relkind in (' + QuotedStr('S') + ')';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectTableColumns(ATableName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectTableColumns(ATableName: String): String;
 begin
    Result := ' select column_name              as column_name, ' +
              '        ordinal_position         as column_position, ' +
@@ -497,7 +497,7 @@ begin
              ' order by ordinal_position' ;
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectTables: string;
+function TCatalogMetadataPostgreSQL.GetSelectTables: String;
 begin
   Result := ' select table_name as table_name, ' +
             '        ''''       as table_description ' +
@@ -507,12 +507,12 @@ begin
             ' order by table_name';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectTriggers(ATableName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectTriggers(ATableName: String): String;
 begin
   Result := '';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectForeignKey(ATableName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectForeignKey(ATableName: String): String;
 begin
   Result := ' select kc.constraint_name               as fk_name, ' +
             '        kc.column_name                   as column_name, ' +
@@ -531,12 +531,12 @@ begin
             ' order by kc.constraint_name, kc.position_in_unique_constraint';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectForeignKeyColumns(AForeignKeyName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectForeignKeyColumns(AForeignKeyName: String): String;
 begin
   Result := 'Falta Implementar';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectChecks(ATableName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectChecks(ATableName: String): String;
 begin
   Result := ' select conname as name, ' +
             '        pg_get_constraintdef(c.oid) as condition ' +
@@ -546,7 +546,7 @@ begin
             '   and contype in (' + QuotedStr('c') + ')';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectViews: string;
+function TCatalogMetadataPostgreSQL.GetSelectViews: String;
 begin
    Result := ' select v.table_name      as view_name, ' +
              '        v.view_definition as view_script, ' +
@@ -556,7 +556,7 @@ begin
              ' and table_name !~ ''^pg_'' ';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectIndexe(ATableName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectIndexe(ATableName: String): String;
 begin
   Result := ' select c.relname     as indexe_name, ' +
             '        b.indisunique as indexe_unique, ' +
@@ -569,7 +569,7 @@ begin
             ' order by c.relname';
 end;
 
-function TCatalogMetadataPostgreSQL.GetSelectIndexeColumns(AIndexeName: string): string;
+function TCatalogMetadataPostgreSQL.GetSelectIndexeColumns(AIndexeName: String): String;
 begin
   Result := ' select a.attname as column_name, ' +
             '        a.attnum  as column_position, ' +

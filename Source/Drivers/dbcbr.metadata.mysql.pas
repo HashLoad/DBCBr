@@ -42,17 +42,17 @@ uses
 type
   TCatalogMetadataMySQL = class(TCatalogMetadataAbstract)
   protected
-    function GetSelectTables: string; override;
-    function GetSelectTableColumns(ATableName: string): string; override;
-    function GetSelectPrimaryKey(ATableName: string): string; override;
-    function GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string; override;
-    function GetSelectForeignKey(ATableName: string): string; override;
-    function GetSelectForeignKeyColumns(AForeignKeyName: string): string; overload;
-    function GetSelectIndexe(ATableName: string): string; override;
-    function GetSelectIndexeColumns(AIndexeName: string): string; override;
-    function GetSelectTriggers(ATableName: string): string; override;
-    function GetSelectViews: string; override;
-    function GetSelectSequences: string; override;
+    function GetSelectTables: String; override;
+    function GetSelectTableColumns(ATableName: String): String; override;
+    function GetSelectPrimaryKey(ATableName: String): String; override;
+    function GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String; override;
+    function GetSelectForeignKey(ATableName: String): String; override;
+    function GetSelectForeignKeyColumns(AForeignKeyName: String): String; overload;
+    function GetSelectIndexe(ATableName: String): String; override;
+    function GetSelectIndexeColumns(AIndexeName: String): String; override;
+    function GetSelectTriggers(ATableName: String): String; override;
+    function GetSelectViews: String; override;
+    function GetSelectSequences: String; override;
     function Execute: IDBResultSet;
   public
     procedure CreateFieldTypeList; override;
@@ -85,7 +85,7 @@ begin
     FFieldType.Add('BINARY', ftSmallint);
     FFieldType.Add('BIT', ftSmallint);
     FFieldType.Add('BLOB', ftMemo);
-    FFieldType.Add('BOOLEAN', ftBoolean);
+    FFieldType.Add('Boolean', ftBoolean);
     FFieldType.Add('CHAR', ftFixedChar);
     FFieldType.Add('CARACTER', ftFixedChar);
     FFieldType.Add('DATE', ftDate);
@@ -196,7 +196,7 @@ var
   oDBResultSet: IDBResultSet;
   oColumn: TColumnMIK;
 
-  function ExtractDefaultValue(ADefaultValue: Variant): string;
+  function ExtractDefaultValue(ADefaultValue: Variant): String;
   begin
     Result := '';
     if ADefaultValue <> Null then
@@ -454,7 +454,7 @@ begin
   end;
 end;
 
-function TCatalogMetadataMySQL.GetSelectPrimaryKey(ATableName: string): string;
+function TCatalogMetadataMySQL.GetSelectPrimaryKey(ATableName: String): String;
 begin
   Result := ' select rc.constraint_name as pk_name, ' +
             '        ''''               as pk_description ' +
@@ -465,7 +465,7 @@ begin
             ' order by rc.constraint_name ';
 end;
 
-function TCatalogMetadataMySQL.GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string;
+function TCatalogMetadataMySQL.GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String;
 begin
   Result := ' select c.column_name       as column_name, ' +
             '        c.ordinal_position  as column_position ' +
@@ -481,7 +481,7 @@ begin
             '          c.ordinal_position ';
 end;
 
-function TCatalogMetadataMySQL.GetSelectSequences: string;
+function TCatalogMetadataMySQL.GetSelectSequences: String;
 begin
  Result :=  ' select table_name    as name, ' +
             '        table_comment as description ' +
@@ -490,7 +490,7 @@ begin
             ' and   (auto_increment is not null) ';
 end;
 
-function TCatalogMetadataMySQL.GetSelectTableColumns(ATableName: string): string;
+function TCatalogMetadataMySQL.GetSelectTableColumns(ATableName: String): String;
 begin
   Result := ' select column_name              as column_name, ' +
             '        ordinal_position         as column_position, ' +
@@ -509,7 +509,7 @@ begin
             ' order by ordinal_position' ;
 end;
 
-function TCatalogMetadataMySQL.GetSelectTables: string;
+function TCatalogMetadataMySQL.GetSelectTables: String;
 begin
   Result := ' select table_name as table_name, ' +
             '        ''''       as table_description ' +
@@ -519,12 +519,12 @@ begin
             ' order by table_name';
 end;
 
-function TCatalogMetadataMySQL.GetSelectTriggers(ATableName: string): string;
+function TCatalogMetadataMySQL.GetSelectTriggers(ATableName: String): String;
 begin
   Result := '';
 end;
 
-function TCatalogMetadataMySQL.GetSelectForeignKey(ATableName: string): string;
+function TCatalogMetadataMySQL.GetSelectForeignKey(ATableName: String): String;
 begin
   Result := ' select rc.constraint_name               as fk_name, ' +
             '        rc.update_rule                   as fk_updateaction, ' +
@@ -545,12 +545,12 @@ begin
             ' order by rc.constraint_name, kc.position_in_unique_constraint';
 end;
 
-function TCatalogMetadataMySQL.GetSelectForeignKeyColumns(AForeignKeyName: string): string;
+function TCatalogMetadataMySQL.GetSelectForeignKeyColumns(AForeignKeyName: String): String;
 begin
   Result := 'Falta Implementar';
 end;
 
-function TCatalogMetadataMySQL.GetSelectViews: string;
+function TCatalogMetadataMySQL.GetSelectViews: String;
 begin
   Result := ' select v.table_name      as view_name, ' +
             '        v.view_definition as view_script, ' +
@@ -558,7 +558,7 @@ begin
             ' from information_schema.views v';
 end;
 
-function TCatalogMetadataMySQL.GetSelectIndexe(ATableName: string): string;
+function TCatalogMetadataMySQL.GetSelectIndexe(ATableName: String): String;
 begin
   Result := ' select idx.index_name as indexe_name, ' +
             '        idx.non_unique as indexe_unique, ' +
@@ -570,7 +570,7 @@ begin
             ' order by idx.table_name, idx.index_name';
 end;
 
-function TCatalogMetadataMySQL.GetSelectIndexeColumns(AIndexeName: string): string;
+function TCatalogMetadataMySQL.GetSelectIndexeColumns(AIndexeName: String): String;
 begin
   Result := ' select idx.column_name  as column_name, ' +
             '        idx.seq_in_index as column_position, ' +

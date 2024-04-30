@@ -42,17 +42,17 @@ type
   TDDLSQLGeneratorMSSQL = class(TDDLSQLGenerator)
   protected
   public
-    function GenerateCreateTable(ATable: TTableMIK): string; override;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
-    function GenerateEnableForeignKeys(AEnable: Boolean): string; override;
-    function GenerateEnableTriggers(AEnable: Boolean): string; override;
+    function GenerateCreateTable(ATable: TTableMIK): String; override;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String; override;
+    function GenerateEnableForeignKeys(AEnable: Boolean): String; override;
+    function GenerateEnableTriggers(AEnable: Boolean): String; override;
   end;
 
 implementation
 
 { TDDLSQLGeneratorMSSQL }
 
-function TDDLSQLGeneratorMSSQL.GenerateCreateSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGeneratorMSSQL.GenerateCreateSequence(ASequence: TSequenceMIK): String;
 begin
   Result := 'CREATE SEQUENCE %s AS int START WITH %s INCREMENT BY %s;';
   Result := Format(Result, [ASequence.Name,
@@ -60,10 +60,10 @@ begin
                            IntToStr(ASequence.Increment)]);
 end;
 
-function TDDLSQLGeneratorMSSQL.GenerateCreateTable(ATable: TTableMIK): string;
+function TDDLSQLGeneratorMSSQL.GenerateCreateTable(ATable: TTableMIK): String;
 var
   oSQL: TStringBuilder;
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   oSQL := TStringBuilder.Create;
   Result := inherited GenerateCreateTable(ATable);
@@ -119,7 +119,7 @@ begin
   end;
 end;
 
-function TDDLSQLGeneratorMSSQL.GenerateEnableForeignKeys(AEnable: Boolean): string;
+function TDDLSQLGeneratorMSSQL.GenerateEnableForeignKeys(AEnable: Boolean): String;
 begin
   if AEnable then
     Result := 'EXEC sp_MSforeachtable "ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all";'
@@ -127,7 +127,7 @@ begin
     Result := 'EXEC sp_MSforeachtable "ALTER TABLE ? NOCHECK CONSTRAINT all";';
 end;
 
-function TDDLSQLGeneratorMSSQL.GenerateEnableTriggers(AEnable: Boolean): string;
+function TDDLSQLGeneratorMSSQL.GenerateEnableTriggers(AEnable: Boolean): String;
 begin
   if AEnable then
     Result := 'EXEC sp_MSforeachtable "ALTER TABLE ? ENABLE TRIGGER ALL";'

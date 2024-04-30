@@ -43,27 +43,27 @@ type
   TDDLSQLGeneratorMySQL = class(TDDLSQLGenerator)
   protected
   public
-    function GenerateCreateTable(ATable: TTableMIK): string; override;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
-    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string; override;
-    function GenerateEnableForeignKeys(AEnable: Boolean): string; override;
-    function GenerateEnableTriggers(AEnable: Boolean): string; override;
-    function GenerateAlterColumn(AColumn: TColumnMIK): string; override;
-    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; override;
-    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string; override;
+    function GenerateCreateTable(ATable: TTableMIK): String; override;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String; override;
+    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String; override;
+    function GenerateEnableForeignKeys(AEnable: Boolean): String; override;
+    function GenerateEnableTriggers(AEnable: Boolean): String; override;
+    function GenerateAlterColumn(AColumn: TColumnMIK): String; override;
+    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; override;
+    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String; override;
   end;
 
 implementation
 
 { TDDLSQLGeneratorMySQL }
 
-function TDDLSQLGeneratorMySQL.GenerateAlterColumn(AColumn: TColumnMIK): string;
+function TDDLSQLGeneratorMySQL.GenerateAlterColumn(AColumn: TColumnMIK): String;
 begin
   Result := 'ALTER TABLE %s MODIFY COLUMN %s;';
   Result := Format(Result, [AColumn.Table.Name, BuilderAlterFieldDefinition(AColumn)]);
 end;
 
-function TDDLSQLGeneratorMySQL.GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string;
+function TDDLSQLGeneratorMySQL.GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s(%s) %s ENABLE VALIDATE;';
   Result := Format(Result, [AForeignKey.Table.Name,
@@ -75,7 +75,7 @@ begin
 end;
 
 function TDDLSQLGeneratorMySQL.GenerateCreateSequence(
-  ASequence: TSequenceMIK): string;
+  ASequence: TSequenceMIK): String;
 begin
   Result := 'CREATE SEQUENCE %s MINVALUE 1 START WITH %s INCREMENT BY %s NOCACHE;'; // MAXVALUE ????? CACHE ??
   Result := Format(Result, [ASequence.Name,
@@ -83,10 +83,10 @@ begin
                             IntToStr(ASequence.Increment)]);
 end;
 
-function TDDLSQLGeneratorMySQL.GenerateCreateTable(ATable: TTableMIK): string;
+function TDDLSQLGeneratorMySQL.GenerateCreateTable(ATable: TTableMIK): String;
 var
   oSQL: TStringBuilder;
-  oColumn: TPair<string, TColumnMIK>;
+  oColumn: TPair<String, TColumnMIK>;
 begin
   oSQL := TStringBuilder.Create;
   Result := inherited GenerateCreateTable(ATable);
@@ -142,19 +142,19 @@ begin
   end;
 end;
 
-function TDDLSQLGeneratorMySQL.GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string;
+function TDDLSQLGeneratorMySQL.GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s DROP INDEX %s;';
   Result := Format(Result, [AIndexe.Table.Name, AIndexe.Name]);
 end;
 
-function TDDLSQLGeneratorMySQL.GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string;
+function TDDLSQLGeneratorMySQL.GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s DROP PRIMARY KEY;';
   Result := Format(Result, [APrimaryKey.Table.Name]);
 end;
 
-function TDDLSQLGeneratorMySQL.GenerateEnableForeignKeys(AEnable: Boolean): string;
+function TDDLSQLGeneratorMySQL.GenerateEnableForeignKeys(AEnable: Boolean): String;
 begin
   if AEnable then
     Result := ''
@@ -162,7 +162,7 @@ begin
     Result := '';
 end;
 
-function TDDLSQLGeneratorMySQL.GenerateEnableTriggers(AEnable: Boolean): string;
+function TDDLSQLGeneratorMySQL.GenerateEnableTriggers(AEnable: Boolean): String;
 begin
   if AEnable then
     Result := ''

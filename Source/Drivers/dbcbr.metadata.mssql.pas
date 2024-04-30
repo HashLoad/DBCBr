@@ -42,17 +42,17 @@ uses
 type
   TCatalogMetadataMSSQL = class(TCatalogMetadataAbstract)
   protected
-    function GetSelectTables: string; override;
-    function GetSelectTableColumns(ATableName: string): string; override;
-    function GetSelectPrimaryKey(ATableName: string): string; override;
-    function GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string; override;
-    function GetSelectForeignKey(ATableName: string): string; override;
-    function GetSelectForeignKeyColumns(AForeignKeyName: string): string; overload;
-    function GetSelectIndexe(ATableName: string): string; override;
-    function GetSelectIndexeColumns(AIndexeName: string): string; override;
-    function GetSelectTriggers(ATableName: string): string; override;
-    function GetSelectViews: string; override;
-    function GetSelectSequences: string; override;
+    function GetSelectTables: String; override;
+    function GetSelectTableColumns(ATableName: String): String; override;
+    function GetSelectPrimaryKey(ATableName: String): String; override;
+    function GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String; override;
+    function GetSelectForeignKey(ATableName: String): String; override;
+    function GetSelectForeignKeyColumns(AForeignKeyName: String): String; overload;
+    function GetSelectIndexe(ATableName: String): String; override;
+    function GetSelectIndexeColumns(AIndexeName: String): String; override;
+    function GetSelectTriggers(ATableName: String): String; override;
+    function GetSelectViews: String; override;
+    function GetSelectSequences: String; override;
     function Execute: IDBResultSet;
   public
     procedure CreateFieldTypeList; override;
@@ -199,7 +199,7 @@ var
   oDBResultSet: IDBResultSet;
   oColumn: TColumnMIK;
 
-  function ExtractDefaultValue(ADefaultValue: string): string;
+  function ExtractDefaultValue(ADefaultValue: String): String;
   begin
      Result := ADefaultValue;
      Result := StringReplace(Result, '(', '', [rfReplaceAll]);
@@ -436,7 +436,7 @@ begin
   end;
 end;
 
-function TCatalogMetadataMSSQL.GetSelectPrimaryKey(ATableName: string): string;
+function TCatalogMetadataMSSQL.GetSelectPrimaryKey(ATableName: String): String;
 begin
   Result := ' select si.name as pk_name, ' +
             '       (select value from [fn_listextendedproperty] (''MS_Description'', ''schema'', ss.name, ''table'', tb.name, null, null)) as pk_description ' +
@@ -447,7 +447,7 @@ begin
             ' order by si.name';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string;
+function TCatalogMetadataMSSQL.GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String;
 begin
   Result := ' select si.name              as pk_name, ' +
             '        ic.key_ordinal       as column_position, ' +
@@ -460,14 +460,14 @@ begin
             ' order by si.name, ic.key_ordinal';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectSequences: string;
+function TCatalogMetadataMSSQL.GetSelectSequences: String;
 begin
   Result := ' select name   as name, ' +
             '      ''desc'' as description' +
             ' from [sys].sequences';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectTableColumns(ATableName: string): string;
+function TCatalogMetadataMSSQL.GetSelectTableColumns(ATableName: String): String;
 begin
   Result := ' select ac.name           as column_name, ' +
             '        ac.column_id      as column_position, ' +
@@ -493,7 +493,7 @@ begin
             ' order by ac.column_id';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectTables: string;
+function TCatalogMetadataMSSQL.GetSelectTables: String;
 begin
   Result := ' select ss.name as table_schema, ' +
             '        so.name as table_name, ' +
@@ -504,12 +504,12 @@ begin
             ' order by ss.name, so.name';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectTriggers(ATableName: string): string;
+function TCatalogMetadataMSSQL.GetSelectTriggers(ATableName: String): String;
 begin
   Result := '';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectForeignKey(ATableName: string): string;
+function TCatalogMetadataMSSQL.GetSelectForeignKey(ATableName: String): String;
 begin
   Result := ' select fk.name                      as fk_name, ' +
             '        fk.update_referential_action as fk_updateaction, ' +
@@ -530,12 +530,12 @@ begin
             ' order by ft.name, fkc.constraint_column_id';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectForeignKeyColumns(AForeignKeyName: string): string;
+function TCatalogMetadataMSSQL.GetSelectForeignKeyColumns(AForeignKeyName: String): String;
 begin
   Result := 'Falta implementar';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectViews: string;
+function TCatalogMetadataMSSQL.GetSelectViews: String;
 begin
    Result := ' select iv.table_name   as view_name, ' +
              '        sm.definition   as view_script, ' +
@@ -550,7 +550,7 @@ begin
              '                                     and ep.name = ''ms_description'' ';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectIndexe(ATableName: string): string;
+function TCatalogMetadataMSSQL.GetSelectIndexe(ATableName: String): String;
 begin
    Result := ' select si.name              as indexe_name, ' +
              '        si.name              as sysindexe_name, ' +
@@ -563,7 +563,7 @@ begin
              ' order by tb.name';
 end;
 
-function TCatalogMetadataMSSQL.GetSelectIndexeColumns(AIndexeName: string): string;
+function TCatalogMetadataMSSQL.GetSelectIndexeColumns(AIndexeName: String): String;
 begin
    Result := ' select sc.name              as column_name, ' +
              '        ic.index_column_id   as column_position, ' +

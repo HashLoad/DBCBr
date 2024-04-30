@@ -45,18 +45,18 @@ type
   TCatalogMetadataOracle = class(TCatalogMetadataAbstract)
   protected
     procedure SetFieldType(var AColumnMIK: TColumnMIK); virtual;
-    function GetSelectTables: string; override;
-    function GetSelectTableColumns(ATableName: string): string; override;
-    function GetSelectPrimaryKey(ATableName: string): string; override;
-    function GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string; override;
-    function GetSelectForeignKey(ATableName: string): string; override;
-    function GetSelectForeignKeyColumns(AForeignKeyName: string): string; overload;
-    function GetSelectIndexe(ATableName: string): string; override;
-    function GetSelectIndexeColumns(AIndexeName: string): string; override;
-    function GetSelectTriggers(ATableName: string): string; override;
-    function GetSelectChecks(ATableName: string): string; override;
-    function GetSelectViews: string; override;
-    function GetSelectSequences: string; override;
+    function GetSelectTables: String; override;
+    function GetSelectTableColumns(ATableName: String): String; override;
+    function GetSelectPrimaryKey(ATableName: String): String; override;
+    function GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String; override;
+    function GetSelectForeignKey(ATableName: String): String; override;
+    function GetSelectForeignKeyColumns(AForeignKeyName: String): String; overload;
+    function GetSelectIndexe(ATableName: String): String; override;
+    function GetSelectIndexeColumns(AIndexeName: String): String; override;
+    function GetSelectTriggers(ATableName: String): String; override;
+    function GetSelectChecks(ATableName: String): String; override;
+    function GetSelectViews: String; override;
+    function GetSelectSequences: String; override;
     function Execute: IDBResultSet;
   public
     procedure CreateFieldTypeList; override;
@@ -88,7 +88,7 @@ begin
     FFieldType.Add('CHAR', ftFixedChar);
     FFieldType.Add('BINARY_FLOAT', ftFloat);
     FFieldType.Add('BINARY_DOUBLE', ftBCD);
-    FFieldType.Add('BOOLEAN', ftBoolean);
+    FFieldType.Add('Boolean', ftBoolean);
     FFieldType.Add('VARCHAR2', ftString);
     FFieldType.Add('NCHAR', ftFixedWideChar);
     FFieldType.Add('NVARCHAR', ftWideString);
@@ -207,7 +207,7 @@ end;
 
 procedure TCatalogMetadataOracle.GetColumns(ATable: TTableMIK);
 
-  function ExtractDefaultValue(ADefaultValue: Variant): string;
+  function ExtractDefaultValue(ADefaultValue: Variant): String;
   begin
     Result := '';
     if ADefaultValue <> Null then
@@ -470,7 +470,7 @@ begin
   end;
 end;
 
-function TCatalogMetadataOracle.GetSelectPrimaryKey(ATableName: string): string;
+function TCatalogMetadataOracle.GetSelectPrimaryKey(ATableName: String): String;
 begin
    Result := ' select rc.constraint_name as pk_name, ' +
              '        ''''               as pk_description ' +
@@ -480,7 +480,7 @@ begin
              ' order by rc.constraint_name ';
 end;
 
-function TCatalogMetadataOracle.GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string;
+function TCatalogMetadataOracle.GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String;
 begin
    Result := ' select c.column_name as column_name, ' +
              '        c.position    as column_position ' +
@@ -493,14 +493,14 @@ begin
              '          c.position ';
 end;
 
-function TCatalogMetadataOracle.GetSelectSequences: string;
+function TCatalogMetadataOracle.GetSelectSequences: String;
 begin
   Result := ' select sequence_name as name, ' +
             '        ''''          as description ' +
             ' from user_sequences ';
 end;
 
-function TCatalogMetadataOracle.GetSelectTableColumns(ATableName: string): string;
+function TCatalogMetadataOracle.GetSelectTableColumns(ATableName: String): String;
 begin
    Result := ' select c.column_name        as column_name, ' +
              '        c.column_id          as column_position, ' +
@@ -520,7 +520,7 @@ begin
              ' order by c.column_id';
 end;
 
-function TCatalogMetadataOracle.GetSelectTables: string;
+function TCatalogMetadataOracle.GetSelectTables: String;
 begin
   Result := ' select tab.table_name as table_name, ' +
             '        com.comments   as table_description ' +
@@ -530,7 +530,7 @@ begin
             ' order by tab.table_name ';
 end;
 
-function TCatalogMetadataOracle.GetSelectTriggers(ATableName: string): string;
+function TCatalogMetadataOracle.GetSelectTriggers(ATableName: String): String;
 begin
   { TODO -oISAQUE : Falta checar campos para preencher a classe }
   Result := ' select tg.trigger_name, ' +
@@ -551,7 +551,7 @@ begin
             ' order by tg.trigger_name ';
 end;
 
-function TCatalogMetadataOracle.GetSelectChecks(ATableName: string): string;
+function TCatalogMetadataOracle.GetSelectChecks(ATableName: String): String;
 begin
   Result := ' select ck.constraint_name  as check_name, ' +
             '        ck.search_condition as check_condition ' +
@@ -563,7 +563,7 @@ begin
             ' order by ck.constraint_name ';
 end;
 
-function TCatalogMetadataOracle.GetSelectForeignKey(ATableName: string): string;
+function TCatalogMetadataOracle.GetSelectForeignKey(ATableName: String): String;
 begin
   Result := ' select cons.constraint_name as fk_name, ' +
             ' ''''                        as fk_updateaction, ' +
@@ -578,7 +578,7 @@ begin
             ' order by cons.constraint_name ';
 end;
 
-function TCatalogMetadataOracle.GetSelectForeignKeyColumns(AForeignKeyName: string): string;
+function TCatalogMetadataOracle.GetSelectForeignKeyColumns(AForeignKeyName: String): String;
 begin
   Result := ' select cols.column_name as column_name, ' +
             '        cols.position    as column_position, ' +
@@ -592,7 +592,7 @@ begin
             ' order by cols.position';
 end;
 
-function TCatalogMetadataOracle.GetSelectViews: string;
+function TCatalogMetadataOracle.GetSelectViews: String;
 begin
   Result := ' select vw.view_name as view_name, ' +
             '        dbms_metadata.get_ddl(''VIEW'', vw.view_name) as view_script, ' +
@@ -600,7 +600,7 @@ begin
             ' from user_views vw';
 end;
 
-function TCatalogMetadataOracle.GetSelectIndexe(ATableName: string): string;
+function TCatalogMetadataOracle.GetSelectIndexe(ATableName: String): String;
 begin
   Result := ' select idx.index_name as indexe_name, ' +
             '        idx.uniqueness as indexe_unique, ' +
@@ -615,7 +615,7 @@ begin
             ' order by idx.table_name, idx.index_name';
 end;
 
-function TCatalogMetadataOracle.GetSelectIndexeColumns(AIndexeName: string): string;
+function TCatalogMetadataOracle.GetSelectIndexeColumns(AIndexeName: String): String;
 begin
   Result := ' select c.column_name, ' +
             '        c.column_position, ' +

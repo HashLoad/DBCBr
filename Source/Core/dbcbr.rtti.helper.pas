@@ -49,7 +49,7 @@ uses
 type
   TObjectHelper = class helper for TObject
   public
-    function MethodCall(const AMethodName: string;
+    function MethodCall(const AMethodName: String;
       const AParameters: array of TValue): TValue;
   end;
 
@@ -260,7 +260,7 @@ begin
         ftFixedChar:
           Result := TValue.From<Char>(LEnumeration.EnumValues[LValue.AsOrdinal][1]);
         ftString:
-          Result := TValue.From<string>(LEnumeration.EnumValues[LValue.AsOrdinal]);
+          Result := TValue.From<String>(LEnumeration.EnumValues[LValue.AsOrdinal]);
         ftInteger:
           Result := TValue.From<Integer>(StrToIntDef(LEnumeration.EnumValues[LValue.AsOrdinal], 0));
         ftBoolean:
@@ -289,7 +289,7 @@ end;
 
 function TRttiPropertyHelper.GetTypeValue(ARttiType: TRttiType): TRttiType;
 var
-  LTypeName: string;
+  LTypeName: String;
   LContext: TRttiContext;
 begin
    LContext := TRttiContext.Create;
@@ -555,7 +555,7 @@ end;
 
 function TRttiPropertyHelper.IsList: Boolean;
 var
-  LTypeName: string;
+  LTypeName: String;
 begin
   Result := False;
   LTypeName := Self.PropertyType.ToString;
@@ -684,7 +684,7 @@ end;
 function TRttiPropertyHelper.IsPrimaryKey(AClass: TClass): Boolean;
 var
   LPrimaryKey: TPrimaryKeyMapping;
-  LColumnName: string;
+  LColumnName: String;
 begin
   Result := False;
   LPrimaryKey := TMappingExplorer.GetMappingPrimaryKey(AClass);
@@ -784,7 +784,7 @@ end;
 
 { TObjectHelper }
 
-function TObjectHelper.MethodCall(const AMethodName: string;
+function TObjectHelper.MethodCall(const AMethodName: String;
   const AParameters: array of TValue): TValue;
 var
   LRttiType: TRttiType;
@@ -808,7 +808,7 @@ end;
 
 function TRttiFieldHelper.GetLazyValue: TRttiType;
 var
-  LTypeName: string;
+  LTypeName: String;
   LContext: TRttiContext;
 begin
   LContext := TRttiContext.Create;
@@ -825,7 +825,7 @@ end;
 
 function TRttiFieldHelper.GetTypeValue: TRttiType;
 var
-  LTypeName: string;
+  LTypeName: String;
   LContext: TRttiContext;
 begin
   LContext := TRttiContext.Create;

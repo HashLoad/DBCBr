@@ -42,22 +42,22 @@ type
   TDDLSQLGeneratorPostgreSQL = class(TDDLSQLGenerator)
   protected
   public
-    function GenerateCreateTable(ATable: TTableMIK): string; override;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
-    function GenerateEnableForeignKeys(AEnable: Boolean): string; override;
-    function GenerateEnableTriggers(AEnable: Boolean): string; override;
-    function GenerateAlterColumn(AColumn: TColumnMIK): string; override;
-    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; override;
-    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string; override;
+    function GenerateCreateTable(ATable: TTableMIK): String; override;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String; override;
+    function GenerateEnableForeignKeys(AEnable: Boolean): String; override;
+    function GenerateEnableTriggers(AEnable: Boolean): String; override;
+    function GenerateAlterColumn(AColumn: TColumnMIK): String; override;
+    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; override;
+    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String; override;
   end;
 
 implementation
 
 { TDDLSQLGeneratorPostgreSQL }
 
-function TDDLSQLGeneratorPostgreSQL.GenerateAlterColumn(AColumn: TColumnMIK): string;
+function TDDLSQLGeneratorPostgreSQL.GenerateAlterColumn(AColumn: TColumnMIK): String;
 var
-  LSchemaName: string;
+  LSchemaName: String;
   LBuilder: TStringBuilder;
 begin
   LSchemaName := AColumn.Table.Database.Schema;
@@ -88,7 +88,7 @@ begin
   end;
 end;
 
-function TDDLSQLGeneratorPostgreSQL.GenerateCreateSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGeneratorPostgreSQL.GenerateCreateSequence(ASequence: TSequenceMIK): String;
 begin
   Result := 'CREATE SEQUENCE "%s" INCREMENT %s START %s;';
   Result := Format(Result, [ASequence.Name,
@@ -96,10 +96,10 @@ begin
                             IntToStr(ASequence.InitialValue)]);
 end;
 
-function TDDLSQLGeneratorPostgreSQL.GenerateCreateTable(ATable: TTableMIK): string;
+function TDDLSQLGeneratorPostgreSQL.GenerateCreateTable(ATable: TTableMIK): String;
 var
   LSQL: TStringBuilder;
-  LColumn: TPair<string,TColumnMIK>;
+  LColumn: TPair<String,TColumnMIK>;
 begin
   LSQL := TStringBuilder.Create;
   Result := inherited GenerateCreateTable(ATable);
@@ -155,19 +155,19 @@ begin
   end;
 end;
 
-function TDDLSQLGeneratorPostgreSQL.GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string;
+function TDDLSQLGeneratorPostgreSQL.GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String;
 begin
   Result := 'DROP INDEX %s;';
   Result := Format(Result, [AIndexe.Name]);
 end;
 
-function TDDLSQLGeneratorPostgreSQL.GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string;
+function TDDLSQLGeneratorPostgreSQL.GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s DROP PRIMARY KEY;';
   Result := Format(Result, [APrimaryKey.Table.Name]);
 end;
 
-function TDDLSQLGeneratorPostgreSQL.GenerateEnableForeignKeys(AEnable: Boolean): string;
+function TDDLSQLGeneratorPostgreSQL.GenerateEnableForeignKeys(AEnable: Boolean): String;
 begin
   if AEnable then
     Result := ''
@@ -175,7 +175,7 @@ begin
     Result := '';
 end;
 
-function TDDLSQLGeneratorPostgreSQL.GenerateEnableTriggers(AEnable: Boolean): string;
+function TDDLSQLGeneratorPostgreSQL.GenerateEnableTriggers(AEnable: Boolean): String;
 begin
   if AEnable then
     Result := ''

@@ -41,84 +41,84 @@ type
 
   TMetaInfoKind = class abstract
   strict private
-    FDescription: string;
+    FDescription: String;
   public
-    property Description: string read FDescription write FDescription;
+    property Description: String read FDescription write FDescription;
   end;
 
   TColumnMIK = class(TMetaInfoKind)
   strict private
     FTable: TTableMIK;
-    FName: string;
+    FName: String;
     FPosition: Integer;
     FFieldType: TFieldType;
-    FTypeName: string;
+    FTypeName: String;
     FSize: Integer;
     FPrecision: Integer;
     FScale: Integer;
     FNotNull: Boolean;
-    FAutoIncrement: boolean;
+    FAutoIncrement: Boolean;
     FSortingOrder: TSortingOrder;
-    FDefaultValue: string;
+    FDefaultValue: String;
     FIsPrimaryKey: Boolean;
-    FCharSet: string;
+    FCharSet: String;
   public
     constructor Create(ATable: TTableMIK = nil);
     property Table: TTableMIK read FTable;
-    property Name: string read FName write FName;
+    property Name: String read FName write FName;
     property Position: Integer read FPosition write FPosition;
     property FieldType: TFieldType read FFieldType write FFieldType;
-    property TypeName: string read FTypeName write FTypeName;
+    property TypeName: String read FTypeName write FTypeName;
     property Size: Integer read FSize write FSize;
     property Precision: Integer read FPrecision write FPrecision;
     property Scale: Integer read FScale write FScale;
     property NotNull: Boolean read FNotNull write FNotNull;
-    property AutoIncrement: boolean read FAutoIncrement write FAutoIncrement;
+    property AutoIncrement: Boolean read FAutoIncrement write FAutoIncrement;
     property SortingOrder: TSortingOrder read FSortingOrder write FSortingOrder;
-    property DefaultValue: string read FDefaultValue write FDefaultValue;
-    property IsPrimaryKey: boolean read FIsPrimaryKey write FIsPrimaryKey;
-    property CharSet: string read FcharSet write FCharSet;
+    property DefaultValue: String read FDefaultValue write FDefaultValue;
+    property IsPrimaryKey: Boolean read FIsPrimaryKey write FIsPrimaryKey;
+    property CharSet: String read FcharSet write FCharSet;
   end;
 
   TIndexeKeyMIK = class(TMetaInfoKind)
   strict private
     FTable: TTableMIK;
-    FName: string;
+    FName: String;
     FUnique: Boolean;
-    FFields: TObjectDictionary<string, TColumnMIK>;
+    FFields: TObjectDictionary<String, TColumnMIK>;
   public
     constructor Create(ATable: TTableMIK);
     destructor Destroy; override;
     function FieldsSort: TArray<TPair<String, TColumnMIK>>;
     property Table: TTableMIK read FTable;
-    property Name: string read FName write FName;
+    property Name: String read FName write FName;
     property Unique: Boolean read FUnique write FUnique;
-    property Fields: TObjectDictionary<string, TColumnMIK> read FFields;
+    property Fields: TObjectDictionary<String, TColumnMIK> read FFields;
   end;
 
   TSequenceMIK = class(TMetaInfoKind)
   strict private
-    FTableName: string;
-    FName: string;
+    FTableName: String;
+    FName: String;
     FInitialValue: Integer;
     FIncrement: Integer;
     FCatalog: TCatalogMetadataMIK;
   public
     constructor Create(ADatabase: TCatalogMetadataMIK);
-    property Name: string read FName write FName;
+    property Name: String read FName write FName;
     property InitialValue: Integer read FInitialValue write FInitialValue;
     property Increment: Integer read FIncrement write FIncrement;
-    property TableName: string read FTableName write FTableName;
+    property TableName: String read FTableName write FTableName;
     property Database: TCatalogMetadataMIK read FCatalog;
   end;
 
   TForeignKeyMIK = class(TMetaInfoKind)
   strict private
     FTable: TTableMIK;
-    FName: string;
-    FFromTable: string;
-    FFromFields: TObjectDictionary<string, TColumnMIK>;
-    FToFields: TObjectDictionary<string, TColumnMIK>;
+    FName: String;
+    FFromTable: String;
+    FFromFields: TObjectDictionary<String, TColumnMIK>;
+    FToFields: TObjectDictionary<String, TColumnMIK>;
     FOnUpdate: TRuleAction;
     FOnDelete: TRuleAction;
   public
@@ -127,10 +127,10 @@ type
     function FromFieldsSort: TArray<TPair<String, TColumnMIK>>;
     function ToFieldsSort: TArray<TPair<String, TColumnMIK>>;
     property Table: TTableMIK read FTable;
-    property Name: string read FName write FName;
-    property FromTable: string read FFromTable write FFromTable;
-    property FromFields: TObjectDictionary<string, TColumnMIK> read FFromFields;
-    property ToFields: TObjectDictionary<string, TColumnMIK> read FToFields;
+    property Name: String read FName write FName;
+    property FromTable: String read FFromTable write FFromTable;
+    property FromFields: TObjectDictionary<String, TColumnMIK> read FFromFields;
+    property ToFields: TObjectDictionary<String, TColumnMIK> read FToFields;
     property OnUpdate: TRuleAction read FOnUpdate write FOnUpdate;
     property OnDelete: TRuleAction read FOnDelete write FOnDelete;
   end;
@@ -138,103 +138,103 @@ type
   TPrimaryKeyMIK = class(TMetaInfoKind)
   strict private
     FTable: TTableMIK;
-    FName: string;
-    FAutoIncrement: boolean;
-    FFields: TObjectDictionary<string, TColumnMIK>;
+    FName: String;
+    FAutoIncrement: Boolean;
+    FFields: TObjectDictionary<String, TColumnMIK>;
   public
     constructor Create(ATable: TTableMIK);
     destructor Destroy; override;
     function FieldsSort: TArray<TPair<String, TColumnMIK>>;
     property Table: TTableMIK read FTable;
-    property Name: string read FName write FName;
-    property AutoIncrement: boolean read FAutoIncrement write FAutoIncrement;
-    property Fields: TObjectDictionary<string, TColumnMIK> read FFields;
+    property Name: String read FName write FName;
+    property AutoIncrement: Boolean read FAutoIncrement write FAutoIncrement;
+    property Fields: TObjectDictionary<String, TColumnMIK> read FFields;
   end;
 
   TTriggerMIK = class(TMetaInfoKind)
   strict private
     FTable: TTableMIK;
-    FName: string;
-    FScript: string;
+    FName: String;
+    FScript: String;
   public
     constructor Create(ATable: TTableMIK);
     property Table: TTableMIK read FTable;
-    property Name: string read FName write FName;
-    property Script: string read FScript write FScript;
+    property Name: String read FName write FName;
+    property Script: String read FScript write FScript;
   end;
 
   TCheckMIK = class(TMetaInfoKind)
   strict private
     FTable: TTableMIK;
-    FName: string;
-    FCondition: string;
+    FName: String;
+    FCondition: String;
   public
     constructor Create(ATable: TTableMIK);
     property Table: TTableMIK read FTable;
-    property Name: string read FName write FName;
-    property Condition: string read FCondition write FCondition;
+    property Name: String read FName write FName;
+    property Condition: String read FCondition write FCondition;
   end;
 
   TTableMIK = class(TMetaInfoKind)
   strict private
     FCatalog: TCatalogMetadataMIK;
-    FName: string;
-    FDescription: string;
+    FName: String;
+    FDescription: String;
     FPrimaryKey: TPrimaryKeyMIK;
-    FFields: TObjectDictionary<string, TColumnMIK>;
-    FIndexeKeys: TObjectDictionary<string, TIndexeKeyMIK>;
-    FForeignKeys: TObjectDictionary<string, TForeignKeyMIK>;
-    FChecks: TObjectDictionary<string, TCheckMIK>;
-    FTriggers: TObjectDictionary<string, TTriggerMIK>;
+    FFields: TObjectDictionary<String, TColumnMIK>;
+    FIndexeKeys: TObjectDictionary<String, TIndexeKeyMIK>;
+    FForeignKeys: TObjectDictionary<String, TForeignKeyMIK>;
+    FChecks: TObjectDictionary<String, TCheckMIK>;
+    FTriggers: TObjectDictionary<String, TTriggerMIK>;
   public
     constructor Create(ADatabase: TCatalogMetadataMIK);
     destructor Destroy; override;
     function FieldsSort: TArray<TPair<String, TColumnMIK>>;
     property Database: TCatalogMetadataMIK read FCatalog;
-    property Name: string read FName write FName;
-    property Description: string read FDescription write FDescription;
-    property Fields: TObjectDictionary<string, TColumnMIK> read FFields;
+    property Name: String read FName write FName;
+    property Description: String read FDescription write FDescription;
+    property Fields: TObjectDictionary<String, TColumnMIK> read FFields;
     property PrimaryKey: TPrimaryKeyMIK read FPrimaryKey write FPrimaryKey;
-    property IndexeKeys: TObjectDictionary<string, TIndexeKeyMIK> read FIndexeKeys;
-    property Checks: TObjectDictionary<string, TCheckMIK> read FChecks;
-    property ForeignKeys: TObjectDictionary<string, TForeignKeyMIK> read FForeignKeys;
-    property Triggers: TObjectDictionary<string, TTriggerMIK> read FTriggers;
+    property IndexeKeys: TObjectDictionary<String, TIndexeKeyMIK> read FIndexeKeys;
+    property Checks: TObjectDictionary<String, TCheckMIK> read FChecks;
+    property ForeignKeys: TObjectDictionary<String, TForeignKeyMIK> read FForeignKeys;
+    property Triggers: TObjectDictionary<String, TTriggerMIK> read FTriggers;
   end;
 
   TViewMIK = class(TMetaInfoKind)
   strict private
     FCatalog: TCatalogMetadataMIK;
-    FName: string;
-    FScript: string;
-    FFields: TObjectDictionary<string, TColumnMIK>;
+    FName: String;
+    FScript: String;
+    FFields: TObjectDictionary<String, TColumnMIK>;
   private
 
   public
     constructor Create(ADatabase: TCatalogMetadataMIK);
     destructor Destroy; override;
     property Database: TCatalogMetadataMIK read FCatalog;
-    property Name: string read FName write FName;
-    property Fields: TObjectDictionary<string, TColumnMIK> read FFields write FFields;
-    property Script: string read FScript write FScript;
+    property Name: String read FName write FName;
+    property Fields: TObjectDictionary<String, TColumnMIK> read FFields write FFields;
+    property Script: String read FScript write FScript;
   end;
 
   TCatalogMetadataMIK = class(TMetaInfoKind)
   strict private
-    FName: string;
-    FSchema: string;
-    FTables: TObjectDictionary<string, TTableMIK>;
-    FSequences: TObjectDictionary<string, TSequenceMIK>;
-    FViews: TObjectDictionary<string, TViewMIK>;
+    FName: String;
+    FSchema: String;
+    FTables: TObjectDictionary<String, TTableMIK>;
+    FSequences: TObjectDictionary<String, TSequenceMIK>;
+    FViews: TObjectDictionary<String, TViewMIK>;
   public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
     function TablesSort: TArray<TPair<String, TTableMIK>>;
-    property Name: string read FName write FName;
-    property Schema: string read FSchema write FSchema;
-    property Tables: TObjectDictionary<string, TTableMIK> read FTables;
-    property Sequences: TObjectDictionary<string, TSequenceMIK> read FSequences;
-    property Views: TObjectDictionary<string, TViewMIK> read FViews;
+    property Name: String read FName write FName;
+    property Schema: String read FSchema write FSchema;
+    property Tables: TObjectDictionary<String, TTableMIK> read FTables;
+    property Sequences: TObjectDictionary<String, TSequenceMIK> read FSequences;
+    property Views: TObjectDictionary<String, TViewMIK> read FViews;
   end;
 
 implementation
@@ -243,11 +243,11 @@ implementation
 
 constructor TTableMIK.Create(ADatabase: TCatalogMetadataMIK);
 begin
-  FFields := TObjectDictionary<string, TColumnMIK>.Create([doOwnsValues]);
-  FIndexeKeys := TObjectDictionary<string, TIndexeKeyMIK>.Create([doOwnsValues]);
-  FChecks := TObjectDictionary<string, TCheckMIK>.Create([doOwnsValues]);
-  FForeignKeys := TObjectDictionary<string, TForeignKeyMIK>.Create([doOwnsValues]);
-  FTriggers := TObjectDictionary<string, TTriggerMIK>.Create([doOwnsValues]);
+  FFields := TObjectDictionary<String, TColumnMIK>.Create([doOwnsValues]);
+  FIndexeKeys := TObjectDictionary<String, TIndexeKeyMIK>.Create([doOwnsValues]);
+  FChecks := TObjectDictionary<String, TCheckMIK>.Create([doOwnsValues]);
+  FForeignKeys := TObjectDictionary<String, TForeignKeyMIK>.Create([doOwnsValues]);
+  FTriggers := TObjectDictionary<String, TTriggerMIK>.Create([doOwnsValues]);
   FPrimaryKey := TPrimaryKeyMIK.Create(Self);
   FCatalog := ADatabase;
 end;
@@ -263,11 +263,11 @@ begin
   inherited;
 end;
 
-function TTableMIK.FieldsSort: TArray<TPair<string, TColumnMIK>>;
+function TTableMIK.FieldsSort: TArray<TPair<String, TColumnMIK>>;
 
-  function ToArray: TArray<TPair<string, TColumnMIK>>;
+  function ToArray: TArray<TPair<String, TColumnMIK>>;
   var
-    LPair: TPair<string, TColumnMIK>;
+    LPair: TPair<String, TColumnMIK>;
     LIndex: Integer;
   begin
     SetLength(Result, FFields.Count);
@@ -295,8 +295,8 @@ end;
 constructor TForeignKeyMIK.Create(ATable: TTableMIK);
 begin
   FTable := ATable;
-  FFromFields := TObjectDictionary<string, TColumnMIK>.Create([doOwnsValues]);
-  FToFields := TObjectDictionary<string, TColumnMIK>.Create([doOwnsValues]);
+  FFromFields := TObjectDictionary<String, TColumnMIK>.Create([doOwnsValues]);
+  FToFields := TObjectDictionary<String, TColumnMIK>.Create([doOwnsValues]);
 end;
 
 destructor TForeignKeyMIK.Destroy;
@@ -308,9 +308,9 @@ end;
 
 function TForeignKeyMIK.FromFieldsSort: TArray<TPair<String, TColumnMIK>>;
 
-  function ToArray: TArray<TPair<string, TColumnMIK>>;
+  function ToArray: TArray<TPair<String, TColumnMIK>>;
   var
-    LPair: TPair<string, TColumnMIK>;
+    LPair: TPair<String, TColumnMIK>;
     LIndex: Integer;
   begin
     SetLength(Result, FFromFields.Count);
@@ -335,9 +335,9 @@ end;
 
 function TForeignKeyMIK.ToFieldsSort: TArray<TPair<String, TColumnMIK>>;
 
-  function ToArray: TArray<TPair<string, TColumnMIK>>;
+  function ToArray: TArray<TPair<String, TColumnMIK>>;
   var
-    LPair: TPair<string, TColumnMIK>;
+    LPair: TPair<String, TColumnMIK>;
     LIndex: Integer;
   begin
     SetLength(Result, FToFields.Count);
@@ -364,7 +364,7 @@ end;
 
 constructor TIndexeKeyMIK.Create(ATable: TTableMIK);
 begin
-  FFields := TObjectDictionary<string, TColumnMIK>.Create([doOwnsValues]);
+  FFields := TObjectDictionary<String, TColumnMIK>.Create([doOwnsValues]);
   FTable := ATable;
 end;
 
@@ -376,9 +376,9 @@ end;
 
 function TIndexeKeyMIK.FieldsSort: TArray<TPair<String, TColumnMIK>>;
 
-  function ToArray: TArray<TPair<string, TColumnMIK>>;
+  function ToArray: TArray<TPair<String, TColumnMIK>>;
   var
-    LPair: TPair<string, TColumnMIK>;
+    LPair: TPair<String, TColumnMIK>;
     LIndex: Integer;
   begin
     SetLength(Result, FFields.Count);
@@ -411,9 +411,9 @@ end;
 
 constructor TCatalogMetadataMIK.Create;
 begin
-  FTables := TObjectDictionary<string, TTableMIK>.Create([doOwnsValues]);
-  FSequences := TObjectDictionary<string, TSequenceMIK>.Create([doOwnsValues]);
-  FViews := TObjectDictionary<string, TViewMIK>.Create([doOwnsValues]);
+  FTables := TObjectDictionary<String, TTableMIK>.Create([doOwnsValues]);
+  FSequences := TObjectDictionary<String, TSequenceMIK>.Create([doOwnsValues]);
+  FViews := TObjectDictionary<String, TViewMIK>.Create([doOwnsValues]);
 end;
 
 destructor TCatalogMetadataMIK.Destroy;
@@ -426,9 +426,9 @@ end;
 
 function TCatalogMetadataMIK.TablesSort: TArray<TPair<String, TTableMIK>>;
 
-  function ToArray: TArray<TPair<string, TTableMIK>>;
+  function ToArray: TArray<TPair<String, TTableMIK>>;
   var
-    LPair: TPair<string, TTableMIK>;
+    LPair: TPair<String, TTableMIK>;
     LIndex: Integer;
   begin
     SetLength(Result, FTables.Count);
@@ -472,7 +472,7 @@ constructor TPrimaryKeyMIK.Create(ATable: TTableMIK);
 begin
   FTable := ATable;
   FAutoIncrement := False;
-  FFields := TObjectDictionary<string, TColumnMIK>.Create([doOwnsValues]);
+  FFields := TObjectDictionary<String, TColumnMIK>.Create([doOwnsValues]);
 end;
 
 destructor TPrimaryKeyMIK.Destroy;
@@ -483,9 +483,9 @@ end;
 
 function TPrimaryKeyMIK.FieldsSort: TArray<TPair<String, TColumnMIK>>;
 
-  function ToArray: TArray<TPair<string, TColumnMIK>>;
+  function ToArray: TArray<TPair<String, TColumnMIK>>;
   var
-    LPair: TPair<string, TColumnMIK>;
+    LPair: TPair<String, TColumnMIK>;
     LIndex: Integer;
   begin
     SetLength(Result, FFields.Count);
@@ -526,7 +526,7 @@ end;
 
 constructor TViewMIK.Create(ADatabase: TCatalogMetadataMIK);
 begin
-  FFields := TObjectDictionary<string, TColumnMIK>.Create([doOwnsValues]);
+  FFields := TObjectDictionary<String, TColumnMIK>.Create([doOwnsValues]);
   FCatalog := ADatabase;
 end;
 

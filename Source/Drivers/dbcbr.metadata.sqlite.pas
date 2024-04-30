@@ -42,17 +42,17 @@ uses
 type
   TCatalogMetadataSQLite = class(TCatalogMetadataAbstract)
   private
-    procedure ResolveFieldType(AColumn: TColumnMIK; ATypeName: string);
+    procedure ResolveFieldType(AColumn: TColumnMIK; ATypeName: String);
   protected
-    function GetSelectTables: string; override;
-    function GetSelectTableColumns(ATableName: string): string; override;
-    function GetSelectPrimaryKey(ATableName: string): string; override;
-    function GetSelectForeignKey(ATableName: string): string; override;
-    function GetSelectIndexe(ATableName: string): string; override;
-    function GetSelectIndexeColumns(AIndexeName: string): string; override;
-    function GetSelectTriggers(ATableName: string): string; override;
-    function GetSelectViews: string;
-    function GetSelectSequences: string; override;
+    function GetSelectTables: String; override;
+    function GetSelectTableColumns(ATableName: String): String; override;
+    function GetSelectPrimaryKey(ATableName: String): String; override;
+    function GetSelectForeignKey(ATableName: String): String; override;
+    function GetSelectIndexe(ATableName: String): String; override;
+    function GetSelectIndexeColumns(AIndexeName: String): String; override;
+    function GetSelectTriggers(ATableName: String): String; override;
+    function GetSelectViews: String;
+    function GetSelectSequences: String; override;
     function Execute: IDBResultSet;
   public
     procedure CreateFieldTypeList; override;
@@ -94,7 +94,7 @@ begin
     FFieldType.Add('TEXT', ftMemo);
     FFieldType.Add('FLOAT', ftFloat);
     FFieldType.Add('REAL', ftFloat);
-    FFieldType.Add('BOOLEAN', ftBoolean);
+    FFieldType.Add('Boolean', ftBoolean);
     FFieldType.Add('TIME', ftTime);
     FFieldType.Add('DATETIME', ftDateTime);
     FFieldType.Add('TIMESTAMP', ftTimeStamp);
@@ -206,7 +206,7 @@ begin
     /// </param>
     /// <remarks>
     /// Relação das propriedades que serão alimentadas no método ResolveTypeField()
-    /// oColumn.TypeName: string;
+    /// oColumn.TypeName: String;
     /// oColumn.FieldType: TTypeField;
     /// oColumn.Size: Integer;
     /// oColumn.Precision: Integer;
@@ -222,12 +222,12 @@ end;
 
 procedure TCatalogMetadataSQLite.GetPrimaryKey(ATable: TTableMIK);
 
-  function GetPrimaryKeyName(ATableName: string): string;
+  function GetPrimaryKeyName(ATableName: String): String;
   begin
     Exit('PK_' + ATableName);
   end;
 
-  function GetColumnAutoIncrement(ATableName: string): Integer;
+  function GetColumnAutoIncrement(ATableName: String): Integer;
   var
     oDBResultSet: IDBResultSet;
   begin
@@ -434,14 +434,14 @@ begin
   end;
 end;
 
-procedure TCatalogMetadataSQLite.ResolveFieldType(AColumn: TColumnMIK; ATypeName: string);
+procedure TCatalogMetadataSQLite.ResolveFieldType(AColumn: TColumnMIK; ATypeName: String);
 var
   iPos1, iPos2: Integer;
-  sDefArgs: string;
+  sDefArgs: String;
 
   procedure SetPrecScale(ADefPrec, ADefScale: Integer);
   var
-    sSize, sPrecision, sCale: string;
+    sSize, sPrecision, sCale: String;
     iPos: Integer;
   begin
     iPos := Pos(',', sDefArgs);
@@ -480,39 +480,39 @@ begin
   GetFieldTypeDefinition(AColumn);
 end;
 
-function TCatalogMetadataSQLite.GetSelectForeignKey(ATableName: string): string;
+function TCatalogMetadataSQLite.GetSelectForeignKey(ATableName: String): String;
 begin
   Result := Format('PRAGMA foreign_key_list("%s")', [ATableName]);
 end;
 
-function TCatalogMetadataSQLite.GetSelectIndexe(ATableName: string): string;
+function TCatalogMetadataSQLite.GetSelectIndexe(ATableName: String): String;
 begin
  Result := Format('PRAGMA index_list("%s")', [ATableName]);
 end;
 
-function TCatalogMetadataSQLite.GetSelectIndexeColumns(AIndexeName: string): string;
+function TCatalogMetadataSQLite.GetSelectIndexeColumns(AIndexeName: String): String;
 begin
   Result := Format('PRAGMA index_info("%s")', [AIndexeName]);
 end;
 
-function TCatalogMetadataSQLite.GetSelectPrimaryKey(ATableName: string): string;
+function TCatalogMetadataSQLite.GetSelectPrimaryKey(ATableName: String): String;
 begin
   Result := Format('PRAGMA table_info("%s")', [ATableName]);
 end;
 
-function TCatalogMetadataSQLite.GetSelectSequences: string;
+function TCatalogMetadataSQLite.GetSelectSequences: String;
 begin
   Result := ' select name ' +
             ' from sqlite_sequence ' +
             ' order by name';
 end;
 
-function TCatalogMetadataSQLite.GetSelectTableColumns(ATableName: string): string;
+function TCatalogMetadataSQLite.GetSelectTableColumns(ATableName: String): String;
 begin
   Result := Format('PRAGMA table_info("%s")', [ATableName]);
 end;
 
-function TCatalogMetadataSQLite.GetSelectTables: string;
+function TCatalogMetadataSQLite.GetSelectTables: String;
 begin
   Result := ' select name ' +
             ' from sqlite_master ' +
@@ -521,7 +521,7 @@ begin
             ' order by name ';
 end;
 
-function TCatalogMetadataSQLite.GetSelectTriggers(ATableName: string): string;
+function TCatalogMetadataSQLite.GetSelectTriggers(ATableName: String): String;
 begin
   Result := ' select name ' +
             ' from sqlite_master ' +
@@ -530,7 +530,7 @@ begin
             ' order by name ';
 end;
 
-function TCatalogMetadataSQLite.GetSelectViews: string;
+function TCatalogMetadataSQLite.GetSelectViews: String;
 begin
   Result := ' select name ' +
             ' from sqlite_master ' +

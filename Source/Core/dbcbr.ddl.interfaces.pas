@@ -41,31 +41,31 @@ type
   /// </summary>
   IDDLGeneratorCommand = interface
     ['{9E14DD57-94B9-4117-982A-BB9E8CBA54C6}']
-    function GenerateCreateTable(ATable: TTableMIK): string;
-    function GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): string;
-    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string;
-    function GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): string;
-    function GenerateCreateCheck(ACheck: TCheckMIK): string;
-    function GenerateCreateView(AView: TViewMIK): string;
-    function GenerateCreateTrigger(ATrigger: TTriggerMIK): string;
-    function GenerateCreateColumn(AColumn: TColumnMIK): string;
-    function GenerateAlterColumn(AColumn: TColumnMIK): string;
-    function GenerateAlterColumnPosition(AColumn: TColumnMIK): string;
-    function GenerateAlterDefaultValue(AColumn: TColumnMIK): string;
-    function GenerateAlterCheck(ACheck: TCheckMIK): string;
-    function GenerateDropTable(ATable: TTableMIK): string;
-    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string;
-    function GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): string;
-    function GenerateDropSequence(ASequence: TSequenceMIK): string;
-    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string;
-    function GenerateDropCheck(ACheck: TCheckMIK): string;
-    function GenerateDropView(AView: TViewMIK): string;
-    function GenerateDropTrigger(ATrigger: TTriggerMIK): string;
-    function GenerateDropColumn(AColumn: TColumnMIK): string;
-    function GenerateDropDefaultValue(AColumn: TColumnMIK): string;
-    function GenerateEnableForeignKeys(AEnable: Boolean): string;
-    function GenerateEnableTriggers(AEnable: Boolean): string;
+    function GenerateCreateTable(ATable: TTableMIK): String;
+    function GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): String;
+    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String;
+    function GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): String;
+    function GenerateCreateCheck(ACheck: TCheckMIK): String;
+    function GenerateCreateView(AView: TViewMIK): String;
+    function GenerateCreateTrigger(ATrigger: TTriggerMIK): String;
+    function GenerateCreateColumn(AColumn: TColumnMIK): String;
+    function GenerateAlterColumn(AColumn: TColumnMIK): String;
+    function GenerateAlterColumnPosition(AColumn: TColumnMIK): String;
+    function GenerateAlterDefaultValue(AColumn: TColumnMIK): String;
+    function GenerateAlterCheck(ACheck: TCheckMIK): String;
+    function GenerateDropTable(ATable: TTableMIK): String;
+    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String;
+    function GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): String;
+    function GenerateDropSequence(ASequence: TSequenceMIK): String;
+    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String;
+    function GenerateDropCheck(ACheck: TCheckMIK): String;
+    function GenerateDropView(AView: TViewMIK): String;
+    function GenerateDropTrigger(ATrigger: TTriggerMIK): String;
+    function GenerateDropColumn(AColumn: TColumnMIK): String;
+    function GenerateDropDefaultValue(AColumn: TColumnMIK): String;
+    function GenerateEnableForeignKeys(AEnable: Boolean): String;
+    function GenerateEnableTriggers(AEnable: Boolean): String;
     /// <summary>
     /// Propriedade para identificar os recursos de diferentes banco de dados
     /// usando o mesmo modelo.

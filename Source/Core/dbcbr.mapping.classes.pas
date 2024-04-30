@@ -40,38 +40,38 @@ uses
 type
   TMappingDescription = class abstract
   protected
-    FDescription: string;
+    FDescription: String;
   public
-    property Description: string read FDescription write FDescription;
+    property Description: String read FDescription write FDescription;
   end;
 
   // TableMapping
   TTableMapping = class(TMappingDescription)
   private
-    FName: string;
-    FSchema: string;
+    FName: String;
+    FSchema: String;
   public
-    property Name: string read FName write FName;
-    property Schema: string read FSchema write FSchema;
+    property Name: String read FName write FName;
+    property Schema: String read FSchema write FSchema;
   end;
 
   // OrderByMapping
   TOrderByMapping = class
   private
-    FColumnsName: string;
+    FColumnsName: String;
   public
-    property ColumnsName: string read FColumnsName write FColumnsName;
+    property ColumnsName: String read FColumnsName write FColumnsName;
   end;
 
   TSequenceMapping = class(TMappingDescription)
   private
-    FTableName: string;
-    FName: string;
+    FTableName: String;
+    FName: String;
     FInitial: Integer;
     FIncrement: Integer;
   public
-    property TableName: string read FTableName write FTableName;
-    property Name: string read FName write FName;
+    property TableName: String read FTableName write FTableName;
+    property Name: String read FName write FName;
     property Initial: Integer read FInitial write FInitial;
     property Increment: Integer read FIncrement write FIncrement;
   end;
@@ -79,12 +79,12 @@ type
   // TriggerMapping
   TTriggerMapping = class(TMappingDescription)
   private
-    FName: string;
-    FScript: string;
+    FName: String;
+    FScript: String;
   public
-    constructor Create(const AName, AScript: string);
-    property Name: string read FName;
-    property Script: string read FScript;
+    constructor Create(const AName, AScript: String);
+    property Name: String read FName;
+    property Script: String read FScript;
   end;
   // ColumnMappingList
   TTriggerMappingList = class(TObjectList<TTriggerMapping>);
@@ -92,13 +92,13 @@ type
   // ColumnMapping
   TColumnMapping = class(TMappingDescription)
   private
-    FColumnName: string;
+    FColumnName: String;
     FFieldType: TFieldType;
     FScale: Integer;
     FSize: Integer;
     FPrecision: Integer;
     FFieldIndex: Integer;
-    FDefaultValue: string;
+    FDefaultValue: String;
     FIsNoInsert: Boolean;
     FIsNotNull: Boolean;
     FIsCheck: Boolean;
@@ -115,12 +115,12 @@ type
     FDictionary: Dictionary;
   public
     property FieldIndex: Integer read FFieldIndex write FFieldIndex;
-    property ColumnName: string read FColumnName write FColumnName;
+    property ColumnName: String read FColumnName write FColumnName;
     property FieldType: TFieldType read FFieldType write FFieldType;
     property Scale: Integer read FScale write FScale;
     property Size: Integer read FSize write FSize;
     property Precision: Integer read FPrecision write FPrecision;
-    property DefaultValue: string read FDefaultValue write FDefaultValue;
+    property DefaultValue: String read FDefaultValue write FDefaultValue;
     property IsNoInsert: Boolean read FIsNoInsert write FIsNoInsert;
     property IsNotNull: Boolean read FIsNotNull write FIsNotNull;
     property IsCheck: Boolean read FIsCheck write FIsCheck;
@@ -141,13 +141,13 @@ type
   TColumnMappingList = class(TObjectList<TColumnMapping>);
   TCalcFieldMapping = class(TMappingDescription)
   private
-    FFieldName: string;
+    FFieldName: String;
     FFieldType: TFieldType;
     FSize: Integer;
     FProperty: TRttiProperty;
     FDictionary: Dictionary;
   public
-    property FieldName: string read FFieldName write FFieldName;
+    property FieldName: String read FFieldName write FFieldName;
     property FieldType: TFieldType read FFieldType write FFieldType;
     property Size: Integer read FSize write FSize;
     property CalcProperty: TRttiProperty read FProperty write FProperty;
@@ -161,24 +161,24 @@ type
   TAssociationMapping = class
   private
     FMultiplicity: TMultiplicity;
-    FColumnsName: TList<string>;
-    FColumnsNameRef: TList<string>;
-    FClassNameRef: string;
+    FColumnsName: TList<String>;
+    FColumnsNameRef: TList<String>;
+    FClassNameRef: String;
     FLazy: Boolean;
     FProperty: TRttiProperty;
     FCascadeActions: TCascadeActions;
   public
     constructor Create(const AMultiplicity: TMultiplicity;
-      const AColumnsName, AColumnsNameRef: TArray<string>;
-      const AClassNameRef: string;
+      const AColumnsName, AColumnsNameRef: TArray<String>;
+      const AClassNameRef: String;
       const AProperty: TRttiProperty;
       const ALazy: Boolean;
       const ACascadeActions: TCascadeActions);
     destructor Destroy; override;
     property Multiplicity: TMultiplicity read FMultiplicity;
-    property ColumnsName: TList<string> read FColumnsName;
-    property ColumnsNameRef: TList<string> read FColumnsNameRef;
-    property ClassNameRef: string read FClassNameRef;
+    property ColumnsName: TList<String> read FColumnsName;
+    property ColumnsNameRef: TList<String> read FColumnsNameRef;
+    property ClassNameRef: String read FClassNameRef;
     property Lazy: Boolean read FLazy;
     property PropertyRtti: TRttiProperty read FProperty;
     property CascadeActions: TCascadeActions read FCascadeActions;
@@ -190,8 +190,8 @@ type
   // PrimaryKeyMapping
   TPrimaryKeyMapping = class(TMappingDescription)
   private
-    FName: string;
-    FColumns: TList<string>;
+    FName: String;
+    FColumns: TList<String>;
     FSortingOrder: TSortingOrder;
     FUnique: Boolean;
     FAutoIncrement: Boolean;
@@ -200,7 +200,7 @@ type
 //    FTableIncrement: Boolean;
 //    FGuidIncrement: Boolean;
   public
-    constructor Create(const AColumns: TArray<string>;
+    constructor Create(const AColumns: TArray<String>;
       const AAutoInc: Boolean;
 //      const ASequenceInc: Boolean;
 //      const ATableInc: Boolean;
@@ -208,16 +208,16 @@ type
       const AGeneratorType: TGeneratorType;
       const ASortingOrder: TSortingOrder;
       const AUnique: Boolean;
-      const ADescription: string = '');
+      const ADescription: String = '');
     destructor Destroy; override;
-    property Name: string read FName;
-    property Columns: TList<string> read FColumns;
+    property Name: String read FName;
+    property Columns: TList<String> read FColumns;
     property SortingOrder: TSortingOrder read FSortingOrder;
     property Unique: Boolean read FUnique;
-    property AutoIncrement: boolean read FAutoIncrement;
-//    property SequenceIncrement: boolean read FSequenceIncrement;
-//    property TableIncrement: boolean read FTableIncrement;
-//    property GuidIncrement: boolean read FGuidIncrement;
+    property AutoIncrement: Boolean read FAutoIncrement;
+//    property SequenceIncrement: Boolean read FSequenceIncrement;
+//    property TableIncrement: Boolean read FTableIncrement;
+//    property GuidIncrement: Boolean read FGuidIncrement;
     property GeneratorType: TGeneratorType read FGeneratorType;
   end;
 
@@ -234,10 +234,10 @@ type
   // PrimaryKeyMapping
   TIndexeMapping = class(TPrimaryKeyMapping)
   public
-    constructor Create(const AName: string; const AColumns: TArray<string>;
+    constructor Create(const AName: String; const AColumns: TArray<String>;
       const ASortingOrder: TSortingOrder;
       const AUnique: Boolean;
-      const ADescription: string = '');
+      const ADescription: String = '');
   end;
 
   // IndexeMappingList
@@ -246,12 +246,12 @@ type
   // CheckMapping
   TCheckMapping = class(TMappingDescription)
   private
-    FName: string;
-    FCondition: string;
+    FName: String;
+    FCondition: String;
   public
-    constructor Create(const AName, ACondition, ADescription: string);
-    property Name: string read FName;
-    property Condition: string read FCondition;
+    constructor Create(const AName, ACondition, ADescription: String);
+    property Name: String read FName;
+    property Condition: String read FCondition;
   end;
 
   // CheckMappingList
@@ -272,22 +272,22 @@ type
   // ForeignKeyKeyMapping
   TForeignKeyMapping = class(TMappingDescription)
   private
-    FName: string;
-    FTableNameRef: string;
-    FFromColumns: TList<string>;
-    FToColumns: TList<string>;
+    FName: String;
+    FTableNameRef: String;
+    FFromColumns: TList<String>;
+    FToColumns: TList<String>;
     FRuleUpdate: TRuleAction;
     FRuleDelete: TRuleAction;
   public
-    constructor Create(const AName, ATableNameRef: string;
-      const AFromColumns, AToColumns: TArray<string>;
+    constructor Create(const AName, ATableNameRef: String;
+      const AFromColumns, AToColumns: TArray<String>;
       const ARuleDelete, ARuleUpdate: TRuleAction;
-      const ADescription: string = '');
+      const ADescription: String = '');
     destructor Destroy; override;
-    property Name: string read FName;
-    property TableNameRef: string read FTableNameRef;
-    property FromColumns: TList<string> read FFromColumns;
-    property ToColumns: TList<string> read FToColumns;
+    property Name: String read FName;
+    property TableNameRef: String read FTableNameRef;
+    property FromColumns: TList<String> read FFromColumns;
+    property ToColumns: TList<String> read FToColumns;
     property RuleDelete: TRuleAction read FRuleDelete;
     property RuleUpdate: TRuleAction read FRuleUpdate;
   end;
@@ -298,24 +298,24 @@ type
   // JoinColumnMapping
   TJoinColumnMapping = class
   private
-    FColumnName: string;
-    FRefTableName: string;
-    FRefColumnName: string;
-    FRefColumnNameSelect: string;
+    FColumnName: String;
+    FRefTableName: String;
+    FRefColumnName: String;
+    FRefColumnNameSelect: String;
     FJoin: TJoin;
-    FAliasColumn: string;
-    FAliasRefTable: string;
+    FAliasColumn: String;
+    FAliasRefTable: String;
   public
     constructor Create(const AColumnName, ARefTableName, ARefColumnName,
-      ARefColumnNameSelect: string; const AJoin: TJoin;
-      const AAliasColumn: string; const AAliasRefTable: string);
-    property ColumnName: string read FColumnName;
-    property RefColumnName: string read FRefColumnName;
-    property RefTableName: string read FRefTableName;
-    property RefColumnNameSelect: string read FRefColumnNameSelect;
+      ARefColumnNameSelect: String; const AJoin: TJoin;
+      const AAliasColumn: String; const AAliasRefTable: String);
+    property ColumnName: String read FColumnName;
+    property RefColumnName: String read FRefColumnName;
+    property RefTableName: String read FRefTableName;
+    property RefColumnNameSelect: String read FRefColumnNameSelect;
     property Join: TJoin read FJoin;
-    property AliasColumn: string read FAliasColumn;
-    property AliasRefTable: string read FAliasRefTable;
+    property AliasColumn: String read FAliasColumn;
+    property AliasRefTable: String read FAliasRefTable;
   end;
 
   // JoinColumnMappingList
@@ -325,14 +325,14 @@ type
   private
     FOrdinalType: TRttiOrdinalType;
     FEnumType: TEnumType;
-    FEnumValues: TList<string>;
+    FEnumValues: TList<String>;
   public
     constructor Create(AOrdinalType: TRttiOrdinalType; AEnumType: TEnumType;
       AEnumValues: TList<Variant>);
     destructor Destroy; override;
     property OrdinalType: TRttiOrdinalType read FOrdinalType;
     property EnumType: TEnumType read FEnumType;
-    property EnumValues: TList<string> read FEnumValues;
+    property EnumValues: TList<String> read FEnumValues;
   end;
 
   // EnumerationMappingList
@@ -341,11 +341,11 @@ type
   // ViewMapping
   TViewMapping = class(TMappingDescription)
   private
-    FName: string;
-    FScript: string;
+    FName: String;
+    FScript: String;
   public
-    property Name: string read FName write FName;
-    property Script: string read FScript write FScript;
+    property Name: String read FName write FName;
+    property Script: String read FScript write FScript;
   end;
   TFieldEventsMapping = class
   private
@@ -374,8 +374,8 @@ implementation
 { TOneToOneRelationMapping }
 
 constructor TAssociationMapping.Create(const AMultiplicity: TMultiplicity;
-  const AColumnsName, AColumnsNameRef: TArray<string>;
-  const AClassNameRef: string;
+  const AColumnsName, AColumnsNameRef: TArray<String>;
+  const AClassNameRef: String;
   const AProperty: TRttiProperty;
   const ALazy: Boolean;
   const ACascadeActions: TCascadeActions);
@@ -388,14 +388,14 @@ begin
   FLazy := ALazy;
   FCascadeActions := ACascadeActions;
   // ColumnsName
-  FColumnsName := TList<string>.Create;
+  FColumnsName := TList<String>.Create;
   if Length(AColumnsName) > 0 then
   begin
     for LFor := Low(AColumnsName) to High(AColumnsName) do
       FColumnsName.Add(AColumnsName[LFor]);
   end;
   // ColumnsNameRef
-  FColumnsNameRef := TList<string>.Create;
+  FColumnsNameRef := TList<String>.Create;
   if Length(AColumnsNameRef) > 0 then
   begin
     for LFor := Low(AColumnsNameRef) to High(AColumnsNameRef) do
@@ -412,7 +412,7 @@ end;
 
 { TPrimaryKeyMapping }
 
-constructor TPrimaryKeyMapping.Create(const AColumns: TArray<string>;
+constructor TPrimaryKeyMapping.Create(const AColumns: TArray<String>;
   const AAutoInc: Boolean;
 //  const ASequenceInc: Boolean;
 //  const ATableInc: Boolean;
@@ -420,12 +420,12 @@ constructor TPrimaryKeyMapping.Create(const AColumns: TArray<string>;
   const AGeneratorType: TGeneratorType;
   const ASortingOrder: TSortingOrder;
   const AUnique: Boolean;
-  const ADescription: string);
+  const ADescription: String);
 var
   iFor: Integer;
 begin
   FName := 'PK_';
-  FColumns := TList<string>.Create;
+  FColumns := TList<String>.Create;
   FSortingOrder := ASortingOrder;
   FUnique := AUnique;
   FAutoIncrement := AAutoInc;
@@ -449,15 +449,15 @@ end;
 
 { TIndexMapping }
 
-constructor TIndexeMapping.Create(const AName: string;
-  const AColumns: TArray<string>;
+constructor TIndexeMapping.Create(const AName: String;
+  const AColumns: TArray<String>;
   const ASortingOrder: TSortingOrder;
   const AUnique: Boolean;
-  const ADescription: string);
+  const ADescription: String);
 var
   iFor: Integer;
 begin
-  FColumns := TList<string>.Create;
+  FColumns := TList<String>.Create;
   FName := AName;
   FSortingOrder := ASortingOrder;
   FUnique := AUnique;
@@ -472,8 +472,8 @@ end;
 { TJoinColumnMapping }
 
 constructor TJoinColumnMapping.Create(const AColumnName, ARefTableName,
-  ARefColumnName, ARefColumnNameSelect: string; const AJoin: TJoin;
-  const AAliasColumn: string; const AAliasRefTable: string);
+  ARefColumnName, ARefColumnNameSelect: String; const AJoin: TJoin;
+  const AAliasColumn: String; const AAliasRefTable: String);
 begin
   FColumnName := AColumnName;
   FRefTableName := ARefTableName;
@@ -486,9 +486,9 @@ end;
 
 { TForeignKeyMapping }
 
-constructor TForeignKeyMapping.Create(const AName, ATableNameRef: string;
-  const AFromColumns, AToColumns: TArray<string>;
-  const ARuleDelete, ARuleUpdate: TRuleAction; const ADescription: string);
+constructor TForeignKeyMapping.Create(const AName, ATableNameRef: String;
+  const AFromColumns, AToColumns: TArray<String>;
+  const ARuleDelete, ARuleUpdate: TRuleAction; const ADescription: String);
 var
   iFor: Integer;
 begin
@@ -501,14 +501,14 @@ begin
   FRuleUpdate := ARuleUpdate;
   FDescription := ADescription;
   // FromColumns
-  FFromColumns := TList<string>.Create;
+  FFromColumns := TList<String>.Create;
   if Length(AFromColumns) > 0 then
   begin
     for iFor := Low(AFromColumns) to High(AFromColumns) do
       FFromColumns.Add(Trim(AFromColumns[iFor]));
   end;
   // ToColumns
-  FToColumns := TList<string>.Create;
+  FToColumns := TList<String>.Create;
   if Length(AToColumns) > 0 then
   begin
     for iFor := Low(AToColumns) to High(AToColumns) do
@@ -525,7 +525,7 @@ end;
 
 { TTriggerMapping }
 
-constructor TTriggerMapping.Create(const AName, AScript: string);
+constructor TTriggerMapping.Create(const AName, AScript: String);
 begin
   FName := AName;
   FScript := AScript;
@@ -533,7 +533,7 @@ end;
 
 { TCheckMapping }
 
-constructor TCheckMapping.Create(const AName, ACondition, ADescription: string);
+constructor TCheckMapping.Create(const AName, ACondition, ADescription: String);
 begin
   FName := AName;
   FCondition := ACondition;
@@ -557,7 +557,7 @@ begin
   // EnumValues
   FOrdinalType := AOrdinalType;
   FEnumType := AEnumType;
-  FEnumValues := TList<string>.Create;
+  FEnumValues := TList<String>.Create;
   if AEnumValues.Count > 0 then
   begin
     for iFor := 0 to AEnumValues.Count -1 do

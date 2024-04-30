@@ -84,7 +84,7 @@ end;
 procedure TDatabaseCompare.ExecuteDDLCommands;
 var
   LDDLCommand: TDDLCommand;
-  LCommand: string;
+  LCommand: String;
 begin
   inherited;
   if FCommandsAutoExecute then

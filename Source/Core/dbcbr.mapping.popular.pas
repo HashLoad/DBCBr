@@ -424,7 +424,7 @@ var
   LRttiType: TRttiType;
   LProperty: TRttiProperty;
   LAssociation: TCustomAttribute;
-  LColumns: TArray<string>;
+  LColumns: TArray<String>;
 begin
   Result := nil;
   for LProperty in ARttiType.GetProperties do

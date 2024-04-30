@@ -43,19 +43,19 @@ type
   TCatalogMetadataFirebird = class(TCatalogMetadataAbstract)
   private
     procedure ResolveFieldType(AColumn: TColumnMIK; AColumnType: Integer; AColumnSubType: Variant);
-    function GetSelectViewsColumns(AViewName: string): string;
+    function GetSelectViewsColumns(AViewName: String): String;
   protected
-    function GetSelectTables: string; override;
-    function GetSelectTableColumns(ATableName: string): string; override;
-    function GetSelectPrimaryKey(ATableName: string): string; override;
-    function GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string; override;
-    function GetSelectForeignKey(ATableName: string): string; override;
-    function GetSelectForeignKeyColumns(AForeignKeyName: string): string; overload;
-    function GetSelectIndexe(ATableName: string): string; override;
-    function GetSelectIndexeColumns(AIndexeName: string): string; override;
-    function GetSelectTriggers(ATableName: string): string; override;
-    function GetSelectViews: string; override;
-    function GetSelectSequences: string; override;
+    function GetSelectTables: String; override;
+    function GetSelectTableColumns(ATableName: String): String; override;
+    function GetSelectPrimaryKey(ATableName: String): String; override;
+    function GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String; override;
+    function GetSelectForeignKey(ATableName: String): String; override;
+    function GetSelectForeignKeyColumns(AForeignKeyName: String): String; overload;
+    function GetSelectIndexe(ATableName: String): String; override;
+    function GetSelectIndexeColumns(AIndexeName: String): String; override;
+    function GetSelectTriggers(ATableName: String): String; override;
+    function GetSelectViews: String; override;
+    function GetSelectSequences: String; override;
     function Execute: IDBResultSet;
   public
     procedure GetCatalogs; override;
@@ -152,7 +152,7 @@ var
   LDBResultSet: IDBResultSet;
   LColumn: TColumnMIK;
 
-  function ExtractDefaultValue(ADefaultValue: string): string;
+  function ExtractDefaultValue(ADefaultValue: String): String;
   var
     iDefaultPos: Integer;
   begin
@@ -464,7 +464,7 @@ begin
   end;
 end;
 
-function TCatalogMetadataFirebird.GetSelectPrimaryKey(ATableName: string): string;
+function TCatalogMetadataFirebird.GetSelectPrimaryKey(ATableName: String): String;
 begin
    Result := ' select rc.rdb$constraint_name as pk_name, ' +
              '        id.rdb$description     as pk_description ' +
@@ -475,7 +475,7 @@ begin
              ' order by rc.rdb$relation_name ';
 end;
 
-function TCatalogMetadataFirebird.GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string;
+function TCatalogMetadataFirebird.GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String;
 begin
    Result := ' select rc.rdb$constraint_name as pk_name, ' +
              '        ix.rdb$field_position  as column_position, ' +
@@ -488,7 +488,7 @@ begin
              '          ix.rdb$field_position';
 end;
 
-function TCatalogMetadataFirebird.GetSelectSequences: string;
+function TCatalogMetadataFirebird.GetSelectSequences: String;
 begin
   Result := ' select rdb$generator_name as name, ' +
             '        rdb$description    as description     ' +
@@ -498,7 +498,7 @@ begin
             ' order by rdb$generator_name ';
 end;
 
-function TCatalogMetadataFirebird.GetSelectTableColumns(ATableName: string): string;
+function TCatalogMetadataFirebird.GetSelectTableColumns(ATableName: String): String;
 begin
    Result := ' select rf.rdb$field_name           as column_name, ' +
              '        rf.rdb$field_position       as column_position, ' +
@@ -522,7 +522,7 @@ begin
              ' order by rf.rdb$field_position' ;
 end;
 
-function TCatalogMetadataFirebird.GetSelectTables: string;
+function TCatalogMetadataFirebird.GetSelectTables: String;
 begin
   Result := ' select rl.rdb$owner_name    as table_schema, ' +
             '        rl.rdb$relation_name as table_name, ' +
@@ -531,12 +531,12 @@ begin
             ' where (rdb$view_blr is null) and (rdb$system_flag = 0) ';
 end;
 
-function TCatalogMetadataFirebird.GetSelectTriggers(ATableName: string): string;
+function TCatalogMetadataFirebird.GetSelectTriggers(ATableName: String): String;
 begin
   Result := '';
 end;
 
-function TCatalogMetadataFirebird.GetSelectForeignKey(ATableName: string): string;
+function TCatalogMetadataFirebird.GetSelectForeignKey(ATableName: String): String;
 begin
   Result := ' select a.rdb$constraint_name as fk_name, ' +
             '        b.rdb$update_rule     as fk_updateaction, ' +
@@ -551,7 +551,7 @@ begin
             ' order by a.rdb$relation_name; ';
 end;
 
-function TCatalogMetadataFirebird.GetSelectForeignKeyColumns(AForeignKeyName: string): string;
+function TCatalogMetadataFirebird.GetSelectForeignKeyColumns(AForeignKeyName: String): String;
 begin
   Result := ' select idx.rdb$relation_name     as table_name, ' +
             '        idxs.rdb$field_name       as column_name, ' +
@@ -577,7 +577,7 @@ begin
             ' order by idxs.rdb$field_position ';
 end;
 
-function TCatalogMetadataFirebird.GetSelectViews: string;
+function TCatalogMetadataFirebird.GetSelectViews: String;
 begin
    Result := ' select rl.rdb$relation_name as view_name, ' +
              '        rl.rdb$view_source   as view_script, ' +
@@ -587,7 +587,7 @@ begin
              ' and not (rl.rdb$view_blr is null) and (rl.rdb$flags = 1) ';
 end;
 
-function TCatalogMetadataFirebird.GetSelectViewsColumns(AViewName: String): string;
+function TCatalogMetadataFirebird.GetSelectViewsColumns(AViewName: String): String;
 begin
   Result := ' select ' +
             '        rf.rdb$field_name           as column_name ' +
@@ -595,7 +595,7 @@ begin
             ' left join rdb$relation_fields rf on rf.rdb$relation_name = rl.rdb$relation_name ' +
             ' where rl.rdb$relation_name in (' + QuotedStr(AViewName) + ') ';
 end;
-function TCatalogMetadataFirebird.GetSelectIndexe(ATableName: string): string;
+function TCatalogMetadataFirebird.GetSelectIndexe(ATableName: String): String;
 begin
   Result := ' select   idx.rdb$index_name      as indexe_name, ' +
             ' coalesce(idx.rdb$unique_flag, 0) as indexe_unique, ' +
@@ -607,7 +607,7 @@ begin
             ' order by idx.rdb$relation_name, idx.rdb$index_name';
 end;
 
-function TCatalogMetadataFirebird.GetSelectIndexeColumns(AIndexeName: string): string;
+function TCatalogMetadataFirebird.GetSelectIndexeColumns(AIndexeName: String): String;
 begin
    Result := ' select isg.rdb$field_name     as column_name, ' +
              '        isg.rdb$field_position as column_position, ' +

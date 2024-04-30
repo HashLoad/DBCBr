@@ -38,12 +38,12 @@ uses
 type
   TDDLCommand = class abstract
   protected
-    FWarning: string;
-    FCommand: string;
+    FWarning: String;
+    FCommand: String;
   public
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; virtual; abstract;
-    property Warning: string read FWarning;
-    property Command: string read FCommand;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; virtual; abstract;
+    property Warning: String read FWarning;
+    property Command: String read FCommand;
   end;
 
   TDDLCommandCreateTable = class(TDDLCommand)
@@ -51,7 +51,7 @@ type
     FTable: TTableMIK;
   public
     constructor Create(ATable: TTableMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreateSequence = class(TDDLCommand)
@@ -59,7 +59,7 @@ type
     FSequence: TSequenceMIK;
   public
     constructor Create(ASequence: TSequenceMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreateColumn = class(TDDLCommand)
@@ -67,7 +67,7 @@ type
     FColumn: TColumnMIK;
   public
     constructor Create(AColumn: TColumnMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandAlterColumn = class(TDDLCommand)
@@ -75,7 +75,7 @@ type
     FColumn: TColumnMIK;
   public
     constructor Create(AColumn: TColumnMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandAlterColumnPosition = class(TDDLCommand)
@@ -83,7 +83,7 @@ type
     FColumn: TColumnMIK;
   public
     constructor Create(AColumn: TColumnMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandAlterDefaultValue = class(TDDLCommand)
@@ -91,7 +91,7 @@ type
     FColumn: TColumnMIK;
   public
     constructor Create(AColumn: TColumnMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreatePrimaryKey = class(TDDLCommand)
@@ -99,7 +99,7 @@ type
     FPrimaryKey: TPrimaryKeyMIK;
   public
     constructor Create(APrimaryKey: TPrimaryKeyMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreateForeignKey = class(TDDLCommand)
@@ -107,7 +107,7 @@ type
     FForeignKey: TForeignKeyMIK;
   public
     constructor Create(AForeignKey: TForeignKeyMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreateIndexe = class(TDDLCommand)
@@ -115,7 +115,7 @@ type
     FIndexe: TIndexeKeyMIK;
   public
     constructor Create(AIndexe: TIndexeKeyMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreateCheck = class(TDDLCommand)
@@ -123,7 +123,7 @@ type
     FCheck: TCheckMIK;
   public
     constructor Create(ACheck: TCheckMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandAlterCheck = class(TDDLCommand)
@@ -131,7 +131,7 @@ type
     FCheck: TCheckMIK;
   public
     constructor Create(ACheck: TCheckMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreateView = class(TDDLCommand)
@@ -139,7 +139,7 @@ type
     FView: TViewMIK;
   public
     constructor Create(AView: TViewMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandCreateTrigger = class(TDDLCommand)
@@ -147,7 +147,7 @@ type
     FTrigger: TTriggerMIK;
   public
     constructor Create(ATrigger: TTriggerMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropTable = class(TDDLCommand)
@@ -155,7 +155,7 @@ type
     FTable: TTableMIK;
   public
     constructor Create(ATable: TTableMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropSequence = class(TDDLCommand)
@@ -163,7 +163,7 @@ type
     FSequence: TSequenceMIK;
   public
     constructor Create(ASequence: TSequenceMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropForeignKey = class(TDDLCommand)
@@ -171,7 +171,7 @@ type
     FForeignKey: TForeignKeyMIK;
   public
     constructor Create(AForeignKey: TForeignKeyMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropPrimaryKey = class(TDDLCommand)
@@ -179,7 +179,7 @@ type
     FPrimaryKey: TPrimaryKeyMIK;
   public
     constructor Create(APrimaryKey: TPrimaryKeyMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropColumn = class(TDDLCommand)
@@ -187,7 +187,7 @@ type
     FColumn: TColumnMIK;
   public
     constructor Create(AColumn: TColumnMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropDefaultValue = class(TDDLCommand)
@@ -195,7 +195,7 @@ type
     FColumn: TColumnMIK;
   public
     constructor Create(AColumn: TColumnMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropIndexe = class(TDDLCommand)
@@ -203,7 +203,7 @@ type
     FIndexe: TIndexeKeyMIK;
   public
     constructor Create(AIndexe: TIndexeKeyMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropCheck = class(TDDLCommand)
@@ -211,7 +211,7 @@ type
     FCheck: TCheckMIK;
   public
     constructor Create(ACheck: TCheckMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropView = class(TDDLCommand)
@@ -219,7 +219,7 @@ type
     FView: TViewMIK;
   public
     constructor Create(AView: TViewMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandDropTrigger = class(TDDLCommand)
@@ -227,7 +227,7 @@ type
     FTrigger: TTriggerMIK;
   public
     constructor Create(ATrigger: TTriggerMIK);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandEnableForeignKeys = class(TDDLCommand)
@@ -235,7 +235,7 @@ type
     FEnable: Boolean;
   public
     constructor Create(AEnable: Boolean);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
   TDDLCommandEnableTriggers = class(TDDLCommand)
@@ -243,14 +243,14 @@ type
     FEnable: Boolean;
   public
     constructor Create(AEnable: Boolean);
-    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string; override;
+    function BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String; override;
   end;
 
 implementation
 
 { TDDLCommandCreateTable }
 
-function TDDLCommandCreateTable.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateTable.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateTable(FTable);
   Result := FCommand;
@@ -264,7 +264,7 @@ end;
 
 { TDDLCommandDropSequence }
 
-function TDDLCommandDropSequence.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropSequence.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropSequence(FSequence);
   Result := FCommand;
@@ -278,7 +278,7 @@ end;
 
 { TDDLCommandDropForeignKey }
 
-function TDDLCommandDropForeignKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropForeignKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropForeignKey(FForeignKey);
   Result := FCommand;
@@ -292,7 +292,7 @@ end;
 
 { TDDLCommandCreateColumn }
 
-function TDDLCommandCreateColumn.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateColumn.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateColumn(FColumn);
   Result := FCommand;
@@ -306,7 +306,7 @@ end;
 
 { TDDLCommandDropColumn }
 
-function TDDLCommandDropColumn.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropColumn.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropColumn(FColumn);
   Result := FCommand;
@@ -320,7 +320,7 @@ end;
 
 { TDDLCommandCreateForeignKey }
 
-function TDDLCommandCreateForeignKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateForeignKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateForeignKey(FForeignKey);
   Result := FCommand;
@@ -334,7 +334,7 @@ end;
 
 { TDDLCommandCreateSequence }
 
-function TDDLCommandCreateSequence.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateSequence.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateSequence(FSequence);
   Result := FCommand;
@@ -348,7 +348,7 @@ end;
 
 { TDDLCommandDropTable }
 
-function TDDLCommandDropTable.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropTable.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropTable(FTable);
   Result := FCommand;
@@ -362,13 +362,13 @@ end;
 
 { TDDLCommandEnableForeignKeys }
 
-function TDDLCommandEnableForeignKeys.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandEnableForeignKeys.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateEnableForeignKeys(FEnable);
   Result := FCommand;
 end;
 
-constructor TDDLCommandEnableForeignKeys.Create(AEnable: boolean);
+constructor TDDLCommandEnableForeignKeys.Create(AEnable: Boolean);
 begin
   FEnable := AEnable;
   FWarning := Format('Enable ForeignKeys: %s', [ifThen(AEnable, 'On', 'Off')]);
@@ -376,7 +376,7 @@ end;
 
 { TDDLCommandDropIndexe }
 
-function TDDLCommandDropIndexe.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropIndexe.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropIndexe(FIndexe);
   Result := FCommand;
@@ -390,7 +390,7 @@ end;
 
 { TDDLCommandCreateIndexe }
 
-function TDDLCommandCreateIndexe.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateIndexe.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateIndexe(FIndexe);
   Result := FCommand;
@@ -404,7 +404,7 @@ end;
 
 { TDDLCommandEnableTriggers }
 
-function TDDLCommandEnableTriggers.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandEnableTriggers.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateEnableTriggers(FEnable);
   Result := FCommand;
@@ -418,7 +418,7 @@ end;
 
 { TDDLCommandDropView }
 
-function TDDLCommandDropView.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropView.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropView(FView);
   Result := FCommand;
@@ -432,7 +432,7 @@ end;
 
 { TDDLCommandCreateView }
 
-function TDDLCommandCreateView.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateView.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateView(FView);
   Result := FCommand;
@@ -446,7 +446,7 @@ end;
 
 { TDDLCommandCreateTrigger }
 
-function TDDLCommandCreateTrigger.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateTrigger.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateTrigger(FTrigger);
   Result := FCommand;
@@ -460,7 +460,7 @@ end;
 
 { TDDLCommandDropTrigger }
 
-function TDDLCommandDropTrigger.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropTrigger.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropTrigger(FTrigger);
   Result := FCommand;
@@ -474,7 +474,7 @@ end;
 
 { TDDLCommandAlterColumn }
 
-function TDDLCommandAlterColumn.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandAlterColumn.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateAlterColumn(FColumn);
   Result := FCommand;
@@ -488,7 +488,7 @@ end;
 
 { TDDLCommandDropPrimaryKey }
 
-function TDDLCommandDropPrimaryKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropPrimaryKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropPrimaryKey(FPrimaryKey);
   Result := FCommand;
@@ -502,7 +502,7 @@ end;
 
 { TDDLCommandCreatePrimaryKey }
 
-function TDDLCommandCreatePrimaryKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreatePrimaryKey.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreatePrimaryKey(FPrimaryKey);
   Result := FCommand;
@@ -516,7 +516,7 @@ end;
 
 { TDDLCommandCreateCheck }
 
-function TDDLCommandCreateCheck.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandCreateCheck.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateCreateCheck(FCheck);
   Result := FCommand;
@@ -530,7 +530,7 @@ end;
 
 { TDDLCommandDropCheck }
 
-function TDDLCommandDropCheck.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropCheck.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropCheck(FCheck);
   Result := FCommand;
@@ -544,7 +544,7 @@ end;
 
 { TDDLCommandAlterDefaultValue }
 
-function TDDLCommandAlterDefaultValue.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandAlterDefaultValue.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateAlterDefaultValue(FColumn);
   Result := FCommand;
@@ -558,7 +558,7 @@ end;
 
 { TDDLCommandDropDefaultValue }
 
-function TDDLCommandDropDefaultValue.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandDropDefaultValue.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateDropDefaultValue(FColumn);
   Result := FCommand;
@@ -572,7 +572,7 @@ end;
 
 { TDDLCommandAlterCheck }
 
-function TDDLCommandAlterCheck.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+function TDDLCommandAlterCheck.BuildCommand(ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateAlterCheck(FCheck);
   Result := FCommand;
@@ -587,7 +587,7 @@ end;
 { TDDLCommandAlterColumnPosition }
 
 function TDDLCommandAlterColumnPosition.BuildCommand(
-  ASQLGeneratorCommand: IDDLGeneratorCommand): string;
+  ASQLGeneratorCommand: IDDLGeneratorCommand): String;
 begin
   FCommand := ASQLGeneratorCommand.GenerateAlterColumnPosition(FColumn);
   Result := FCommand;

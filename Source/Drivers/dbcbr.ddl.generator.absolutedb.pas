@@ -42,12 +42,12 @@ uses
 type
   TDDLSQLGeneratorAbsoluteDB = class(TDDLSQLGenerator)
   protected
-    function BuilderPrimayKeyDefinition(ATable: TTableMIK): string; override;
+    function BuilderPrimayKeyDefinition(ATable: TTableMIK): String; override;
   public
-    function GenerateCreateTable(ATable: TTableMIK): string; override;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
-    function GenerateDropTable(ATable: TTableMIK): string; override;
-    function GenerateDropSequence(ASequence: TSequenceMIK): string; override;
+    function GenerateCreateTable(ATable: TTableMIK): String; override;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String; override;
+    function GenerateDropTable(ATable: TTableMIK): String; override;
+    function GenerateDropSequence(ASequence: TSequenceMIK): String; override;
     function GetSupportedFeatures: TSupportedFeatures; override;
   end;
 
@@ -55,11 +55,11 @@ implementation
 
 { TDDLSQLGeneratorAbsoluteDB }
 
-function TDDLSQLGeneratorAbsoluteDB.BuilderPrimayKeyDefinition(ATable: TTableMIK): string;
+function TDDLSQLGeneratorAbsoluteDB.BuilderPrimayKeyDefinition(ATable: TTableMIK): String;
 
-  function GetPrimaryKeyColumns: string;
+  function GetPrimaryKeyColumns: String;
   var
-    oColumn: TPair<string,TColumnMIK>;
+    oColumn: TPair<String,TColumnMIK>;
   begin
     for oColumn in ATable.PrimaryKey.FieldsSort do
       Result := Result + oColumn.Value.Name + ', ';
@@ -75,17 +75,17 @@ begin
   Result := '  ' + Result;
 end;
 
-function TDDLSQLGeneratorAbsoluteDB.GenerateCreateSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGeneratorAbsoluteDB.GenerateCreateSequence(ASequence: TSequenceMIK): String;
 begin
   inherited;
   Result := 'INSERT INTO SQLITE_SEQUENCE (NAME, SEQ) VALUES (%s, %s);';
   Result := Format(Result, [QuotedStr(ASequence.Name), IntToStr(0)]);
 end;
 
-function TDDLSQLGeneratorAbsoluteDB.GenerateCreateTable(ATable: TTableMIK): string;
+function TDDLSQLGeneratorAbsoluteDB.GenerateCreateTable(ATable: TTableMIK): String;
 var
   oSQL: TStringBuilder;
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   oSQL := TStringBuilder.Create;
   Result := inherited GenerateCreateTable(ATable);
@@ -126,14 +126,14 @@ begin
   end;
 end;
 
-function TDDLSQLGeneratorAbsoluteDB.GenerateDropSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGeneratorAbsoluteDB.GenerateDropSequence(ASequence: TSequenceMIK): String;
 begin
   inherited;
   Result := 'DELETE FROM SQLITE_SEQUENCE WHERE NAME = %s;';
   Result := Format(Result, [QuotedStr(ASequence.Name)]);
 end;
 
-function TDDLSQLGeneratorAbsoluteDB.GenerateDropTable(ATable: TTableMIK): string;
+function TDDLSQLGeneratorAbsoluteDB.GenerateDropTable(ATable: TTableMIK): String;
 begin
   Result := inherited GenerateDropTable(ATable);
 end;

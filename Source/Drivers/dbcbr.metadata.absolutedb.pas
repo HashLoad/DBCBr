@@ -163,7 +163,7 @@ begin
     /// <remarks>
     /// Relação das propriedades que serão alimentadas no método ResolveTypeField()
     /// LColumn.FieldType: TTypeField;
-    /// LColumn.LTypeName: string;
+    /// LColumn.LTypeName: String;
     /// LColumn.Size: Integer;
     /// LColumn.Precision: Integer;
     /// LColumn.Scale: Integer;
@@ -184,7 +184,7 @@ procedure TCatalogMetadataAbsoluteDB.GetPrimaryKey(ATable: TTableMIK);
 var
   LDBResultSet: IDBResultSet;
 
-  function GetColumnAutoIncrement(ATableName: string): integer;
+  function GetColumnAutoIncrement(ATableName: String): integer;
   var
     LDBResultSet: IDBResultSet;
   begin
@@ -302,15 +302,15 @@ end;
 procedure TCatalogMetadataAbsoluteDB.ResolveFieldType(AColumn: TColumnMIK;
   ADataType: TABSAdvancedFieldType);
 var
-  LTypeName: string;
+  LTypeName: String;
 begin
   AColumn.FieldType := ftUnknown;
   AColumn.Precision := 0;
   case ADataType of
     aftChar:            begin AColumn.FieldType := ftFixedChar; AColumn.LTypeName := 'CHAR' end;
     aftString:          begin AColumn.FieldType := ftString; AColumn.LTypeName := 'VARCHAR' end;
-    aftWideChar:        begin AColumn.FieldType := ftWideString; AColumn.LTypeName := 'WIDESTRING' end;
-    aftWideString:      begin AColumn.FieldType := ftWideString; AColumn.LTypeName := 'WIDESTRING' end;
+    aftWideChar:        begin AColumn.FieldType := ftWideString; AColumn.LTypeName := 'WIDEString' end;
+    aftWideString:      begin AColumn.FieldType := ftWideString; AColumn.LTypeName := 'WIDEString' end;
     aftShortint:        begin AColumn.FieldType := ftSmallint; AColumn.LTypeName := 'SMALLINT' end;
     aftSmallint:        begin AColumn.FieldType := ftSmallint; AColumn.LTypeName := 'SMALLINT' end;
     aftInteger:         begin AColumn.FieldType := ftInteger; AColumn.LTypeName := 'INTEGER' end;
@@ -329,7 +329,7 @@ begin
     aftSingle:          begin AColumn.FieldType := ftSingle; AColumn.LTypeName := 'SINGLE' end;
     aftDouble:          begin AColumn.FieldType := ftFloat; AColumn.LTypeName := 'FLOAT' end;
     aftExtended:        begin AColumn.FieldType := ftBCD; AColumn.LTypeName := 'EXTENDED' end;
-    aftBoolean:         begin AColumn.FieldType := ftBoolean; AColumn.LTypeName := 'BOOLEAN' end;
+    aftBoolean:         begin AColumn.FieldType := ftBoolean; AColumn.LTypeName := 'Boolean' end;
     aftCurrency:        begin AColumn.FieldType := ftCurrency; AColumn.LTypeName := 'CURRENCY' end;
     aftDate:            begin AColumn.FieldType := ftDate; AColumn.LTypeName := 'DATE' end;
     aftTime:            begin AColumn.FieldType := ftTime; AColumn.LTypeName := 'TIME' end;

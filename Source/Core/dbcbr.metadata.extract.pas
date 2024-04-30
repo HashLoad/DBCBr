@@ -55,7 +55,7 @@ type
     FCatalogMetadata: TCatalogMetadataMIK;
     FModelForDatabase: Boolean;
     procedure GetFieldTypeDefinition(const AColumn: TColumnMIK); virtual;
-    function GetRuleAction(ARuleAction: string): TRuleAction; overload;
+    function GetRuleAction(ARuleAction: String): TRuleAction; overload;
     function GetRuleAction(ARuleAction: Variant): TRuleAction; overload;
   public
     constructor Create; overload; virtual; abstract;
@@ -69,21 +69,21 @@ type
     function GetConnection: IDBConnection;
     procedure SetConnection(const Value: IDBConnection);
   protected
-    FSQLText: string;
-    FFieldType: TDictionary<string, TFieldType>;
+    FSQLText: String;
+    FFieldType: TDictionary<String, TFieldType>;
     procedure SetFieldType(var AColumnMIK: TColumnMIK); virtual;
-    function GetSelectTables: string; virtual; abstract;
-    function GetSelectTableColumns(ATableName: string): string; virtual; abstract;
-    function GetSelectPrimaryKey(ATableName: string): string; virtual; abstract;
-    function GetSelectPrimaryKeyColumns(APrimaryKeyName: string): string; virtual; abstract;
-    function GetSelectForeignKey(ATableName: string): string; virtual; abstract;
-    function GetSelectForeignKeyColumns(AForeignKeyName: string): string; virtual; abstract;
-    function GetSelectIndexe(ATableName: string): string; virtual; abstract;
-    function GetSelectIndexeColumns(AIndexeName: string): string; virtual; abstract;
-    function GetSelectTriggers(ATableName: string): string; virtual; abstract;
-    function GetSelectChecks(ATableName: string): string; virtual; abstract;
-    function GetSelectViews: string; virtual; abstract;
-    function GetSelectSequences: string; virtual; abstract;
+    function GetSelectTables: String; virtual; abstract;
+    function GetSelectTableColumns(ATableName: String): String; virtual; abstract;
+    function GetSelectPrimaryKey(ATableName: String): String; virtual; abstract;
+    function GetSelectPrimaryKeyColumns(APrimaryKeyName: String): String; virtual; abstract;
+    function GetSelectForeignKey(ATableName: String): String; virtual; abstract;
+    function GetSelectForeignKeyColumns(AForeignKeyName: String): String; virtual; abstract;
+    function GetSelectIndexe(ATableName: String): String; virtual; abstract;
+    function GetSelectIndexeColumns(AIndexeName: String): String; virtual; abstract;
+    function GetSelectTriggers(ATableName: String): String; virtual; abstract;
+    function GetSelectChecks(ATableName: String): String; virtual; abstract;
+    function GetSelectViews: String; virtual; abstract;
+    function GetSelectSequences: String; virtual; abstract;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
@@ -134,7 +134,7 @@ implementation
 
 constructor TCatalogMetadataAbstract.Create;
 begin
-  FFieldType := TDictionary<string, TFieldType>.Create;
+  FFieldType := TDictionary<String, TFieldType>.Create;
   // Instância um dicionário interno com uma lista de NOMES e TIPOS de
   // colunas dos bancos de dados.
   CreateFieldTypeList;
@@ -211,7 +211,7 @@ begin
       if      LDriverName = dnADS   then AColumn.TypeName := 'LOGICAL'
       else if LDriverName = dnASA   then AColumn.TypeName := 'BIT'
       else if LDriverName = dnMSSQL then AColumn.TypeName := 'BIT'
-      else                               AColumn.TypeName := 'BOOLEAN';
+      else                               AColumn.TypeName := 'Boolean';
     end;
     ftByte, ftShortint, ftSmallint, ftWord:
     begin
@@ -354,7 +354,7 @@ begin
     if MatchStr(AColumn.TypeName, ['BLOB']) then
       AColumn.Size := 8
     else
-    if MatchStr(AColumn.TypeName, ['BOOLEAN']) then
+    if MatchStr(AColumn.TypeName, ['Boolean']) then
       AColumn.Size := 1
     else
     if MatchStr(AColumn.TypeName, ['FLOAT']) then
@@ -378,7 +378,7 @@ begin
   Result := FModelForDatabase;
 end;
 
-function TMetadataAbstract.GetRuleAction(ARuleAction: string): TRuleAction;
+function TMetadataAbstract.GetRuleAction(ARuleAction: String): TRuleAction;
 begin
   if      ARuleAction = 'NO ACTION'   then Result := TRuleAction.None
   else if ARuleAction = 'SET NULL'    then Result := TRuleAction.SetNull

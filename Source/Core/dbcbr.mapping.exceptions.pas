@@ -44,7 +44,7 @@ type
 
   EFieldValidate = class(Exception)
   public
-    constructor Create(const AField: string; const AMensagem: string);
+    constructor Create(const AField: String; const AMensagem: String);
   end;
 
   EMinimumValueConstraint = class(Exception)
@@ -75,7 +75,7 @@ type
 
   EDefaultExpression = class(Exception)
   public
-    constructor Create(const ADefault, AColumnName, AClassName: string);
+    constructor Create(const ADefault, AColumnName, AClassName: String);
   end;
 
 implementation
@@ -110,7 +110,7 @@ end;
 
 { EFieldValidate }
 
-constructor EFieldValidate.Create(const AField: string; const AMensagem: string);
+constructor EFieldValidate.Create(const AField: String; const AMensagem: String);
 begin
   inherited CreateFmt('[ %s ] %s',
                       [AField, AMensagem]);
@@ -118,7 +118,7 @@ end;
 
 { EDefaultExpression }
 
-constructor EDefaultExpression.Create(const ADefault, AColumnName, AClassName: string);
+constructor EDefaultExpression.Create(const ADefault, AColumnName, AClassName: String);
 begin
   inherited CreateFmt('O valor Default [ %s ] do campo [ %s ] na classe [ %s ], é inválido!',
                       [ADefault, AColumnName, AClassName]);

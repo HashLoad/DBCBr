@@ -42,32 +42,32 @@ type
   protected
     FConnection: IDBConnection;
   public
-    function GenerateCreateTable(ATable: TTableMIK): string; virtual; abstract;
-    function GenerateCreateColumn(AColumn: TColumnMIK): string; virtual; abstract;
-    function GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; virtual; abstract;
-    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string; virtual; abstract;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string; virtual; abstract;
-    function GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): string; virtual; abstract;
-    function GenerateCreateCheck(ACheck: TCheckMIK): string; virtual; abstract;
-    function GenerateCreateView(AView: TViewMIK): string; virtual; abstract;
-    function GenerateCreateTrigger(ATrigger: TTriggerMIK): string; virtual; abstract;
-    function GenerateAlterColumn(AColumn: TColumnMIK): string; virtual; abstract;
-    function GenerateAlterColumnPosition(AColumn: TColumnMIK): string; virtual; abstract;
-    function GenerateAlterDefaultValue(AColumn: TColumnMIK): string; virtual; abstract;
-    function GenerateAlterCheck(ACheck: TCheckMIK): string; virtual; abstract;
-    function GenerateAddPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; virtual; abstract;
-    function GenerateDropTable(ATable: TTableMIK): string; virtual; abstract;
-    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; virtual; abstract;
-    function GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): string; virtual; abstract;
-    function GenerateDropSequence(ASequence: TSequenceMIK): string; virtual; abstract;
-    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string; virtual; abstract;
-    function GenerateDropCheck(ACheck: TCheckMIK): string; virtual; abstract;
-    function GenerateDropColumn(AColumn: TColumnMIK): string; virtual; abstract;
-    function GenerateDropDefaultValue(AColumn: TColumnMIK): string; virtual; abstract;
-    function GenerateDropView(AView: TViewMIK): string; virtual; abstract;
-    function GenerateDropTrigger(ATrigger: TTriggerMIK): string; virtual; abstract;
-    function GenerateEnableForeignKeys(AEnable: Boolean): string; virtual; abstract;
-    function GenerateEnableTriggers(AEnable: Boolean): string; virtual; abstract;
+    function GenerateCreateTable(ATable: TTableMIK): String; virtual; abstract;
+    function GenerateCreateColumn(AColumn: TColumnMIK): String; virtual; abstract;
+    function GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; virtual; abstract;
+    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String; virtual; abstract;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String; virtual; abstract;
+    function GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): String; virtual; abstract;
+    function GenerateCreateCheck(ACheck: TCheckMIK): String; virtual; abstract;
+    function GenerateCreateView(AView: TViewMIK): String; virtual; abstract;
+    function GenerateCreateTrigger(ATrigger: TTriggerMIK): String; virtual; abstract;
+    function GenerateAlterColumn(AColumn: TColumnMIK): String; virtual; abstract;
+    function GenerateAlterColumnPosition(AColumn: TColumnMIK): String; virtual; abstract;
+    function GenerateAlterDefaultValue(AColumn: TColumnMIK): String; virtual; abstract;
+    function GenerateAlterCheck(ACheck: TCheckMIK): String; virtual; abstract;
+    function GenerateAddPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; virtual; abstract;
+    function GenerateDropTable(ATable: TTableMIK): String; virtual; abstract;
+    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; virtual; abstract;
+    function GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): String; virtual; abstract;
+    function GenerateDropSequence(ASequence: TSequenceMIK): String; virtual; abstract;
+    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String; virtual; abstract;
+    function GenerateDropCheck(ACheck: TCheckMIK): String; virtual; abstract;
+    function GenerateDropColumn(AColumn: TColumnMIK): String; virtual; abstract;
+    function GenerateDropDefaultValue(AColumn: TColumnMIK): String; virtual; abstract;
+    function GenerateDropView(AView: TViewMIK): String; virtual; abstract;
+    function GenerateDropTrigger(ATrigger: TTriggerMIK): String; virtual; abstract;
+    function GenerateEnableForeignKeys(AEnable: Boolean): String; virtual; abstract;
+    function GenerateEnableTriggers(AEnable: Boolean): String; virtual; abstract;
     /// <summary>
     /// Propriedade para identificar os recursos de diferentes banco de dados
     /// usando o mesmo modelo.
@@ -78,45 +78,45 @@ type
 
   TDDLSQLGenerator = class(TDDLSQLGeneratorAbstract)
   protected
-    function GetRuleDeleteActionDefinition(ARuleAction: TRuleAction): string;
-    function GetRuleUpdateActionDefinition(ARuleAction: TRuleAction): string;
-    function GetPrimaryKeyColumnsDefinition(APrimaryKey: TPrimaryKeyMIK): string;
-    function GetForeignKeyFromColumnsDefinition(AForeignKey: TForeignKeyMIK): string;
-    function GetForeignKeyToColumnsDefinition(AForeignKey: TForeignKeyMIK): string;
-    function GetIndexeKeyColumnsDefinition(AIndexeKey: TIndexeKeyMIK): string;
-    function GetUniqueColumnDefinition(AUnique: Boolean): string;
-    function GetFieldTypeDefinition(AColumn: TColumnMIK): string;
-    function GetFieldNotNullDefinition(AColumn: TColumnMIK): string;
-    function GetCreateFieldDefaultDefinition(AColumn: TColumnMIK): string;
-    function GetAlterFieldDefaultDefinition(AColumn: TColumnMIK): string;
-    function BuilderCreateFieldDefinition(AColumn: TColumnMIK): string; virtual;
-    function BuilderAlterFieldDefinition(AColumn: TColumnMIK): string; virtual;
-    function BuilderPrimayKeyDefinition(ATable: TTableMIK): string; virtual;
-    function BuilderIndexeDefinition(ATable: TTableMIK): string; virtual;
-    function BuilderForeignKeyDefinition(ATable: TTableMIK): string; virtual;
-    function BuilderCheckDefinition(ATable: TTableMIK): string; virtual;
+    function GetRuleDeleteActionDefinition(ARuleAction: TRuleAction): String;
+    function GetRuleUpdateActionDefinition(ARuleAction: TRuleAction): String;
+    function GetPrimaryKeyColumnsDefinition(APrimaryKey: TPrimaryKeyMIK): String;
+    function GetForeignKeyFromColumnsDefinition(AForeignKey: TForeignKeyMIK): String;
+    function GetForeignKeyToColumnsDefinition(AForeignKey: TForeignKeyMIK): String;
+    function GetIndexeKeyColumnsDefinition(AIndexeKey: TIndexeKeyMIK): String;
+    function GetUniqueColumnDefinition(AUnique: Boolean): String;
+    function GetFieldTypeDefinition(AColumn: TColumnMIK): String;
+    function GetFieldNotNullDefinition(AColumn: TColumnMIK): String;
+    function GetCreateFieldDefaultDefinition(AColumn: TColumnMIK): String;
+    function GetAlterFieldDefaultDefinition(AColumn: TColumnMIK): String;
+    function BuilderCreateFieldDefinition(AColumn: TColumnMIK): String; virtual;
+    function BuilderAlterFieldDefinition(AColumn: TColumnMIK): String; virtual;
+    function BuilderPrimayKeyDefinition(ATable: TTableMIK): String; virtual;
+    function BuilderIndexeDefinition(ATable: TTableMIK): String; virtual;
+    function BuilderForeignKeyDefinition(ATable: TTableMIK): String; virtual;
+    function BuilderCheckDefinition(ATable: TTableMIK): String; virtual;
   public
-    function GenerateCreateTable(ATable: TTableMIK): string; override;
-    function GenerateCreateColumn(AColumn: TColumnMIK): string; override;
-    function GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; override;
-    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string; override;
-    function GenerateCreateView(AView: TViewMIK): string; override;
-    function GenerateCreateTrigger(ATrigger: TTriggerMIK): string; override;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
-    function GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): string; override;
-    function GenerateCreateCheck(ACheck: TCheckMIK): string; override;
-    function GenerateAlterColumn(AColumn: TColumnMIK): string; override;
-    function GenerateAlterCheck(ACheck: TCheckMIK): string; override;
-    function GenerateAddPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; override;
-    function GenerateDropTable(ATable: TTableMIK): string; override;
-    function GenerateDropColumn(AColumn: TColumnMIK): string; override;
-    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string; override;
-    function GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): string; override;
-    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string; override;
-    function GenerateDropCheck(ACheck: TCheckMIK): string; override;
-    function GenerateDropView(AView: TViewMIK): string; override;
-    function GenerateDropTrigger(ATrigger: TTriggerMIK): string; override;
-    function GenerateDropSequence(ASequence: TSequenceMIK): string; override;
+    function GenerateCreateTable(ATable: TTableMIK): String; override;
+    function GenerateCreateColumn(AColumn: TColumnMIK): String; override;
+    function GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; override;
+    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String; override;
+    function GenerateCreateView(AView: TViewMIK): String; override;
+    function GenerateCreateTrigger(ATrigger: TTriggerMIK): String; override;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String; override;
+    function GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): String; override;
+    function GenerateCreateCheck(ACheck: TCheckMIK): String; override;
+    function GenerateAlterColumn(AColumn: TColumnMIK): String; override;
+    function GenerateAlterCheck(ACheck: TCheckMIK): String; override;
+    function GenerateAddPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; override;
+    function GenerateDropTable(ATable: TTableMIK): String; override;
+    function GenerateDropColumn(AColumn: TColumnMIK): String; override;
+    function GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String; override;
+    function GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): String; override;
+    function GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String; override;
+    function GenerateDropCheck(ACheck: TCheckMIK): String; override;
+    function GenerateDropView(AView: TViewMIK): String; override;
+    function GenerateDropTrigger(ATrigger: TTriggerMIK): String; override;
+    function GenerateDropSequence(ASequence: TSequenceMIK): String; override;
     /// <summary>
     /// Propriedade para identificar os recursos de diferentes banco de dados
     /// usando o mesmo modelo.
@@ -132,24 +132,24 @@ uses
 
 { TDDLSQLGenerator }
 
-function TDDLSQLGenerator.GenerateCreateTable(ATable: TTableMIK): string;
+function TDDLSQLGenerator.GenerateCreateTable(ATable: TTableMIK): String;
 begin
   Result := 'CREATE TABLE %s (';
 end;
 
-function TDDLSQLGenerator.GenerateCreateTrigger(ATrigger: TTriggerMIK): string;
+function TDDLSQLGenerator.GenerateCreateTrigger(ATrigger: TTriggerMIK): String;
 begin
   Result := 'CREATE TRIGGER %s AS %s;';
   Result := Format(Result, [ATrigger.Name, ATrigger.Script]);
 end;
 
-function TDDLSQLGenerator.GenerateCreateView(AView: TViewMIK): string;
+function TDDLSQLGenerator.GenerateCreateView(AView: TViewMIK): String;
 begin
   Result := 'CREATE VIEW %s AS %s;';
   Result := Format(Result, [AView.Name, AView.Script]);
 end;
 
-function TDDLSQLGenerator.GenerateDropTable(ATable: TTableMIK): string;
+function TDDLSQLGenerator.GenerateDropTable(ATable: TTableMIK): String;
 begin
   Result := 'DROP TABLE %s;';
   if ATable.Database.Schema <> '' then
@@ -158,50 +158,50 @@ begin
     Result := Format(Result, [ATable.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateDropTrigger(ATrigger: TTriggerMIK): string;
+function TDDLSQLGenerator.GenerateDropTrigger(ATrigger: TTriggerMIK): String;
 begin
   Result := 'DROP TRIGGER %s;';
   Result := Format(Result, [ATrigger.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateDropView(AView: TViewMIK): string;
+function TDDLSQLGenerator.GenerateDropView(AView: TViewMIK): String;
 begin
   Result := 'DROP VIEW %s;';
   Result := Format(Result, [AView.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateAddPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string;
+function TDDLSQLGenerator.GenerateAddPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s ADD PRIMARY KEY (%s);';
   Result := Format(Result, [APrimaryKey.Table.Name,
                             GetPrimaryKeyColumnsDefinition(APrimaryKey)]);
 end;
 
-function TDDLSQLGenerator.GenerateAlterColumn(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.GenerateAlterColumn(AColumn: TColumnMIK): String;
 begin
   Result := 'ALTER TABLE %s ALTER COLUMN %s;';
   Result := Format(Result, [AColumn.Table.Name, BuilderAlterFieldDefinition(AColumn)]);
 end;
 
-function TDDLSQLGenerator.GenerateCreateCheck(ACheck: TCheckMIK): string;
+function TDDLSQLGenerator.GenerateCreateCheck(ACheck: TCheckMIK): String;
 begin
   Result := 'CONSTRAINT %s CHECK (%s)';
   Result := Format(Result, [ACheck.Name, ACheck.Condition]);
 end;
 
-function TDDLSQLGenerator.GenerateAlterCheck(ACheck: TCheckMIK): string;
+function TDDLSQLGenerator.GenerateAlterCheck(ACheck: TCheckMIK): String;
 begin
   Result := 'ALTER TABLE %s ADD CONSTRAINT %s CHECK (%s);';
   Result := Format(Result, [ACheck.Table.Name,  ACheck.Name, ACheck.Condition]);
 end;
 
-function TDDLSQLGenerator.GenerateCreateColumn(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.GenerateCreateColumn(AColumn: TColumnMIK): String;
 begin
   Result := 'ALTER TABLE %s ADD %s;';
   Result := Format(Result, [AColumn.Table.Name, BuilderCreateFieldDefinition(AColumn)]);
 end;
 
-function TDDLSQLGenerator.GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string;
+function TDDLSQLGenerator.GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s(%s) %s %s';
   Result := Format(Result, [AForeignKey.Table.Name,
@@ -214,7 +214,7 @@ begin
   Result := Trim(Result) + ';';
 end;
 
-function TDDLSQLGenerator.GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): string;
+function TDDLSQLGenerator.GenerateCreateIndexe(AIndexe: TIndexeKeyMIK): String;
 begin
   Result := 'CREATE %s INDEX %s ON %s (%s);';
   Result := Format(Result, [GetUniqueColumnDefinition(AIndexe.Unique),
@@ -223,65 +223,65 @@ begin
                             GetIndexeKeyColumnsDefinition(AIndexe)]);
 end;
 
-function TDDLSQLGenerator.GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): string;
+function TDDLSQLGenerator.GenerateCreatePrimaryKey(APrimaryKey: TPrimaryKeyMIK): String;
 begin
   Result := 'CONSTRAINT %s PRIMARY KEY (%s)';
   Result := Format(Result, [APrimaryKey.Name,
                             GetPrimaryKeyColumnsDefinition(APrimaryKey)]);
 end;
 
-function TDDLSQLGenerator.GenerateCreateSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGenerator.GenerateCreateSequence(ASequence: TSequenceMIK): String;
 begin
   Result := '';
 end;
 
-function TDDLSQLGenerator.GenerateDropColumn(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.GenerateDropColumn(AColumn: TColumnMIK): String;
 begin
   Result := 'ALTER TABLE %s DROP COLUMN %s;';
   Result := Format(Result, [AColumn.Table.Name, AColumn.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): string;
+function TDDLSQLGenerator.GenerateDropForeignKey(AForeignKey: TForeignKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s DROP CONSTRAINT %s;';
   Result := Format(Result, [AForeignKey.Table.Name, AForeignKey.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateDropIndexe(AIndexe: TIndexeKeyMIK): string;
+function TDDLSQLGenerator.GenerateDropIndexe(AIndexe: TIndexeKeyMIK): String;
 begin
   Result := 'DROP INDEX %s ON %s;';
   Result := Format(Result, [AIndexe.Name, AIndexe.Table.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateDropCheck(ACheck: TCheckMIK): string;
+function TDDLSQLGenerator.GenerateDropCheck(ACheck: TCheckMIK): String;
 begin
   Result := 'ALTER TABLE %s DROP CONSTRAINT %s;';
   Result := Format(Result, [ACheck.Table.Name, ACheck.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): string;
+function TDDLSQLGenerator.GenerateDropPrimaryKey(APrimaryKey: TPrimaryKeyMIK): String;
 begin
   Result := 'ALTER TABLE %s DROP CONSTRAINT %s;';
   Result := Format(Result, [APrimaryKey.Table.Name, APrimaryKey.Name]);
 end;
 
-function TDDLSQLGenerator.GenerateDropSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGenerator.GenerateDropSequence(ASequence: TSequenceMIK): String;
 begin
   Result := 'DROP SEQUENCE %s;';
   Result := Format(Result, [ASequence.Name]);
 end;
 
-function TDDLSQLGenerator.GetAlterFieldDefaultDefinition(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.GetAlterFieldDefaultDefinition(AColumn: TColumnMIK): String;
 begin
   Result := IfThen(Length(AColumn.DefaultValue) > 0, AColumn.DefaultValue, '');
 end;
 
-function TDDLSQLGenerator.GetCreateFieldDefaultDefinition(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.GetCreateFieldDefaultDefinition(AColumn: TColumnMIK): String;
 begin
   Result := IfThen(Length(AColumn.DefaultValue) > 0, ' DEFAULT ' + AColumn.DefaultValue, '');
 end;
 
-function TDDLSQLGenerator.BuilderAlterFieldDefinition(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.BuilderAlterFieldDefinition(AColumn: TColumnMIK): String;
 begin
   Result := AColumn.Name + ' ' +
             GetFieldTypeDefinition(AColumn)    +
@@ -289,9 +289,9 @@ begin
             GetFieldNotNullDefinition(AColumn) ;
 end;
 
-function TDDLSQLGenerator.BuilderCheckDefinition(ATable: TTableMIK): string;
+function TDDLSQLGenerator.BuilderCheckDefinition(ATable: TTableMIK): String;
 var
-  oCheck: TPair<string,TCheckMIK>;
+  oCheck: TPair<String,TCheckMIK>;
 begin
   Result := '';
   for oCheck in ATable.Checks do
@@ -301,7 +301,7 @@ begin
   end;
 end;
 
-function TDDLSQLGenerator.BuilderCreateFieldDefinition(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.BuilderCreateFieldDefinition(AColumn: TColumnMIK): String;
 begin
   Result := AColumn.Name + ' ' +
             GetFieldTypeDefinition(AColumn) +
@@ -309,9 +309,9 @@ begin
             GetFieldNotNullDefinition(AColumn) ;
 end;
 
-function TDDLSQLGenerator.BuilderForeignKeyDefinition(ATable: TTableMIK): string;
+function TDDLSQLGenerator.BuilderForeignKeyDefinition(ATable: TTableMIK): String;
 var
-  oForeignKey: TPair<string,TForeignKeyMIK>;
+  oForeignKey: TPair<String,TForeignKeyMIK>;
 begin
   Result := '';
   for oForeignKey in ATable.ForeignKeys do
@@ -321,14 +321,14 @@ begin
   end;
 end;
 
-function TDDLSQLGenerator.GetFieldNotNullDefinition(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.GetFieldNotNullDefinition(AColumn: TColumnMIK): String;
 begin
   Result := ifThen(AColumn.NotNull, ' NOT NULL', '');
 end;
 
-function TDDLSQLGenerator.GetFieldTypeDefinition(AColumn: TColumnMIK): string;
+function TDDLSQLGenerator.GetFieldTypeDefinition(AColumn: TColumnMIK): String;
 var
-  LResult: string;
+  LResult: String;
 begin
   LResult := AColumn.TypeName + IfThen(Length(AColumn.CharSet) > 0, ' CHARACTER SET ' + AColumn.CharSet, '');
   LResult := StringReplace(LResult, '%l', IntToStr(AColumn.Size), [rfIgnoreCase]);
@@ -337,9 +337,9 @@ begin
   Result  := ' ' + LResult;
 end;
 
-function TDDLSQLGenerator.BuilderIndexeDefinition(ATable: TTableMIK): string;
+function TDDLSQLGenerator.BuilderIndexeDefinition(ATable: TTableMIK): String;
 var
-  oIndexe: TPair<string,TIndexeKeyMIK>;
+  oIndexe: TPair<String,TIndexeKeyMIK>;
 begin
   Result := '';
   for oIndexe in ATable.IndexeKeys do
@@ -349,12 +349,12 @@ begin
   end;
 end;
 
-function TDDLSQLGenerator.BuilderPrimayKeyDefinition(ATable: TTableMIK): string;
+function TDDLSQLGenerator.BuilderPrimayKeyDefinition(ATable: TTableMIK): String;
 begin
   Result := '  ' + GenerateCreatePrimaryKey(ATable.PrimaryKey);
 end;
 
-function TDDLSQLGenerator.GetRuleDeleteActionDefinition(ARuleAction: TRuleAction): string;
+function TDDLSQLGenerator.GetRuleDeleteActionDefinition(ARuleAction: TRuleAction): String;
 begin
   Result := '';
   if      ARuleAction in [TRuleAction.Cascade]    then Result := 'ON DELETE CASCADE'
@@ -362,7 +362,7 @@ begin
   else if ARuleAction in [TRuleAction.SetDefault] then Result := 'ON DELETE SET DEFAULT';
 end;
 
-function TDDLSQLGenerator.GetRuleUpdateActionDefinition(ARuleAction: TRuleAction): string;
+function TDDLSQLGenerator.GetRuleUpdateActionDefinition(ARuleAction: TRuleAction): String;
 begin
   Result := '';
   if      ARuleAction in [TRuleAction.Cascade]    then Result := 'ON UPDATE CASCADE'
@@ -379,14 +379,14 @@ begin
              TSupportedFeature.Triggers];
 end;
 
-function TDDLSQLGenerator.GetUniqueColumnDefinition(AUnique: Boolean): string;
+function TDDLSQLGenerator.GetUniqueColumnDefinition(AUnique: Boolean): String;
 begin
   Result := ifThen(AUnique, 'UNIQUE', '');
 end;
 
-function TDDLSQLGenerator.GetForeignKeyFromColumnsDefinition(AForeignKey: TForeignKeyMIK): string;
+function TDDLSQLGenerator.GetForeignKeyFromColumnsDefinition(AForeignKey: TForeignKeyMIK): String;
 var
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   for oColumn in AForeignKey.FromFieldsSort do
     Result := Result + oColumn.Value.Name + ', ';
@@ -394,9 +394,9 @@ begin
   Delete(Result, Length(Result), 1);
 end;
 
-function TDDLSQLGenerator.GetForeignKeyToColumnsDefinition(AForeignKey: TForeignKeyMIK): string;
+function TDDLSQLGenerator.GetForeignKeyToColumnsDefinition(AForeignKey: TForeignKeyMIK): String;
 var
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   for oColumn in AForeignKey.ToFieldsSort do
     Result := Result + oColumn.Value.Name + ', ';
@@ -404,9 +404,9 @@ begin
   Delete(Result, Length(Result), 1);
 end;
 
-function TDDLSQLGenerator.GetIndexeKeyColumnsDefinition(AIndexeKey: TIndexeKeyMIK): string;
+function TDDLSQLGenerator.GetIndexeKeyColumnsDefinition(AIndexeKey: TIndexeKeyMIK): String;
 var
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   for oColumn in AIndexeKey.FieldsSort do
     Result := Result + oColumn.Value.Name + ', ';
@@ -414,9 +414,9 @@ begin
   Delete(Result, Length(Result), 1);
 end;
 
-function TDDLSQLGenerator.GetPrimaryKeyColumnsDefinition(APrimaryKey: TPrimaryKeyMIK): string;
+function TDDLSQLGenerator.GetPrimaryKeyColumnsDefinition(APrimaryKey: TPrimaryKeyMIK): String;
 var
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   for oColumn in APrimaryKey.FieldsSort do
     Result := Result + oColumn.Value.Name + ', ';

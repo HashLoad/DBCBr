@@ -41,23 +41,23 @@ uses
 type
   TDDLSQLGeneratorSQLite = class(TDDLSQLGenerator)
   protected
-    function BuilderCreateFieldDefinition(AColumn: TColumnMIK): string; override;
-    function GetFieldPrimaryKeyAutoincrement(AColumn: TColumnMIK): string;
+    function BuilderCreateFieldDefinition(AColumn: TColumnMIK): String; override;
+    function GetFieldPrimaryKeyAutoincrement(AColumn: TColumnMIK): String;
   public
-    function GenerateCreateTable(ATable: TTableMIK): string; override;
-    function GenerateCreateSequence(ASequence: TSequenceMIK): string; override;
-    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string; override;
-    function GenerateDropTable(ATable: TTableMIK): string; override;
-    function GenerateDropSequence(ASequence: TSequenceMIK): string; override;
-    function GenerateEnableForeignKeys(AEnable: Boolean): string; override;
-    function GenerateEnableTriggers(AEnable: Boolean): string; override;
+    function GenerateCreateTable(ATable: TTableMIK): String; override;
+    function GenerateCreateSequence(ASequence: TSequenceMIK): String; override;
+    function GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String; override;
+    function GenerateDropTable(ATable: TTableMIK): String; override;
+    function GenerateDropSequence(ASequence: TSequenceMIK): String; override;
+    function GenerateEnableForeignKeys(AEnable: Boolean): String; override;
+    function GenerateEnableTriggers(AEnable: Boolean): String; override;
   end;
 
 implementation
 
 { TDDLSQLGeneratorSQLite }
 
-function TDDLSQLGeneratorSQLite.BuilderCreateFieldDefinition(AColumn: TColumnMIK): string;
+function TDDLSQLGeneratorSQLite.BuilderCreateFieldDefinition(AColumn: TColumnMIK): String;
 begin
   Result := '  ' + AColumn.Name +
             GetFieldTypeDefinition(AColumn)    +
@@ -66,9 +66,9 @@ begin
             GetFieldPrimaryKeyAutoincrement(AColumn);
 end;
 
-function TDDLSQLGeneratorSQLite.GetFieldPrimaryKeyAutoincrement(AColumn: TColumnMIK): string;
+function TDDLSQLGeneratorSQLite.GetFieldPrimaryKeyAutoincrement(AColumn: TColumnMIK): String;
 var
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   Result := '';
   for oColumn in AColumn.Table.PrimaryKey.FieldsSort do
@@ -83,7 +83,7 @@ begin
   end;
 end;
 
-function TDDLSQLGeneratorSQLite.GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): string;
+function TDDLSQLGeneratorSQLite.GenerateCreateForeignKey(AForeignKey: TForeignKeyMIK): String;
 begin
   Result := 'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s(%s) %s %s';
   Result := Format(Result, [AForeignKey.Name,
@@ -94,17 +94,17 @@ begin
                             GetRuleUpdateActionDefinition(AForeignKey.OnUpdate)]);
 end;
 
-function TDDLSQLGeneratorSQLite.GenerateCreateSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGeneratorSQLite.GenerateCreateSequence(ASequence: TSequenceMIK): String;
 begin
   inherited;
   Result := 'INSERT INTO SQLITE_SEQUENCE(NAME, SEQ) VALUES (%s, %s);';
   Result := Format(Result, [QuotedStr(ASequence.Name), IntToStr(0)]);
 end;
 
-function TDDLSQLGeneratorSQLite.GenerateCreateTable(ATable: TTableMIK): string;
+function TDDLSQLGeneratorSQLite.GenerateCreateTable(ATable: TTableMIK): String;
 var
   oSQL: TStringBuilder;
-  oColumn: TPair<string,TColumnMIK>;
+  oColumn: TPair<String,TColumnMIK>;
 begin
   oSQL := TStringBuilder.Create;
   Result := inherited GenerateCreateTable(ATable);
@@ -155,19 +155,19 @@ begin
   end;
 end;
 
-function TDDLSQLGeneratorSQLite.GenerateDropSequence(ASequence: TSequenceMIK): string;
+function TDDLSQLGeneratorSQLite.GenerateDropSequence(ASequence: TSequenceMIK): String;
 begin
   inherited;
   Result := 'DELETE FROM SQLITE_SEQUENCE WHERE NAME = %s;';
   Result := Format(Result, [QuotedStr(ASequence.Name)]);
 end;
 
-function TDDLSQLGeneratorSQLite.GenerateDropTable(ATable: TTableMIK): string;
+function TDDLSQLGeneratorSQLite.GenerateDropTable(ATable: TTableMIK): String;
 begin
   Result := inherited GenerateDropTable(ATable);
 end;
 
-function TDDLSQLGeneratorSQLite.GenerateEnableForeignKeys(AEnable: Boolean): string;
+function TDDLSQLGeneratorSQLite.GenerateEnableForeignKeys(AEnable: Boolean): String;
 begin
   if AEnable then
     Result := 'PRAGMA foreign_keys = on;'
@@ -175,7 +175,7 @@ begin
     Result := 'PRAGMA foreign_keys = off;';
 end;
 
-function TDDLSQLGeneratorSQLite.GenerateEnableTriggers(AEnable: Boolean): string;
+function TDDLSQLGeneratorSQLite.GenerateEnableTriggers(AEnable: Boolean): String;
 begin
 
 end;
