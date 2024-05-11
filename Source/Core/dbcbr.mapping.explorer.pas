@@ -45,7 +45,7 @@ uses
 
 type
   TMappingExplorer = class
-  private
+  strict private
   class var
     FContext: TRttiContext;
     FRepositoryMapping: TMappingRepository;
@@ -68,10 +68,10 @@ type
     FPrimaryKeyColumnsMapping: TDictionary<String, TPrimaryKeyColumnsMapping>;
 //    FLazyLoadMapping: TDictionary<String, TLazyMapping>;
     FNotServerUse: TDictionary<String, Boolean>;
-    class procedure ExecuteCreate;
-    class procedure ExecuteDestroy;
   public
     { Public declarations }
+    class procedure ExecuteCreate;
+    class procedure ExecuteDestroy;
     class function GetMappingTable(const AClass: TClass): TTableMapping;
     class function GetMappingOrderBy(const AClass: TClass): TOrderByMapping;
     class function GetMappingSequence(const AClass: TClass): TSequenceMapping;
