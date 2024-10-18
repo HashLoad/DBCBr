@@ -336,11 +336,12 @@ var
   LValue: TValue;
   LValueField: TRttiField;
   LHasValueField: TRttiField;
+  LHasValue: Boolean;
 begin
-  Result := nil;
+  Result := Default(TValue);
   if not Assigned(AInstance) then
     Exit;
-    
+
   if Self.IsNullable then
   begin
     LValue := Self.GetValue(AInstance);
@@ -348,6 +349,12 @@ begin
     if not Assigned(LHasValueField) then
       Exit;
 
+    LHasValue := LHasValueField.GetValue(LValue.GetReferenceToRawData).AsBoolean;
+    if not LHasValue then
+    begin
+      Result := TValue.From<Variant>(Null);
+      Exit;
+    end;
     LValueField := Self.PropertyType.GetField('FValue');
     if Assigned(LValueField) then
       Result := LValueField.GetValue(LValue.GetReferenceToRawData);
