@@ -225,6 +225,8 @@ var
   LIndex: Integer;
 begin
   Result := nil;
+  if AValue = Null then
+    Exit;
   LEnumerationList := TMappingExplorer.GetMappingEnumeration(AInstance.ClassType);
   if LEnumerationList = nil then
     Exit;
