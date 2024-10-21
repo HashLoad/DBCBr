@@ -144,12 +144,14 @@ type
     FFieldName: String;
     FFieldType: TFieldType;
     FSize: Integer;
+    FIsHidden: Boolean;
     FProperty: TRttiProperty;
     FDictionary: Dictionary;
   public
     property FieldName: String read FFieldName write FFieldName;
     property FieldType: TFieldType read FFieldType write FFieldType;
     property Size: Integer read FSize write FSize;
+    property IsHidden: Boolean read FIsHidden write FIsHidden;
     property CalcProperty: TRttiProperty read FProperty write FProperty;
     property CalcDictionary: Dictionary read FDictionary write FDictionary;
   end;

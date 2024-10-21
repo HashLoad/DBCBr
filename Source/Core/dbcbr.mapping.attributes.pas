@@ -180,12 +180,14 @@ type
     FFieldName: String;
     FFieldType: TFieldType;
     FSize: Integer;
+    FHidden: Boolean;
   public
     constructor Create(const AFieldName: String; const AFieldType: TFieldType;
-      const ASize: Integer = 0);
+      const ASize: Integer = 0; const AHidden: Boolean = False);
     property FieldName: String read FFieldName;
     property FieldType: TFieldType read FFieldType;
     property Size: Integer read FSize;
+    property IsHidden: Boolean read FHidden;
   end;
 
   /// Association 1:1, 1:N, N:N, N:1
@@ -936,11 +938,12 @@ end;
 { CalcField }
 
 constructor CalcField.Create(const AFieldName: String; const AFieldType: TFieldType;
-  const ASize: Integer);
+  const ASize: Integer; const AHidden: Boolean);
 begin
   FFieldName := AFieldName;
   FFieldType := AFieldType;
   FSize := ASize;
+  FHidden := AHidden;
 end;
 
 { CascadeActions }

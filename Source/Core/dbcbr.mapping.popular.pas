@@ -94,6 +94,7 @@ begin
       Result.Last.Size := CalcField(LAttrib).Size;
       Result.Last.CalcProperty := LProperty;
       Result.Last.CalcDictionary := LProperty.GetDictionary;
+      Result.Last.IsHidden := CalcField(LAttrib).IsHidden;
     end;
   end;
 end;
