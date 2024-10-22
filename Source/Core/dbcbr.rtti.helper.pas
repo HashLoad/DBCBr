@@ -97,6 +97,7 @@ type
     function  IsNullValue(AObject: TObject): Boolean;
     function  IsPrimaryKey(AClass: TClass): Boolean;
     function  IsList: Boolean;
+    function  IsCalcField: Boolean;
     function  IsNullIfEmpty: Boolean;
     function  GetAssociation: TArray<Association>;
     function  GetRestriction: TCustomAttribute;
@@ -466,16 +467,28 @@ begin
                                 and StartsText(LPrefixString, GetTypeName(LTypeInfo));
 end;
 
+function TRttiPropertyHelper.IsCalcField: Boolean;
+var
+  LAttribute: TCustomAttribute;
+begin
+  for LAttribute in Self.GetAttributes do
+  begin
+    if LAttribute is CalcField then // IsCalcField
+      Exit(True);
+  end;
+  Exit(False);
+end;
+
 function TRttiPropertyHelper.IsCheck: Boolean;
 var
   LAttribute: TCustomAttribute;
 begin
-   for LAttribute in Self.GetAttributes do
-   begin
-      if LAttribute is Check then // Check
-         Exit(True);
-   end;
-   Exit(False);
+  for LAttribute in Self.GetAttributes do
+  begin
+    if LAttribute is Check then // Check
+      Exit(True);
+  end;
+  Exit(False);
 end;
 
 function TRttiPropertyHelper.IsDate: Boolean;

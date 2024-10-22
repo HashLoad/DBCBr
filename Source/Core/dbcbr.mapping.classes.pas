@@ -113,6 +113,7 @@ type
     FIsVirtualData: Boolean;
     FProperty: TRttiProperty;
     FDictionary: Dictionary;
+    FIsCalcField: Boolean;
   public
     property FieldIndex: Integer read FFieldIndex write FFieldIndex;
     property ColumnName: String read FColumnName write FColumnName;
@@ -132,6 +133,7 @@ type
     property IsHidden: Boolean read FIsHidden write FIsHidden;
     property IsNullable: Boolean read FIsNullable write FIsNullable;
     property IsLazy: Boolean read FIsLazy write FIsLazy;
+    property IsCalcField: Boolean read FIsCalcField write FIsCalcField;
     property IsVirtualData: Boolean read FIsVirtualData write FIsVirtualData;
     property ColumnProperty: TRttiProperty read FProperty write FProperty;
     property ColumnDictionary: Dictionary read FDictionary write FDictionary;

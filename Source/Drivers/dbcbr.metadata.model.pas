@@ -153,7 +153,8 @@ begin
     begin
       if LColumnMap.IsJoinColumn then
         Continue;
-
+      if LColumnMap.IsCalcField then
+        Continue;
       LColumn := TColumnMIK.Create(ATable);
       LColumn.Name := LColumnMap.ColumnName;
       LColumn.Description := LColumnMap.Description;
